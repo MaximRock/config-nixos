@@ -1,0 +1,294 @@
+[
+    {
+        "name": "Spacer",
+        "config": {
+            "length": 5
+        }
+    },
+    {
+        "name": "Image",
+        "config": {
+            "filename": "~/.dotfiles/modules/desktop/qtile/config/config_qtile/icons/nixos_logo.png",
+            "scale": true,
+            "margin": 3
+        }
+    },
+    {
+        "name": "GroupBox",
+        "config": {
+            "font": "{font}",
+            "fontsize": "{fontsize}",
+            "margin_x": 5,
+            "margin_y": 3,
+            "padding": "{padding_groupbox}",
+            "borderwidth": 2,
+            "active": "{active}",
+            "inactive": "{inactive}",
+            "highlight_method": "line",
+            "this_current_screen_border": "{this_current_screen_border}",
+            "disable_drag": false
+        }
+    },
+    {
+        "name": "Prompt",
+        "config": {
+            "font": "{font}",
+            "fontsize": "{fontsize}",
+            "foreground": "{primary}",
+            "background": "{background}",
+            "padding": 10
+        }
+    },
+    {
+        "name": "Sep",
+        "config": {
+            "linewidth": 1,
+            "foreground": "{foreground}",
+            "padding": 10,
+            "size_percent": 80
+        }
+    },
+    {
+        "name": "CurrentLayout",
+        "config": {
+            "font": "{font}",
+            "fontsize": "{fontsize}",
+            "padding": "{padding}",
+            "foreground": "{primary}",
+            "mode": "both",
+            "icon_first": true,
+            "markup": true
+        }
+    },
+    {
+        "name": "Sep",
+        "config": {
+            "linewidth": 1,
+            "foreground": "{foreground}",
+            "padding": 10,
+            "size_percent": 80
+        }
+    },
+    {
+        "name": "Image",
+        "config": {
+            "filename": "~/.dotfiles/modules/desktop/qtile/config/config_qtile/icons/clock.png",
+            "scale": true,
+            "margin": 3
+        }
+    },
+    {
+        "name": "Clock",
+        "config": {
+            "font": "{font}",
+            "fontsize": "{fontsize}",
+            "format": "%Y-%m-%d %H:%M",
+            "padding": "{padding}",
+            "foreground": "{accent}"
+        }
+    },
+    {
+        "name": "Sep",
+        "config": {
+            "linewidth": 1,
+            "foreground": "{foreground}",
+            "padding": 10,
+            "size_percent": 80
+        }
+    },
+    {
+        "name": "Image",
+        "config": {
+            "filename": "~/.dotfiles/modules/desktop/qtile/config/config_qtile/icons/computer_sound.png",
+            "scale": true,
+            "margin": 3
+        }
+    },
+    {
+        "name": "PulseVolume",
+        "config": {
+            "font": "{font}",
+            "fontsize": "{fontsize}",
+            "foreground": "{success}",
+            "background": "{background}",
+            "padding": 10,
+            "mute_format": "M",
+            "limit_max_volume": true,
+            "mouse_callbacks": {
+                "Button1": "pavucontrol"
+            }
+        }
+    },
+    {
+        "name": "Sep",
+        "config": {
+            "linewidth": 1,
+            "foreground": "{foreground}",
+            "padding": 10,
+            "size_percent": 80
+        }
+    },
+    {
+        "name": "Spacer",
+        "config": {}
+    },
+    {
+        "name": "Sep",
+        "config": {
+            "linewidth": 1,
+            "foreground": "{foreground}",
+            "padding": 10,
+            "size_percent": 80
+        }
+    },
+    {
+        "name": "WindowName",
+        "config": {
+            "font": "{font}",
+            "fontsize": "{fontsize}",
+            "padding": "{padding}",
+            "foreground": "{secondary}",
+            "background": "{background}"
+        }
+    },
+    {
+        "name": "Sep",
+        "config": {
+            "linewidth": 1,
+            "foreground": "{foreground}",
+            "padding": 10,
+            "size_percent": 80
+        }
+    },
+    {
+        "name": "Image",
+        "config": {
+            "filename": "~/.dotfiles/modules/desktop/qtile/config/config_qtile/icons/network.png",
+            "scale": true,
+            "margin": 3
+        }
+    },
+    {
+        "name": "Net",
+        "config": {
+            "font": "{font}",
+            "fontsize": "{fontsize}",
+            "padding": "{padding}",
+            "foreground": "{secondary}",
+            "background": "{background}",
+            "format": "{down:3.1f}{down_suffix:<2} ↓↑ {up:3.1f}{up_suffix:<2}",
+            "update_interval": 1
+        }
+    },
+    {
+        "name": "Sep",
+        "config": {
+            "linewidth": 1,
+            "foreground": "{foreground}",
+            "padding": 10,
+            "size_percent": 80
+        }
+    },
+    {
+        "name": "Image",
+        "config": {
+            "filename": "~/.dotfiles/modules/desktop/qtile/config/config_qtile/icons/cpu.png",
+            "scale": true,
+            "margin": 3
+        }
+    },
+    {
+        "name": "CPU",
+        "config": {
+            "font": "{font}",
+            "fontsize": "{fontsize}",
+            "padding": "{padding}",
+            "foreground": "{error}",
+            "background": "{background}",
+            "format": "{load_percent}% {freq_current}GHz"
+        }
+    },
+    {
+        "name": "ThermalSensor",
+        "config": {
+            "font": "{font}",
+            "fontsize": "{fontsize}",
+            "padding": "{padding}",
+            "foreground": "{error}",
+            "background": "{background}",
+            "tag_sensor": "Package id 0",
+            "format": "{temp:.0f}{unit}"
+        }
+    },
+    {
+        "name": "Sep",
+        "config": {
+            "linewidth": 1,
+            "foreground": "{foreground}",
+            "padding": 10,
+            "size_percent": 80
+        }
+    },
+    {
+        "name": "Image",
+        "config": {
+            "filename": "~/.dotfiles/modules/desktop/qtile/config/config_qtile/icons/hard_disk.png",
+            "scale": true,
+            "margin": 3
+        }
+    },
+    {
+        "name": "HDD",
+        "config": {
+            "font": "{font}",
+            "fontsize": "{fontsize}",
+            "padding": "{padding}",
+            "foreground": "{accent}",
+            "background": "{background}"
+        }
+    },
+    {
+        "name": "DF",
+        "config": {
+            "font": "{font}",
+            "fontsize": "{fontsize}",
+            "padding": "{padding}",
+            "visible_on_warn": true,
+            "format": "{p} total:{s} | free:{f}",
+            "measure": "G",
+            "warn_space": 120,
+            "warn_color": "{accent}",
+            "background": "{background}"            
+        }
+    },
+    {
+        "name": "Sep",
+        "config": {
+            "linewidth": 1,
+            "foreground": "{foreground}",
+            "padding": 10,
+            "size_percent": 80
+        }
+    },
+    {
+        "name": "Image",
+        "config": {
+            "filename": "~/.dotfiles/modules/desktop/qtile/config/config_qtile/icons/memory.png",
+            "scale": true,
+            "margin": 3
+        }
+    },
+    {
+        "name": "Memory",
+        "config": {
+            "font": "{font}",
+            "fontsize": "{fontsize}",
+            "padding": "{padding}",
+            "foreground": "{success}",
+            "background": "{background}",
+            "format": "{MemUsed:.1f}{mm}{MemPercent:>5.1f}%",
+            "measure_mem": "G",
+            "update_interval": 2.0
+        }
+    }
+]

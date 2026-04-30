@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+.venv/
+
+# IDE / Редакторы
+.vscode/
+
+# Бэкапы и временные файлы
+*.backup.*
+*.bak
+flake.lock.back
+command.txt
+commnds.txt
+man-nixos-rebuild.txt
+log
+*.log
+11
+autostart.sh
+
+# NixOS
+result*
+.direnv/
