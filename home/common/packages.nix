@@ -15,7 +15,6 @@
 
     # Apps
     dunst
-    flameshot
     fastfetch
     xfce.mousepad
 
@@ -60,5 +59,9 @@
     xlockmore
 
     obsidian
+
+    # Изображения
+    upscayl
+    flameshot
   ];
 }
