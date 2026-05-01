@@ -11,7 +11,7 @@
       nrs = "sudo nixos-rebuild-ng switch";
       nrd = "sudo nixos-rebuild dry-build";
       nrlg = "sudo nixos-rebuild list-generations";
-      nix-test = "!sh -c 'nix flake check && sudo nixos-rebuild test'";
+      nix-test = "nix flake check && sudo nixos-rebuild test";
       btw = "echo i use nixos, max";
       koda = "npx @kodadev/koda-cli@latest";
       kill-qwen = ''pkill -9 -f qwen-code; sleep 2'';
