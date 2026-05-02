@@ -1,15 +1,13 @@
 {
   config,
   pkgs,
-  lib,
   variables,
-  username ? "max",
   ...
 }:
 
 let
   # weztermConfigDir = builtins.toString ./.;
-  weztermConfigDir = "${variables.homeDirectory}/${username}${variables.dotFilesDir}/modules/terminals/wezterm";
+  weztermConfigDir = "${variables.basePathFilesDir}/modules/terminals/wezterm";  #"${variables.homeDirectory}/${username}${variables.dotFilesDir}/modules/terminals/wezterm";
 in
 {
   programs.wezterm = {

@@ -47,7 +47,7 @@
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
       username = "max";
-      variables = import ./home/common/var-default.nix ;
+      variables = import ./home/common/var-default.nix { inherit username; } ;
       nvfConfig = import ./modules/editors/configs/nvf-config { inherit pkgs; };
     in
 

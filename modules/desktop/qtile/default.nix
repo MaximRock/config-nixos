@@ -2,13 +2,12 @@
 {
   config,
   variables,
-  username ? "max",
   lib,
   ...
 }:
 
 let
-  qtileConfigDir = "${variables.homeDirectory}/${username}${variables.dotFilesDir}/modules/desktop/qtile/config"; # путь к директории с config.py и модулями
+  qtileConfigDir = "${variables.basePathFilesDir}/modules/desktop/qtile/config"; # путь к директории с config.py и модулями
 in
 {
 
