@@ -288,17 +288,4 @@
         border-color: #3a3944 !important;
     }
 
-
-    /* Ищем ссылку на конкретный сайт (например, youtube.com) */
-    /* .top-site-button[href*="google.com"] .tile .icon-wrapper .top-site-icon.rich-icon {
-        background-image: url("chrome://userchrome/content/icons/youtube.png") !important;
-        background-size: cover !important;
-        background-position: center !important;
-    } */
-
-    /* Скрываем стандартную маленькую иконку (фавикон), если она мешает */
-    /* .top-site-button[href*="youtube.com"] .top-site-icon img {
-        display: none !important;
-    } */
-
 }
