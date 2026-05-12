@@ -1,0 +1,429 @@
+/* =========================================
+   1. Кнопка главного меню (Гамбургер)
+   ========================================= */
+/* Перемещает кнопку "Открыть меню" в начало панели навигации и добавляет небольшой отступ */
+#PanelUI-button {
+    -moz-box-ordinal-group: 0 !important;
+    order: -2 !important;
+    margin: 2px !important;
+}
+
+/* =========================================
+   2. Кнопка "Вперёд"
+   ========================================= */
+/* Скрывает кнопку навигации "Вперёд". Оставляет только "Назад" для чистоты интерфейса */
+#forward-button {
+    display: none !important;
+}
+
+/* =========================================
+   3. Кнопка расширений (Пазл)
+   ========================================= */
+/* Убирает иконку управления расширениями с панели. Доступ остаётся через about:addons */
+#unified-extensions-button {
+    display: none !important;
+}
+
+/* =========================================
+   4. Метка страницы расширения
+   ========================================= */
+/* Скрывает текстовое название домена (moz-extension://...) в адресной строке на страницах дополнений */
+#identity-box.extensionPage #identity-icon-label {
+    visibility: collapse !important;
+}
+
+/* =========================================
+   5. Кнопка "Список всех вкладок"
+   ========================================= */
+/* Убирает стрелку справа от вкладок, которая открывает выпадающий список всех открытых вкладок */
+#alltabs-button {
+    display: none !important;
+}
+
+/* =========================================
+   6. Второстепенные иконки адресной строки
+   ========================================= */
+/* Массовое скрытие элементов: разрешения, звёздочка (избранное), значок сайта, PiP, щит защиты, читалка, переводчик */
+/* ⚠️ Примечание: #translations-button здесь скрыт. Если нужна кнопка перевода, удалите её из этого списка */
+#identity-permission-box,
+#star-button-box,
+#identity-icon-box,
+#picture-in-picture-button,
+#tracking-protection-icon-container,
+#reader-mode-button {
+    display: none !important;
+}
+
+/* =========================================
+   7. Быстрые поисковики в адресной строке
+   ========================================= */
+/* Убирает панель с иконками поисковиков (Google, DuckDuckGo и т.д.), которая появляется при фокусе на строке */
+#urlbar .search-one-offs {
+    display: none !important;
+}
+
+/* =========================================
+   8. Глобальные переменные расчёта размеров
+   ========================================= */
+/* Задаёт параметры для адаптивного лейаута: радиус вкладок, ширина навбара, высота вкладок, отступы */
+:root {
+    --tab-border-radius: 6px !important;
+    --NavbarWidth: 43;
+    --TabsHeight: 36;
+    --TabsBorder: 8;
+    --NavbarHeightSmall: calc(var(--TabsHeight) + var(--TabsBorder));
+}
+
+/* =========================================
+   9. Адаптив: Широкие экраны (≥1325px)
+   ========================================= */
+/* Вкладки и навбар выстраиваются в одну строку. Навбар сдвигается под вкладки, ширина фиксируется */
+@media screen and (min-width: 1325px) {
+    :root #nav-bar {
+        margin-top: calc(var(--TabsHeight) * -1px - var(--TabsBorder) * 1px) !important;
+        height: calc(var(--TabsHeight) * 1px + var(--TabsBorder) * 1px);
+    }
+
+    #TabsToolbar {
+        margin-left: calc(1325px / 100 * var(--NavbarWidth)) !important;
+    }
+
+    #nav-bar {
+        margin-right: calc(100vw - calc(1325px / 100 * var(--NavbarWidth))) !important;
+        vertical-align: center !important;
+    }
+
+    #urlbar-container {
+        min-width: 0px !important;
+        flex: auto !important;
+    }
+
+    toolbarspring {
+        display: none !important;
+    }
+}
+
+/* =========================================
+   10. Адаптив: Средние экраны (950px - 1324px)
+   ========================================= */
+/* Плавное пропорциональное растягивание вкладок и навбара. Добавляет анимацию перехода */
+@media screen and (min-width: 950px) and (max-width: 1324px) {
+    :root #nav-bar {
+        margin-top: calc(var(--TabsHeight) * -1px - var(--TabsBorder) * 1px) !important;
+        height: calc(var(--TabsHeight) * 1px + var(--TabsBorder) * 1px);
+    }
+
+    #TabsToolbar {
+        margin-left: calc(var(--NavbarWidth) * 1vw) !important;
+    }
+
+    #nav-bar {
+        margin-right: calc(100vw - calc(var(--NavbarWidth) * 1vw)) !important;
+        vertical-align: center !important;
+    }
+
+    #urlbar-container {
+        min-width: 0px !important;
+        flex: auto !important;
+    }
+
+    toolbarspring {
+        display: none !important;
+    }
+
+    #TabsToolbar,
+    #nav-bar {
+        transition: margin-top 0.25s !important;
+    }
+}
+
+/* =========================================
+   11. Адаптив: Узкие экраны (≤949px)
+   ========================================= */
+/* При недостатке ширины навбар получает отступы и фиксированную высоту. Вкладки переносятся или сжимаются */
+@media screen and (max-width: 949px) {
+    :root #nav-bar {
+        padding: 0 5px 0 5px !important;
+        height: calc(var(--NavbarHeightSmall) * 1px) !important;
+    }
+
+    toolbarspring {
+        display: none !important;
+    }
+
+    #TabsToolbar,
+    #nav-bar {
+        transition: margin-top 0.25s !important;
+    }
+}
+
+/* =========================================
+   12. Фон панели навигации и закладок
+   ========================================= */
+/* Делает фон полностью прозрачным, убирает встроенные тени и градиенты Firefox */
+#nav-bar,
+#PersonalToolbar {
+    background-color: #1a1b26 !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+/* =========================================
+   13. Отступ навбара слева
+   ========================================= */
+/* Небольшой визуальный сдвиг панели навигации от левого края окна */
+/* margin создавал просвет. Заменяем на padding, чтобы фон тянулся до края окна,
+   а содержимое (адресная строка, кнопки) оставалось с отступом */
+#nav-bar {
+    padding-left: 3px !important;
+    margin-left: 0px !important;
+}
+
+/* Гарантируем, что контейнер инструментов тоже залит Tokyo Night */
+#navigator-toolbox,
+#titlebar {
+    background-color: #1a1b26 !important;
+}
+
+/* =========================================
+   14. Фиксированная высота вкладок
+   ========================================= */
+/* Заставляет вкладки занимать высоту, заданную в переменной --TabsHeight, чтобы они не прыгали */
+.tab-background,
+.tab-stack {
+    min-height: calc(var(--TabsHeight) * 1px) !important;
+}
+
+/* =========================================
+   15. Фон адресной строки
+   ========================================= */
+/* Убирает стандартную рамку и тень у поля ввода, добавляет плавную анимацию при изменении состояния */
+#urlbar-background {
+    border: none !important;
+    outline: none !important;
+    transition: 0.15s !important;
+}
+
+/* =========================================
+   16. Состояние адресной строки "в покое"
+   ========================================= */
+/* Когда строка не в фокусе и не наведена мышь, фон становится полностью прозрачным */
+#urlbar:not(:hover):not([breakout][breakout-extend])>#urlbar-background {
+    box-shadow: none !important;
+    background: #0000 !important;
+}
+
+/* =========================================
+   17. Убираем разделитель панелей
+   ========================================= */
+/* Скрывает линию между панелью вкладок и панелью навигации для монолитного вида */
+#navigator-toolbox {
+    border: none !important;
+}
+
+/* =========================================
+   18. Затемнение неактивного окна
+   ========================================= */
+/* Когда Firefox свёрнут или не в фокусе, интерфейс слегка теряет контраст (эффект "ухода в фон") */
+#navigator-toolbox-background:-moz-window-inactive {
+    filter: contrast(90%);
+}
+
+/* =========================================
+   19. Уведомление о полноэкранном режиме
+   ========================================= */
+/* Упрощает стиль плашки, появляющейся при входе в Fullscreen (F11) */
+#fullscreen-warning {
+    border: none !important;
+    background: -moz-Dialog !important;
+}
+
+/* =========================================
+   20. Кнопка закрытия вкладки (по умолчанию)
+   ========================================= */
+/* Скрывает крестик закрытия, пока мышь не наведена на вкладку */
+.tabbrowser-tab:not(:hover) .tab-close-button {
+    opacity: 0% !important;
+    transition: 0.3s !important;
+    display: -moz-box !important;
+}
+
+/* =========================================
+   21. Крестик на активной вкладке (без наведения)
+   ========================================= */
+/* На выбранной вкладке крестик слегка виден (45%), чтобы пользователь знал, где закрыть */
+.tab-close-button[selected]:not(:hover) {
+    opacity: 45% !important;
+    transition: 0.3s !important;
+    display: -moz-box !important;
+}
+
+/* =========================================
+   22. Крестик при наведении на любую вкладку
+   ========================================= */
+/* При наведении крестик становится заметнее (50%), курсор меняется на указатель */
+.tabbrowser-tab:hover .tab-close-button {
+    opacity: 50%;
+    transition: 0.3s !important;
+    background: none !important;
+    cursor: pointer;
+    display: -moz-box !important;
+}
+
+/* =========================================
+   23. Крестик при наведении на крестик
+   ========================================= */
+/* Полная видимость (100%) при точном наведении на элемент закрытия */
+.tab-close-button:hover {
+    opacity: 100% !important;
+    transition: 0.3s !important;
+    background: none !important;
+    cursor: pointer;
+    display: -moz-box !important;
+}
+
+/* =========================================
+   24. Крестик активной вкладки при наведении
+   ========================================= */
+/* Аналогично предыдущему, но с явным приоритетом для selected-вкладки */
+.tab-close-button[selected]:hover {
+    opacity: 100% !important;
+    transition: 0.3s !important;
+    background: none !important;
+    cursor: pointer;
+    display: -moz-box !important;
+}
+
+/* =========================================
+   🎨 TOKYO NIGHT: Стили вкладок
+   ========================================= */
+/* Палитра: #1a1b26 (фон), #16161e (тёмный), #7aa2f7 (акцент синий), #a9b1d6 (текст) */
+.tab-background {
+    border: 1px solid rgba(169, 177, 214, 0.12) !important;
+    background-color: #16161e !important;
+    /* Неактивная вкладка */
+    border-radius: 6px !important;
+}
+
+.tab-background[selected="true"] {
+    background-color: #1a1b26 !important;
+    /* Активная вкладка */
+    border: 1px solid #7aa2f7 !important;
+    /* Синяя обводка */
+    border-bottom: none !important;
+    /* Слияние с панелью */
+}
+
+.tabbrowser-tab:hover .tab-background:not([selected="true"]) {
+    background-color: #24283b !important;
+    /* Подсветка при наведении */
+}
+
+.tab-label {
+    color: #a9b1d6 !important;
+    /* Цвет текста */
+    font-weight: 500 !important;
+}
+
+.tab-label[selected="true"] {
+    color: #7aa2f7 !important;
+    /* Акцентный текст активной вкладки */
+}
+
+/* =========================================
+   🎨 TOKYO NIGHT: Стили панели закладок
+   ========================================= */
+/* Скрыта по вашему коду, но цвета заданы на случай включения */
+#PersonalToolbar {
+    /* border: 1px solid rgba(169, 177, 214, 0.12) !important; */
+    background-color: #1a1b26 !important;
+    border-radius: 6px !important;
+}
+
+.bookmark-item {
+    color: #a9b1d6 !important;
+    /* Текст закладок */
+    fill: #a9b1d6 !important;
+    /* Иконки закладок */
+    transition: all 0.2s ease !important;
+}
+
+.bookmark-item:hover {
+    background-color: rgba(122, 162, 247, 0.15) !important;
+    /* Лёгкая синяя подложка */
+    color: #7aa2f7 !important;
+    fill: #7aa2f7 !important;
+    border-radius: 4px !important;
+}
+
+/* =========================================
+   🔍 Скрыть фон значока поисковой системы в адресной строке
+   ========================================= */
+.searchmode-switcher {
+    appearance: none;
+    background: transparent !important;
+}
+
+#urlbar-searchmode-switcher menupopup {
+    --panel-background: #16161e !important;
+}
+
+/* Адресная строка: обычное состояние */
+.urlbar-background {
+    background-color: #1e1e2e !important;
+    border: 1px solid #313244 !important;
+}
+
+/* Адресная строка: активное состояние (в фокусе) */
+.urlbar:is([focused], [open])>.urlbar-background,
+#searchbar:focus-within {
+    background-color: #16161e !important;
+    border: 1px solid #45475a !important;
+}
+
+/* Плавный переход для красоты */
+.urlbar-background {
+    transition: background-color 0.1s ease !important;
+}
+
+
+/* Меняем цвет панели "Гамбургер" и всех её пунктов */
+#appMenu-popup {
+    --panel-background: #16161e !important;
+    /* Основной фон меню */
+    --panel-color: #a9b1d6 !important;
+    /* Цвет текста */
+    --panel-border-color: #313244 !important;
+    /* Цвет границы */
+    --panel-padding: 8px 0px !important;
+    /* Отступы внутри панели */
+}
+
+/* Цвет фона и текста для отдельных пунктов меню при наведении */
+#appMenu-popup .subviewbutton:not([disabled]):hover,
+#appMenu-popup .subviewbutton:not([disabled])[open],
+#appMenu-popup .subviewbutton:not([disabled]):is([checked], [selected], [open]) {
+    background-color: #313244 !important;
+    /* Цвет фона при наведении (как у вас) */
+    color: #ffffff !important;
+    /* Цвет текста при наведении */
+}
+
+/* Единый фон для всего меню */
+.panel-viewcontainer,
+.panel-viewstack,
+.panel-viewcontainer[panelopen],
+.panel-subview-body {
+    background-color: #16161e !important;
+}
+
+/* Текст в меню */
+.panel-subview-body,
+.panel-subview-body * {
+    color: #a9b1d6 !important;
+}
+
+/* Пункты меню при наведении */
+.panel-subview-body toolbarbutton:hover {
+    background-color: #313244 !important;
+}

@@ -1,0 +1,304 @@
+@-moz-document url("about:home"), url("about:newtab") {
+
+    /* ========== ПОИСК СКРЫТ (А ЗАГОЛОВОК ОСТАЁТСЯ) ========== */
+    .search-handoff-button,
+    .search-inner-wrapper,
+    .fake-editable-container,
+    .fake-editable,
+    #searchSuggestionTable {
+        display: none !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Сам контейнер search-wrapper не скрываем */
+    .search-wrapper {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* Логотип Firefox остаётся на месте */
+    .search-wrapper .logo-and-wordmark {
+        display: flex !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* ========== ЦВЕТ И ПРОЗРАЧНОСТЬ ========== */
+    .top-site-outer .tile {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .top-site-outer .top-site-icon {
+        background-color: transparent !important;
+    }
+
+    /* ========== ЦВЕТ ТЕКСТА ЯРЛЫКОВ ========== */
+    .top-site-outer .title {
+        color: #a9b1d6 !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+    }
+
+    .top-site-outer .top-site-icon .letter {
+        color: #a9b1d6 !important;
+    }
+
+    /* ========== РАЗМЕР ИКОНОК ========== */
+    .top-site-outer .tile .icon-wrapper {
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    /* ========== 3 РЯДА ПО 6 ПЛИТОК ========== */
+    .top-sites-list {
+        grid-template-columns: repeat(6, 1fr) !important;
+        width: 100% !important;
+        gap: 8px !important;
+    }
+
+    /* ========== ПОДНИМАЕМ ВСЁ ВЫШЕ ========== */
+
+    .body-wrapper {
+        padding-top: 10px !important;
+    }
+
+    .ds-layout-topsites {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    main {
+        margin-top: -80px !important;
+    }
+
+    .outer-wrapper {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    body {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    /* ========== КНОПКА ДОБАВИТЬ ========== */
+    .top-site-outer .context-menu-button {
+        background-color: transparent !important;
+    }
+
+    .top-site-outer:hover .context-menu-button {
+        background-color: rgba(0, 0, 0, 0.1) !important;
+        border-radius: 4px;
+    }
+
+    .top-site-outer .tile.add-site-tile {
+        border: 1px dashed #999999 !important;
+        background-color: rgba(0, 0, 0, 0.03) !important;
+    }
+
+    .top-site-outer .tile.add-site-tile .add-site-icon-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    .top-site-outer .tile.add-site-tile .add-site-icon {
+        fill: #555555 !important;
+        color: #555555 !important;
+        width: 8px !important;
+        height: 8px !important;
+        background-color: transparent !important;
+        border-radius: 0 !important;
+    }
+
+    .top-site-outer .tile.add-site-tile:hover {
+        border-style: solid !important;
+        border-color: #777777 !important;
+        background-color: rgba(0, 0, 0, 0.07) !important;
+        cursor: pointer;
+    }
+
+    /* ========== ЦВЕТ КНОПКИ ПЕРСОНАЛИЗАЦИИ (ШЕСТЕРЁНКА) ========== */
+
+    /* Сама кнопка */
+    .personalize-button {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        /* Фон кнопки */
+        border-radius: 8px !important;
+        fill: #1a1b26 !important;
+        /* Цвет иконки */
+        color: #1a1b26 !important;
+        /* Цвет текста (если есть) */
+    }
+
+    /* Иконка внутри кнопки (SVG) */
+    .personalize-button img,
+    .personalize-button svg {
+        fill: #1a1b26 !important;
+        color: #1a1b26 !important;
+    }
+
+    /* При наведении */
+    .personalize-button:hover {
+        background-color: #a9b1d6 !important;
+    }
+
+    /* ========== МЕНЮ НАСТРОЕК — ПОЛНОСТЬЮ ТЁМНОЕ ========== */
+
+    /* Внешняя обёртка — убираем белые поля */
+    .customize-menu-animate-wrapper {
+        background-color: #1a1b26 !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    /* Само меню */
+    .customize-menu {
+        background-color: #1a1b26 !important;
+        color: #f0f0f0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    /* Все вложенные секции */
+    .customize-menu .home-section,
+    .customize-menu .wallpapers-section,
+    .customize-menu .settings-toggles,
+    .customize-menu .close-button-wrapper,
+    .customize-menu .category-header,
+    .customize-menu .more-information,
+    .customize-menu .more-info-top-wrapper,
+    .customize-menu #shortcuts-section {
+        background-color: #1a1b26 !important;
+        border: none !important;
+    }
+
+    /* Заголовки */
+    .customize-menu h2,
+    .customize-menu .category-header h2 {
+        color: #f0f0f0 !important;
+    }
+
+    /* Кнопка "Восстановить по умолчанию" */
+    .wallpapers-reset {
+        color: #8f8f9d !important;
+        background-color: transparent !important;
+        border: none !important;
+    }
+
+    .wallpapers-reset:hover {
+        color: #f0f0f0 !important;
+        background-color: rgba(255, 255, 255, 0.08) !important;
+        border-radius: 4px !important;
+    }
+
+    /* Подписи категорий */
+    .customize-menu label,
+    .wallpaper-input+label {
+        color: #d0d0d0 !important;
+    }
+
+    /* Кнопки выбора обоев */
+    .wallpaper-input {
+        border: 2px solid transparent !important;
+        outline: none !important;
+        border-radius: 8px !important;
+    }
+
+    .wallpaper-input.selected {
+        border-color: #0a84ff !important;
+    }
+
+    .wallpaper-input:hover {
+        border-color: #5a5a6e !important;
+    }
+
+    /* Разделители */
+    .customize-menu .divider {
+        border: none !important;
+        border-top: 1px solid #3a3944 !important;
+        background: none !important;
+        margin: 8px 0 !important;
+    }
+
+    /* Выпадающий список */
+    .customize-menu select,
+    #row-selector {
+        background-color: #2b2a33 !important;
+        color: #f0f0f0 !important;
+        border: 1px solid #3a3944 !important;
+        border-radius: 4px !important;
+        padding: 4px 8px !important;
+    }
+
+    .customize-menu select:hover,
+    #row-selector:hover {
+        border-color: #5a5a6e !important;
+    }
+
+    /* Кнопка "Управление дополнительными настройками" */
+    .customize-menu .external-link,
+    #settings-link {
+        color: #8f8f9d !important;
+        background-color: transparent !important;
+        border: none !important;
+    }
+
+    .customize-menu .external-link:hover,
+    #settings-link:hover {
+        color: #f0f0f0 !important;
+        background-color: rgba(255, 255, 255, 0.08) !important;
+        border-radius: 4px !important;
+    }
+
+    /* Кнопка закрытия */
+    .customize-menu .close-button-wrapper moz-button,
+    .customize-menu #close-button {
+        fill: #d0d0d0 !important;
+        color: #d0d0d0 !important;
+        background-color: transparent !important;
+    }
+
+    .customize-menu .close-button-wrapper moz-button:hover,
+    .customize-menu #close-button:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border-radius: 4px !important;
+    }
+
+    /* Moz-toggle (переключатель "Ярлыки") */
+    .customize-menu moz-toggle {
+        --toggle-background-color: #2b2a33 !important;
+        --toggle-background-color-hover: #3a3944 !important;
+        --toggle-background-color-active: #0a84ff !important;
+        --toggle-text-color: #f0f0f0 !important;
+    }
+
+    /* Убираем любые возможные белые фоны у вложенных элементов */
+    .customize-menu * {
+        --background-color-box: #1c1b22 !important;
+    }
+
+    .customize-menu-animate-wrapper * {
+        border-color: #3a3944 !important;
+    }
+
+
+    /* Ищем ссылку на конкретный сайт (например, youtube.com) */
+    /* .top-site-button[href*="google.com"] .tile .icon-wrapper .top-site-icon.rich-icon {
+        background-image: url("chrome://userchrome/content/icons/youtube.png") !important;
+        background-size: cover !important;
+        background-position: center !important;
+    } */
+
+    /* Скрываем стандартную маленькую иконку (фавикон), если она мешает */
+    /* .top-site-button[href*="youtube.com"] .top-site-icon img {
+        display: none !important;
+    } */
+
+}

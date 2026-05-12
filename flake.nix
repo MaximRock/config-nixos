@@ -20,6 +20,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nur.url = "github:nix-community/NUR";
+
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -39,6 +41,7 @@
       home-manager,
       nvf,
       yandex-browser,
+      nur,
       llm-agents,
       mcp-nixos,
       ...
@@ -47,7 +50,7 @@
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
       username = "max";
-      variables = import ./home/common/var-default.nix { inherit username; } ;
+      variables = import ./home/common/var-default.nix { inherit username; };
       nvfConfig = import ./modules/editors/configs/nvf-config { inherit pkgs; };
     in
 
@@ -61,12 +64,13 @@
             {
 
               nixpkgs.overlays = [
+                nur.overlays.default
                 llm-agents.overlays.default
                 # mcp-nixos.overlays.default
               ];
 
               nixpkgs.config.allowUnfree = true;
-              
+
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
@@ -75,7 +79,11 @@
               ];
               home-manager.users.max = import ./home/common/default.nix;
               home-manager.extraSpecialArgs = {
-                inherit inputs username variables;
+                inherit
+                  inputs
+                  username
+                  variables
+                  ;
                 yandexBrowserPackages = yandex-browser.packages.x86_64-linux;
                 unstable = import nixpkgs-unstable {
                   system = "x86_64-linux";
@@ -86,7 +94,11 @@
             }
           ];
           specialArgs = {
-            inherit inputs username variables;
+            inherit
+              inputs
+              username
+              variables
+              ;
             nvfConfig = nvfConfig;
             unstable = import nixpkgs-unstable {
               system = "x86_64-linux";

@@ -35,7 +35,10 @@
     ../../modules/apps/dunst.nix
     ../../modules/apps/koda.nix
     ../../modules/apps/git.nix
-    # ../../modules/browsers/firefox/firefox.nix
+
+    # Browsers
+    ../../modules/browsers/firefox/default.nix
+
   ];
 
 }

@@ -70,7 +70,7 @@
     # '';
   };
   programs.dconf.enable = true;
-  programs.firefox.enable = true;
+  # programs.firefox.enable = true;
 
   # === State version ===
   system.stateVersion = "25.11";

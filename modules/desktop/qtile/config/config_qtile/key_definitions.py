@@ -78,7 +78,10 @@ KEYS_CONFIG: list[KeyBinding] = [
     KeyBinding("Терминал", ["mod"], "Return", "spawn", "{{terminal}}"),
     KeyBinding("Файловый менеджер", ["mod"], "e", "spawn", FILE_MANAGER),
     KeyBinding("VSCode", ["mod"], "c", "spawn", EDITOR),
+    # Браузеры
     KeyBinding("Браузер", ["mod"], "b", "spawn", BROWSER),
+    KeyBinding("Браузер firefox", ["mod"], "m", "spawn", "firefox"),
+
     KeyBinding("Yazi", ["mod"], "z", "spawn", YAZI),
     KeyBinding("Rofi", ["mod"], "d", "spawn", ROFI),
     KeyBinding("Скриншот GUI", ["mod"], "o", "spawn", FLAMESHOT_GUI),
