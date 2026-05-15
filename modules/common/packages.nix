@@ -1,5 +1,11 @@
 # modules/common/packages.nix
-{ config, pkgs, unstable, lib, ... }:
+{
+  config,
+  pkgs,
+  unstable,
+  lib,
+  ...
+}:
 {
   environment.systemPackages = with pkgs; [
     # === Utils ===
@@ -25,8 +31,11 @@
 
     nixos-rebuild-ng
 
+    # анализ размера /nix/store
+    nix-du
+    graphviz
+    ncdu
 
-    
     # === Из unstable (если нужно) ===
     # Пример: unstable.some-package
   ];
