@@ -17,10 +17,11 @@
       kill-qwen = "pkill -9 -f qwen-code; sleep 2";
       #qc = ''nix run github:numtide/llm-agents.nix#qwen-code'';
       nix-viz = ''
-        nix-du -s 500MB /nix/store | \
+        nix-du -s 500MB | \
           dot -Tsvg -Goverlap=prism -Gsplines=true -o nix-store.svg && \
           xdg-open nix-store.svg
       '';
+      # Какие пакеты, установленные с помощью nix-env, занимают больше всего места?
       nix-profile-viz = ''
         nix-du --root ~/.nix-profile -s 100MB | \
           dot -Tsvg -Goverlap=prism -o profile.svg && \
