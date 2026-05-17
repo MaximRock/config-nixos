@@ -21,3 +21,4 @@ autostart.sh
 # NixOS
 result*
 .direnv/
+home.nix
