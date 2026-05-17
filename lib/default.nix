@@ -23,7 +23,7 @@ let
 
   variables = import ../home/common/var-default.nix { inherit username; };
 
-  nvfConfig = import ../modules/editors/configs/nvf-config { inherit pkgs; };
+  nvfConfig = import ../modules/home/editors/configs/nvf-config { inherit pkgs; };
 
   overlays = [
     nur.overlays.default

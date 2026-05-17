@@ -7,7 +7,7 @@
 }:
 
 let
-  qtileConfigDir = "${variables.basePathFilesDir}/modules/desktop/qtile/config"; # путь к директории с config.py и модулями
+  qtileConfigDir = "${variables.basePathFilesDir}/modules/home/desktop/qtile/config"; # путь к директории с config.py и модулями
 in
 {
 

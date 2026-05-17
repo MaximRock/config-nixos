@@ -1,5 +1,5 @@
 # home.nix (в корне проекта)
-{ ... }@args: import ./home/common/default.nix args
+# { ... }@args: import ./home/common/default.nix args
 
 # { pkgs, yandexBrowserPackages, ... }:
 

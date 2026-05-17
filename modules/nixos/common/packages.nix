@@ -17,7 +17,7 @@
     uv
     python314
 
-    rofi
+    # rofi
 
     # плеер
     pipewire

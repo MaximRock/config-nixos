@@ -1,6 +1,4 @@
 {
-  pkgs,
-  unstable,
   ...
 }:
 
@@ -9,14 +7,15 @@
     ./hardware-configuration.nix
 
     # === Common modules ===
-    ./modules/common/base.nix
-    ./modules/common/packages.nix
-    ./modules/common/user.nix
+    ./modules/nixos/common/base.nix
+    ./modules/nixos/common/packages.nix
+    ./modules/nixos/common/user.nix
 
     # === Desktop (host-specific) ===
-    ./modules/desktop/qtile.nix
-    ./modules/desktop/thunar.nix
-    # ./modules/desktop/xsfce.nix
+    ./modules/nixos/desktop/qtile.nix
+    ./modules/nixos/desktop/thunar.nix
+    ./modules/nixos/networking/throne.nix
+    # ./modules/nixos/desktop/xsfce.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -35,10 +34,10 @@
   
   networking.hostName = "nixos";
 
-  programs.throne = {
-    enable = true;
-    package = unstable.throne;
-    tunMode.enable = true;
-  };
+  # programs.throne = {
+  #   enable = true;
+  #   package = unstable.throne;
+  #   tunMode.enable = true;
+  # };
 
 }

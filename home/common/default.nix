@@ -10,34 +10,34 @@
 
     # === Ваши существующие модули из ./modules/ ===
     # Editors
-    ../../modules/editors/vscode.nix
-    ../../modules/editors/vscode-nix.nix
-    # ../../modules/editors/vscode-python.nix
-    ../../modules/editors/nvf-nvim.nix
+    ../../modules/home/editors/vscode.nix
+    ../../modules/home/editors/vscode-nix.nix
+    # ../../modules/home/editors/vscode-python.nix
+    ../../modules/home/editors/nvf-nvim.nix
 
     # Terminals
-    ../../modules/terminals/wezterm/wezterm.nix
-    ../../modules/terminals/yazi.nix
-    ../../modules/terminals/fastfetch/fastfetch.nix
+    ../../modules/home/terminals/wezterm/wezterm.nix
+    ../../modules/home/terminals/yazi.nix
+    ../../modules/home/terminals/fastfetch/fastfetch.nix
 
     # Shell
-    ../../modules/shell/zsh.nix
+    ../../modules/home/shell/zsh.nix
 
     # Desktop
     # qtile config
-    ../../modules/desktop/qtile/default.nix
-    ../../modules/desktop/gtk.nix
-    ../../modules/desktop/picom.nix
-    ../../modules/desktop/rofi/rofi.nix
+    ../../modules/home/desktop/qtile/default.nix
+    ../../modules/home/desktop/gtk.nix
+    ../../modules/home/desktop/picom.nix
+    ../../modules/home/desktop/rofi/rofi.nix
 
     # Apps
-    ../../modules/apps/flameshot.nix
-    ../../modules/apps/dunst.nix
-    ../../modules/apps/koda.nix
-    ../../modules/apps/git.nix
+    ../../modules/home/apps/flameshot.nix
+    ../../modules/home/apps/dunst.nix
+    ../../modules/home/apps/koda.nix
+    ../../modules/home/apps/git.nix
 
     # Browsers
-    ../../modules/browsers/firefox/default.nix
+    ../../modules/home/browsers/firefox/default.nix
 
   ];
 
