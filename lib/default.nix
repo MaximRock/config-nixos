@@ -3,12 +3,8 @@
 let
   inherit (inputs)
     nixpkgs
-    nixpkgs-unstable
     home-manager
     nvf
-    nur
-    llm-agents
-    yandex-browser
     ;
 
   system = "x86_64-linux";
@@ -16,30 +12,20 @@ let
 
   pkgs = nixpkgs.legacyPackages.${system};
 
-  unstable = import nixpkgs-unstable {
-    inherit system;
-    config.allowUnfree = true;
-  };
+  overlays = import ./overlays.nix { inherit inputs; };
 
   variables = import ../home/common/var-default.nix { inherit username; };
 
   nvfConfig = import ../modules/home/editors/configs/nvf-config { inherit pkgs; };
-
-  overlays = [
-    nur.overlays.default
-    llm-agents.overlays.default
-  ];
 
   specialArgs = {
     inherit
       inputs
       username
       variables
-      unstable
       nvfConfig
       overlays
       ;
-    yandexBrowserPackages = yandex-browser.packages.${system};
   };
 in
 {
@@ -47,7 +33,6 @@ in
     system
     username
     pkgs
-    unstable
     variables
     nvfConfig
     specialArgs

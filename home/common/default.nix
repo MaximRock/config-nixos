@@ -1,5 +1,5 @@
 # home/common/default.nix
-{ pkgs, lib, username ? "max", yandexBrowserPackages, unstable, nvfConfig, inputs, ... }:
+{ ... }:
 
 {
   # === Базовые модули ===

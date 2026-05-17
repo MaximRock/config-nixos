@@ -1,8 +1,6 @@
 # home/common/packages.nix
 {
   pkgs,
-  yandexBrowserPackages,
-  unstable,
   ...
 }:
 {
@@ -24,7 +22,7 @@
     # unstable.mcp-nixos
 
     # Browser (из внешнего флока)
-    yandexBrowserPackages.yandex-browser-stable # nix flake lock --update-input yandex-browser
+    pkgs.yandex-browser.yandex-browser-stable # nix flake lock --update-input yandex-browser
 
     # terminal
     yazi

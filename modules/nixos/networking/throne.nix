@@ -1,11 +1,11 @@
 {
-  unstable,
+  pkgs,
   ...
 }:
 {
   programs.throne = {
     enable = true;
-    package = unstable.throne;
+    package = pkgs.unstable.throne;
     tunMode.enable = true;
   };
 }
