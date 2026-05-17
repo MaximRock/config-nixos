@@ -11,7 +11,7 @@
 
 {
   home.username = username;
-  home.homeDirectory = "${variables.homeDirectory}/${username}";
+  home.homeDirectory = variables.homeDirectory;
   home.stateVersion = variables.stateVersion;
 
   #nixpkgs.config.allowUnfree = true;
