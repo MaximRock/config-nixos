@@ -81,7 +81,6 @@ KEYS_CONFIG: list[KeyBinding] = [
     # Браузеры
     KeyBinding("Браузер", ["mod"], "b", "spawn", BROWSER),
     KeyBinding("Браузер firefox", ["mod"], "m", "spawn", "firefox"),
-
     KeyBinding("Yazi", ["mod"], "z", "spawn", YAZI),
     KeyBinding("Rofi", ["mod"], "d", "spawn", ROFI),
     KeyBinding("Скриншот GUI", ["mod"], "o", "spawn", FLAMESHOT_GUI),

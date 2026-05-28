@@ -16,6 +16,9 @@
     ./modules/nixos/desktop/thunar.nix
     ./modules/nixos/networking/throne.nix
     # ./modules/nixos/desktop/xsfce.nix
+
+    # ./modules/nixos/hardware/adm-rocm.nix
+    ./modules/nixos/llm/llama-server.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -33,11 +36,5 @@
   };
   
   networking.hostName = "nixos";
-
-  # programs.throne = {
-  #   enable = true;
-  #   package = unstable.throne;
-  #   tunMode.enable = true;
-  # };
 
 }

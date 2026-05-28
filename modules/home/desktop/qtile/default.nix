@@ -1,4 +1,4 @@
-# modules/desktop/qtile/default.nix
+# modules/home/desktop/qtile/default.nix
 {
   config,
   variables,

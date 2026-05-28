@@ -8,7 +8,7 @@
     {
         "name": "Image",
         "config": {
-            "filename": "~/.dotfiles/modules/desktop/qtile/config/config_qtile/icons/nixos_logo.png",
+            "filename": "~/.dotfiles/modules/home/desktop/qtile/config/config_qtile/icons/nixos_logo.png",
             "scale": true,
             "margin": 3
         }
@@ -72,7 +72,7 @@
     {
         "name": "Image",
         "config": {
-            "filename": "~/.dotfiles/modules/desktop/qtile/config/config_qtile/icons/clock.png",
+            "filename": "~/.dotfiles/modules/home/desktop/qtile/config/config_qtile/icons/clock.png",
             "scale": true,
             "margin": 3
         }
@@ -99,7 +99,7 @@
     {
         "name": "Image",
         "config": {
-            "filename": "~/.dotfiles/modules/desktop/qtile/config/config_qtile/icons/computer_sound.png",
+            "filename": "~/.dotfiles/modules/home/desktop/qtile/config/config_qtile/icons/computer_sound.png",
             "scale": true,
             "margin": 3
         }
@@ -163,7 +163,7 @@
     {
         "name": "Image",
         "config": {
-            "filename": "~/.dotfiles/modules/desktop/qtile/config/config_qtile/icons/network.png",
+            "filename": "~/.dotfiles/modules/home/desktop/qtile/config/config_qtile/icons/network.png",
             "scale": true,
             "margin": 3
         }
@@ -192,7 +192,7 @@
     {
         "name": "Image",
         "config": {
-            "filename": "~/.dotfiles/modules/desktop/qtile/config/config_qtile/icons/cpu.png",
+            "filename": "~/.dotfiles/modules/home/desktop/qtile/config/config_qtile/icons/cpu.png",
             "scale": true,
             "margin": 3
         }
@@ -232,7 +232,7 @@
     {
         "name": "Image",
         "config": {
-            "filename": "~/.dotfiles/modules/desktop/qtile/config/config_qtile/icons/hard_disk.png",
+            "filename": "~/.dotfiles/modules/home/desktop/qtile/config/config_qtile/icons/hard_disk.png",
             "scale": true,
             "margin": 3
         }
@@ -273,7 +273,7 @@
     {
         "name": "Image",
         "config": {
-            "filename": "~/.dotfiles/modules/desktop/qtile/config/config_qtile/icons/memory.png",
+            "filename": "~/.dotfiles/modules/home/desktop/qtile/config/config_qtile/icons/memory.png",
             "scale": true,
             "margin": 3
         }

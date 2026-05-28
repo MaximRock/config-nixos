@@ -15,6 +15,7 @@
         ms-python.vscode-pylance
         charliermarsh.ruff
         jnoortheen.nix-ide
+        continue.continue
       ];
 
       userSettings = {
@@ -34,6 +35,11 @@
         "git.autoRepositoryDetection" = "subFolders";
         "redhat.telemetry.enabled" = true;
         "oneDark.italic" = false;
+
+        "continue.enableTabAutocomplete" = true;
+        "continue.tabAutocompleteDelay" = 400;
+        "continue.tabAutocompleteMultilineCompletions" = "always";
+        "editor.inlineSuggest.enabled" = true;
       };
     };
   };

@@ -16,9 +16,10 @@
     fastfetch
     xfce.mousepad
 
-    # Dev
+    # LLm
     nodejs_22
     llm-agents.qwen-code
+    python313Packages.huggingface-hub
     # unstable.mcp-nixos
 
     # Browser (из внешнего флока)
@@ -61,5 +62,8 @@
     # Изображения
     upscayl
     flameshot
+
+    
+
   ];
 }
