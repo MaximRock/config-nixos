@@ -24,6 +24,9 @@
               setupOpts = nvfConfig.plugins.neoTree.setupNeoTree;
               keys = nvfConfig.mappings.mappKeys;
             };
+            "llama.vim" = {
+              package = pkgs.vimPlugins.llama-vim;
+            };
           };
         };
 

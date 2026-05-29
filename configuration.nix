@@ -1,4 +1,5 @@
 {
+  pkgs,
   ...
 }:
 
@@ -17,7 +18,6 @@
     ./modules/nixos/networking/throne.nix
     # ./modules/nixos/desktop/xsfce.nix
 
-    # ./modules/nixos/hardware/adm-rocm.nix
     ./modules/nixos/llm/llama-server.nix
   ];
 
@@ -34,7 +34,7 @@
       useOSProber = true;
     };
   };
-  
+
   networking.hostName = "nixos";
 
 }

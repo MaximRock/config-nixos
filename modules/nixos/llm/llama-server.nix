@@ -3,7 +3,7 @@
 { config, pkgs, lib, inputs, ... }:
 
 let
-  system = pkgs.system;
+  system = pkgs.stdenv.hostPlatform.system;
   unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
 
   llama-cpp-rocm = unstable.llama-cpp.override {

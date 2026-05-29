@@ -41,8 +41,9 @@ in
 
   mkNixosConfiguration = { hostName, hostPath }:
     nixpkgs.lib.nixosSystem {
-      inherit system specialArgs;
+      inherit specialArgs;
       modules = [
+        { nixpkgs.hostPlatform = system; } 
         (hostPath + /default.nix)
         ../modules/nixos
         home-manager.nixosModules.home-manager
