@@ -7,9 +7,11 @@
     ./base.nix
     ./packages.nix
     ./user.nix
+    ./editors.nix
 
     # === Ваши существующие модули из ./modules/ ===
     # Editors
+    ../../modules/home/editors/vscodium
     ../../modules/home/editors/vscode.nix
     ../../modules/home/editors/vscode-nix.nix
     # ../../modules/home/editors/vscode-python.nix
