@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   # -- VSCodium --
@@ -20,6 +20,14 @@
         "rgba(79,236,236,0.3)"
       ];
     };
+  };
+
+  # ── Nix-специфичные настройки VSCodium ──
+  modules.home.editors.vscodium-nix = {
+    enable = true;
+    workspaceDir = ".dotfiles";
+    flakePath = "/home/max/.dotfiles";
+    hostName = "nixos"; # ← ваш hostname из flake.nix
   };
 
   # ── Neovim (если используете через модуль) ──

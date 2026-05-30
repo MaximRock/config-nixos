@@ -12,8 +12,9 @@
     # === Ваши существующие модули из ./modules/ ===
     # Editors
     ../../modules/home/editors/vscodium
-    ../../modules/home/editors/vscode.nix
-    ../../modules/home/editors/vscode-nix.nix
+    ../../modules/home/editors/vscodium/workspace-nix.nix
+    # ../../modules/home/editors/vscode.nix
+    # ../../modules/home/editors/vscode-nix.nix
     # ../../modules/home/editors/vscode-python.nix
     ../../modules/home/editors/nvf-nvim.nix
 

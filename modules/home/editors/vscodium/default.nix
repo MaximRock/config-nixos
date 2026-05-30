@@ -1,17 +1,19 @@
 # modules/home/editors/vscodium/default.nix
-
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 with lib;
 
 let
   cfg = config.modules.home.editors.vscodium;
-  extensions = import ./extensions.nix { inherit pkgs cfg; };
-  settings   = import ./settings.nix   { inherit lib cfg; };
 in
 {
+  imports = [
+    ./editor.nix
+    ./workspace-nix.nix
+  ];
+
   options.modules.home.editors.vscodium = {
-    enable = mkEnableOption "VSCodium editor";
+    enable = mkEnableOption "VSCodium editor with Nix workspace support";
 
     package = mkOption {
       type = types.package;
@@ -29,16 +31,11 @@ in
       default = { };
       description = "Extra settings to merge with defaults";
     };
-  };
 
-  config = mkIf cfg.enable {
-    programs.vscode = {
-      enable = true;
-      package = cfg.package;
-      profiles.default = {
-        extensions = extensions.list;
-        userSettings = settings.attrs; 
-      };
+    nixDev = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Enable Nix development workspace settings";
     };
   };
 }
