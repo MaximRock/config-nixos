@@ -27,8 +27,9 @@
     [mgr]
     ratio          = [ 2, 4, 3 ]
     show_hidden = true
-    sort_by = "natural"
+    sort_by = "size"
     sort_dir_first = true
+    linemode = "size"
 
     [preview]
     max_width = 800
