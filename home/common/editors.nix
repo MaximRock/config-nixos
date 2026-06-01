@@ -30,6 +30,9 @@
     hostName = "nixos"; # ← ваш hostname из flake.nix
   };
 
-  # ── Neovim (если используете через модуль) ──
-  # modules.home.editors.nvim.enable = true;
+  # ── Neovim (NVF) ──
+  modules.home.editors.nvf = {
+    enable = true;
+    # extraPackages = with pkgs; [ nodejs ];  # ← пример доп. пакетов
+  };
 }

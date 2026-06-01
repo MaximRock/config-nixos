@@ -13,10 +13,11 @@
     # Editors
     ../../modules/home/editors/vscodium
     ../../modules/home/editors/vscodium/workspace-nix.nix
+    ../../modules/home/editors
     # ../../modules/home/editors/vscode.nix
     # ../../modules/home/editors/vscode-nix.nix
     # ../../modules/home/editors/vscode-python.nix
-    ../../modules/home/editors/nvf-nvim.nix
+    # ../../modules/home/editors/nvf-nvim.nix
 
     # Terminals
     ../../modules/home/terminals/wezterm/wezterm.nix
