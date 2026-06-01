@@ -1,16 +1,15 @@
+# home/common/edirors.nix
+
 { pkgs, ... }:
 
 {
-  # -- VSCodium --
+  # ── VSCodium ──
   modules.home.editors.vscodium = {
     enable = true;
     extraExtensions = with pkgs.vscode-extensions; [
-      # -- Радужные отступы --
       oderwat.indent-rainbow
     ];
     extraSettings = {
-      # -- indent-rainbow --
-      # Цветные линии
       "indentRainbow.indicatorStyle" = "light";
       "indentRainbow.lightIndicatorStyleLineWidth" = 1;
       "indentRainbow.colors" = [
@@ -22,17 +21,24 @@
     };
   };
 
-  # ── Nix-специфичные настройки VSCodium ──
-  modules.home.editors.vscodium-nix = {
+  # ── Nix workspace settings (общий для VS Code и VSCodium) ──
+  modules.home.editors.workspace-nix = {
     enable = true;
     workspaceDir = ".dotfiles";
     flakePath = "/home/max/.dotfiles";
-    hostName = "nixos"; # ← ваш hostname из flake.nix
+    hostName = "nixos";
+  };
+
+  # ── VS Code (проприетарный) ──
+  modules.home.editors.vscode = {
+    enable = false;
+    extraExtensions = with pkgs.vscode-extensions; [
+      ms-python.vscode-pylance
+    ];
   };
 
   # ── Neovim (NVF) ──
   modules.home.editors.nvf = {
     enable = true;
-    # extraPackages = with pkgs; [ nodejs ];  # ← пример доп. пакетов
   };
 }
