@@ -5,7 +5,7 @@
 {
   programs.throne = {
     enable = true;
-    package = pkgs.unstable.throne;
+    # package = pkgs.unstable.throne;
     tunMode.enable = true;
   };
 }

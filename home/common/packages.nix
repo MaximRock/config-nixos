@@ -18,7 +18,7 @@
 
     # LLm
     nodejs_22
-    llm-agents.qwen-code
+    llm-agents.reasonix
     python313Packages.huggingface-hub
     # unstable.mcp-nixos
 
