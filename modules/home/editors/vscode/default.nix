@@ -12,11 +12,11 @@ let
   vscodeSettings = import ./settings.nix { inherit lib cfg; };
 in
 {
-  # БЕЗ imports — вся логика здесь
   options.modules.home.editors.vscode = codeLib.mkCodeOptions "VS Code" pkgs.vscode;
 
   config = codeLib.mkCodeConfig {
     inherit cfg;
+    programName = "vscode";   # ← пишет в programs.vscode
     extensions = extensions.list ++ (with pkgs.vscode-extensions; [
       ms-python.python
       ms-python.vscode-pylance

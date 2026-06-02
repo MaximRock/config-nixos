@@ -7,6 +7,7 @@
     # ── Темы и иконки ──
     dracula-theme.theme-dracula
     mskelton.one-dark-theme
+    charliermarsh.ruff
     pkief.material-icon-theme
 
     # ── Nix ──

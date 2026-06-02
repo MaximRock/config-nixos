@@ -5,11 +5,11 @@
 
   environment.systemPackages = with pkgs; [
 
-    xfce.thunar
-    xfce.thunar-archive-plugin
-    xfce.thunar-volman
-    xfce.thunar-dropbox-plugin
-    xfce.thunar-media-tags-plugin
+    thunar
+    thunar-archive-plugin
+    thunar-volman
+    thunar-dropbox-plugin
+    thunar-media-tags-plugin
     gvfs
     udisks2
   ];

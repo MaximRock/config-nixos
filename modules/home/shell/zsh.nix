@@ -8,10 +8,10 @@
     syntaxHighlighting.enable = true;
     initContent = "fastfetch";
     shellAliases = {
-      nrs = "sudo nixos-rebuild-ng switch";
-      nrd = "sudo nixos-rebuild-ng dry-build";
-      nrlg = "sudo nixos-rebuild-ng list-generations";
-      nix-test = "nix flake check && sudo nixos-rebuild-ng test";
+      nrs = "sudo nixos-rebuild switch";
+      nrd = "sudo nixos-rebuild dry-build";
+      nrlg = "sudo nixos-rebuild list-generations";
+      nix-test = "nix flake check && sudo nixos-rebuild test";
       btw = "echo i use nixos, max";
       koda = "npx @kodadev/koda-cli@latest";
       kill-qwen = "pkill -9 -f qwen-code; sleep 2";

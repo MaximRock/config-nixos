@@ -14,7 +14,7 @@
     # Apps
     dunst
     fastfetch
-    xfce.mousepad
+    mousepad
 
     # LLm
     nodejs_22
