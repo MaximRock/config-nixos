@@ -30,12 +30,12 @@ local keys = {
     -- СПЛИТЫ (РАЗДЕЛЕНИЕ ЭКРАНА) - КАК В TMUX
     -- =========================================================================
     {
-        key = '\\',
+        key = '|',
         mods = 'CTRL|SHIFT',
         action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
     },
     {
-        key = '-',
+        key = '_',
         mods = 'CTRL|SHIFT',
         action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
     },
@@ -128,3 +128,4 @@ local keys = {
 }
 
 return keys
+
