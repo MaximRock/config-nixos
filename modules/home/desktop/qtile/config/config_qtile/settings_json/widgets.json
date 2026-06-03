@@ -254,11 +254,11 @@
             "fontsize": "{fontsize}",
             "padding": "{padding}",
             "visible_on_warn": true,
-            "format": "{p} total:{s} | free:{f}",
+            "format": "{p} total:{s:.2f} | free:{f:.2f}",
             "measure": "G",
             "warn_space": 120,
             "warn_color": "{accent}",
-            "background": "{background}"            
+            "background": "{background}"
         }
     },
     {
