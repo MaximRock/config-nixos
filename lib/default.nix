@@ -11,6 +11,7 @@ let
   username = "max";
 
   pkgs = nixpkgs.legacyPackages.${system};
+  unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
 
   overlays = import ./overlays.nix { inherit inputs; };
 
@@ -25,6 +26,7 @@ let
       variables
       nvfConfig
       overlays
+      unstable
       ;
   };
 in
@@ -37,13 +39,15 @@ in
     nvfConfig
     specialArgs
     overlays
+    unstable
     ;
 
-  mkNixosConfiguration = { hostName, hostPath }:
+  mkNixosConfiguration =
+    { hostName, hostPath }:
     nixpkgs.lib.nixosSystem {
       inherit specialArgs;
       modules = [
-        { nixpkgs.hostPlatform = system; } 
+        { nixpkgs.hostPlatform = system; }
         (hostPath + /default.nix)
         ../modules/nixos
         home-manager.nixosModules.home-manager

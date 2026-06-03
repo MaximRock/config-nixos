@@ -29,7 +29,7 @@
     # qtile for widgets
     lm_sensors
 
-    nixos-rebuild-ng
+    unstable.nixos-rebuild-ng
 
     # анализ размера /nix/store
     nix-du
