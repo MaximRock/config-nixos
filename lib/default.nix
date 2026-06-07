@@ -4,6 +4,7 @@ let
   inherit (inputs)
     nixpkgs
     home-manager
+    sops-nix
     nvf
     ;
 
@@ -48,6 +49,7 @@ in
       inherit specialArgs;
       modules = [
         { nixpkgs.hostPlatform = system; }
+        sops-nix.nixosModules.sops
         (hostPath + /default.nix)
         ../modules/nixos
         home-manager.nixosModules.home-manager

@@ -43,6 +43,9 @@
     # Browsers
     ../../modules/home/browsers/firefox/default.nix
 
+    # aider
+    ../../modules/home/aider/default.nix
+
   ];
 
 }

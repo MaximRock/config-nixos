@@ -5,13 +5,34 @@
   lib,
   ...
 }:
+
 {
   # === Nix settings ===
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  # nix.settings.experimental-features = [
+  #   "nix-command"
+  #   "flakes"
+  # ];
   nixpkgs.config.allowUnfree = true;
+
+  nix = {
+    optimise.automatic = true;
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      substituters = lib.mkForce [
+        "https://nix-mirror.freetls.fastly.net"
+        "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+        "https://mirrors.bfsu.edu.cn/nix-channels/store"
+        "https://cache.nixos.org/"
+      ];
+
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      ];
+    };
+  };
 
   # === Network (без hostname — он host-specific) ===
   networking.networkmanager.enable = true;
@@ -60,7 +81,6 @@
     noto-fonts
     noto-fonts-color-emoji
   ];
-  
 
   # === Shell globally ===
   programs.zsh = {

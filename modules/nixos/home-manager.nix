@@ -10,6 +10,7 @@
 
     sharedModules = [
       inputs.nvf.homeManagerModules.default
+      inputs.sops-nix.homeManagerModules.sops
     ];
 
     users.${specialArgs.username} = import ../../home/common/default.nix;

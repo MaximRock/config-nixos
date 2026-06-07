@@ -1,0 +1,22 @@
+# .sops.yaml
+
+keys:
+  - &host age1eqd798meh2ftnq66r05gctapqzl0rp4p4p08rw2lxszjnr4w5guqelzq05
+  - &max age1hhqa254vrhhka5ayz27fwrgcelu3l7j38lzqnhd9jw5ntdvcry4q7p9nzq
+
+creation_rules:
+  - path_regex: secrets\.yaml$
+    key_groups:
+      - age:
+          - *host
+          - *max
+
+# creation_rules:
+#   # Шифровать все файлы, заканчивающиеся на secrets.yaml
+#   - path_regex: secrets\.yaml$
+#     age: >-
+#       age1eqd798meh2ftnq66r05gctapqzl0rp4p4p08rw2lxszjnr4w5guqelzq05, # host
+#       age1hhqa254vrhhka5ayz27fwrgcelu3l7j38lzqnhd9jw5ntdvcry4q7p9nzq  # user max
+  # Можно добавить отдельные правила для хостов:
+  # - path_regex: hosts/.+/secrets\.yaml$
+  #   age: age1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

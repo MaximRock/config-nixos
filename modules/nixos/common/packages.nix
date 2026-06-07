@@ -29,12 +29,16 @@
     # qtile for widgets
     lm_sensors
 
+    # nixos
     unstable.nixos-rebuild-ng
 
     # анализ размера /nix/store
     nix-du
     graphviz
     ncdu
+
+    # sops
+    sops
 
     # === Из unstable (если нужно) ===
     # Пример: unstable.some-package

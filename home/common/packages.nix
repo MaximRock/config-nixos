@@ -20,6 +20,7 @@
     nodejs_22
     llm-agents.reasonix
     python313Packages.huggingface-hub
+    # aider-chat
     # unstable.mcp-nixos
 
     # Browser (из внешнего флока)
@@ -63,7 +64,6 @@
     upscayl
     flameshot
 
-    
-
+    telegram-desktop
   ];
 }

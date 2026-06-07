@@ -16,6 +16,7 @@
     ./modules/nixos/desktop/qtile.nix
     ./modules/nixos/desktop/thunar.nix
     ./modules/nixos/networking/throne.nix
+    ./modules/nixos/sops/sops.nix
     # ./modules/nixos/desktop/xsfce.nix
 
     ./modules/nixos/llm/llama-server.nix
