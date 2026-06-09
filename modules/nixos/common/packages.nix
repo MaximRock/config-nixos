@@ -40,6 +40,9 @@
     # sops
     sops
 
+    # для копирования
+    xclip
+
     # === Из unstable (если нужно) ===
     # Пример: unstable.some-package
   ];

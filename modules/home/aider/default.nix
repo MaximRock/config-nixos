@@ -3,15 +3,12 @@
 {
   config,
   pkgs,
-  username,
   ...
 }:
 
 {
   imports = [
     ./package.nix
-    ./config.nix
-    ./model-settings.nix
-    ./model-metadata.nix
+    ./symlinks.nix
   ];
 }

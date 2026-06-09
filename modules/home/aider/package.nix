@@ -1,9 +1,7 @@
 # modules/home/aider/package.nix
 
 {
-  config,
   pkgs,
-  username,
   ...
 }:
 let

@@ -20,7 +20,7 @@
     nodejs_22
     llm-agents.reasonix
     python313Packages.huggingface-hub
-    # aider-chat
+    # aider-chat-with-help
     # unstable.mcp-nixos
 
     # Browser (из внешнего флока)

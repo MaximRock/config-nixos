@@ -1,0 +1,45 @@
+# ~/.aider.conf.yml
+model-settings-file: "~/.aider.model.settings.yml"
+model-metadata-file: "~/.aider.model.metadata.json"
+
+model: openrouter/deepseek/deepseek-v4-pro
+weak-model: openrouter/qwen/qwen-2.5-7b-instruct
+
+alias:
+  - v4:openrouter/deepseek/deepseek-v4-pro
+  - kimi:openrouter/moonshotai/kimi-k2.6
+  - qwen:openrouter/qwen/qwen-2.5-7b-instruct
+
+# Основные настройки
+chat-language: Russian
+cache-prompts: true
+stream: true
+dark-mode: true
+pretty: true
+
+# Редактирование
+edit-format: whole
+auto-commits: true
+commit-prompt: |
+  Напиши короткое сообщение коммита на русском языке, используя один из следующих префиксов: feat, fix, docs, style, refactor, test, chore, ci, perf.
+    Описания:
+    - feat - Новая функциональность
+    - fix  - Исправление бага
+    - docs - Только документация
+    - style - Форматирование, пробелы, линтеры
+    - refactor - Изменение структуры без изменения поведения
+    - test - Тесты
+    - chore - Обновление зависимостей, конфигов сборки
+    - ci - Изменения в CI/CD, скриптах сборки
+    - perf - Оптимизация производительности
+    Формат: <префикс>(scope): сообщение на русском языке, повелительное наклонение, не более 72 символов.
+    Пример: feat(qtile): обновить обои и настройки экрана
+
+# Контекст
+map-refresh: auto
+map-tokens: 8192
+max-chat-history-tokens: 24000
+
+# Служебное
+gitignore: true
+show-model-warnings: false
