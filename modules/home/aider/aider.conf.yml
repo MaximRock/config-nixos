@@ -9,6 +9,8 @@ alias:
   - v4:openrouter/deepseek/deepseek-v4-pro
   - kimi:openrouter/moonshotai/kimi-k2.6
   - qwen:openrouter/qwen/qwen-2.5-7b-instruct
+  - v3:openrouter/deepseek/deepseek-v3.2-exp
+  - mini:openai/gpt-4o-mini
 
 # Основные настройки
 chat-language: Russian
@@ -33,7 +35,7 @@ commit-prompt: |
     - ci - Изменения в CI/CD, скриптах сборки
     - perf - Оптимизация производительности
     Формат: <префикс>(scope): сообщение на русском языке, повелительное наклонение, не более 72 символов.
-    Пример: feat(qtile): обновить обои и настройки экрана
+    Пример: feat(qtile): обновить обои и настройки экрана 
 
 # Контекст
 map-refresh: auto

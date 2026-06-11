@@ -43,6 +43,9 @@
     # для копирования
     xclip
 
+    # costumtkinter
+    fontconfig
+
     # === Из unstable (если нужно) ===
     # Пример: unstable.some-package
   ];

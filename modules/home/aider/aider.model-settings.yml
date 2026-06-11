@@ -29,3 +29,21 @@
   caches_by_default: true
   extra_params:
     max_tokens: 4096
+
+# === Экспериментальная модель: DeepSeek V3.2 ===
+- name: openrouter/deepseek/deepseek-v3.2-exp
+  edit_format: diff
+  use_repo_map: true
+  reminder: sys
+  examples_as_sys_msg: true
+  caches_by_default: true
+  extra_params:
+    max_tokens: 8192
+
+# === Weak модель: GPT-4o Mini ===
+- name: openai/gpt-4o-mini
+  edit_format: diff
+  use_repo_map: false
+  caches_by_default: true
+  extra_params:
+    max_tokens: 4096

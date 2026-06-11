@@ -8,6 +8,7 @@
     ./packages.nix
     ./user.nix
     ./editors.nix
+    ./power-menu.nix
 
     # === Ваши существующие модули из ./modules/ ===
     # Editors

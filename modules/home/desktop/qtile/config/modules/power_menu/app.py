@@ -18,11 +18,15 @@ from windows.base_window import BaseWindow
 from constants import THEME_COLOR
 from settings.path import QtilePath
 
+import os
+
 
 class Application(ctk.CTk, BaseWindow):
     def __init__(self) -> None:
         super().__init__()
-        self.qp: Path = QtilePath()
+        config_base = os.environ.get("QTILE_CONFIG_PATH")
+        self.qp: Path = QtilePath(config_base)
+        # self.qp: Path = QtilePath()
         self.config: WindowConfig = POWER_MENU_WINDOW
         self.setup_geometry(self, config=self.config)
         self.themes: dict[str, dict[str, dict[str, str]]] = {
