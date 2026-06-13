@@ -1,4 +1,4 @@
-# modules/common/packages.nix
+# modules/nixos/common/packages.nix
 {
   config,
   pkgs,
