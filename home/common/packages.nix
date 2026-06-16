@@ -65,5 +65,7 @@
     flameshot
 
     telegram-desktop
+
+    zoom-us
   ];
 }

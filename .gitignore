@@ -30,3 +30,5 @@ sops.key
 secrets.yaml.bak
 
 11
+.aider*
+.direnv/
