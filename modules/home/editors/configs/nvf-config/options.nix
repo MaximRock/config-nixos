@@ -9,4 +9,5 @@
   wrap = false;
   cursorlineopt = "both";
   smarttab = true;
+  clipboard = "unnamedplus";
 }

@@ -38,6 +38,12 @@
     "extensions.autoUpdate" = false;
     "telemetry.telemetryLevel" = "off";
 
+    # -- Prettier --
+    "editor.defaultFormatter" = "esbenp.prettier-vscode";
+    "[astro]" = {
+      "editor.defaultFormatter" = "esbenp.prettier-vscode";
+    };
+
     # ── LLama Coder ──
     "llama-vscode.tool_search_source_enabled" = false;
     "llama-vscode.tool_run_terminal_command_enabled" = false;
