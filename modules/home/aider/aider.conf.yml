@@ -42,7 +42,7 @@ commit-prompt: |
 
 # Контекст
 map-refresh: auto
-map-tokens: 8192
+map-tokens: 24000
 max-chat-history-tokens: 24000
 
 # Служебное
