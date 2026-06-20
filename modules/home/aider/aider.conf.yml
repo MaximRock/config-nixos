@@ -10,7 +10,7 @@ alias:
   - kimi:openrouter/moonshotai/kimi-k2.6
   - qwen:openrouter/qwen/qwen-2.5-7b-instruct
   - v3:openrouter/deepseek/deepseek-v3.2-exp
-  - mini:openai/gpt-4o-mini
+  - mini:openrouter/openai/gpt-4o-mini
 
 # Основные настройки
 chat-language: Russian
@@ -42,7 +42,7 @@ commit-prompt: |
 
 # Контекст
 map-refresh: auto
-map-tokens: 24000
+map-tokens: 8192
 max-chat-history-tokens: 24000
 
 # Служебное

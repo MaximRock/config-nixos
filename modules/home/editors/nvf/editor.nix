@@ -41,9 +41,9 @@ in
                 setupOpts = (plugins.neoTree or {}).setupNeoTree or {};
                 keys = mappings.mappKeys or [];
               };
-              "llama.vim" = {
-                package = pkgs.vimPlugins.llama-vim;
-              };
+              # "llama.vim" = {
+              #   package = pkgs.vimPlugins.llama-vim;
+              # };
             };
           };
 

@@ -18,7 +18,8 @@
 
     # LLm
     nodejs_22
-    llm-agents.reasonix
+    # llm-agents.reasonix
+    llm-agents.opencode
     python313Packages.huggingface-hub
     # aider-chat-with-help
     # unstable.mcp-nixos
