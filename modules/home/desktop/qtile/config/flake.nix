@@ -14,6 +14,11 @@
       {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
+            (python313.withPackages (ps: with ps; [
+              tkinter
+              customtkinter
+              pillow
+            ]))
             uv
             python313
             cairo
@@ -35,8 +40,6 @@
             
             if [ -d ".venv" ]; then
               export PYTHONPATH="$PWD/.venv/lib/python3.13/site-packages:$PYTHONPATH"
-            else
-              echo "💡 Run: uv sync"
             fi
           '';
         };

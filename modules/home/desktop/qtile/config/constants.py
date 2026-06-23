@@ -7,6 +7,7 @@ qp: QtilePath = QtilePath()
 LOG_DIR: Path = Path("~/.local/state/qtile").expanduser()
 
 POWER_MENU_SCRIPT: str = "qtile-power-menu" #str(qp.get("modules/power_menu/main.py"))
+QTILE_HELP_SCRIPT: str = "qtile-help"
 
 # config.py
 THEME_COLOR = "catppuccin"  # или "c" "catppuccin" "tokyonight" "gruvbox"

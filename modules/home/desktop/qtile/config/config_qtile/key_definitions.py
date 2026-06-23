@@ -16,6 +16,7 @@ from constants import (
     FLAMESHOT_FULL,
     FLAMESHOT_GUI,
     POWER_MENU_SCRIPT,
+    QTILE_HELP_SCRIPT,
     ROFI,
     YAZI,
 )
@@ -97,6 +98,13 @@ KEYS_CONFIG: list[KeyBinding] = [
         "F12",
         "spawn",
         POWER_MENU_SCRIPT,
+    ),
+    KeyBinding(
+        "Qtile help",
+        ["mod"],
+        "F1",
+        "spawn",
+        QTILE_HELP_SCRIPT,
     ),
     # громкость
     # В файле с KEYS_CONFIG

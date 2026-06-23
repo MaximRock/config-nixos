@@ -8,7 +8,7 @@
     [
       # -- Python --
       ms-python.python
-      ms-pyright.pyright
+      # ms-pyright.pyright
 
       # -- Markdown --
       yzhang.markdown-all-in-one
@@ -19,7 +19,6 @@
     ]
     ++ cfg.extraExtensions;
 }
-
 
 # # modules/home/editors/vscodium/extensions.nix
 

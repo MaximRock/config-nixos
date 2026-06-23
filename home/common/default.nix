@@ -9,6 +9,7 @@
     ./user.nix
     ./editors.nix
     ./power-menu.nix
+    ./qtile-help.nix
 
     # === Ваши существующие модули из ./modules/ ===
     # Editors
