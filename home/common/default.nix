@@ -48,7 +48,8 @@
     # aider
     ../../modules/home/aider/default.nix
 
+    # opencode
+    ../../modules/home/opencode/default.nix
   ];
-
 
 }

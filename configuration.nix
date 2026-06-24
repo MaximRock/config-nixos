@@ -19,7 +19,7 @@
     ./modules/nixos/sops/sops.nix
     # ./modules/nixos/desktop/xsfce.nix
 
-    ./modules/nixos/llm/llama-server.nix
+    # ./modules/nixos/llm/llama-server.nix
   ];
 
   # Use the systemd-boot EFI boot loader.

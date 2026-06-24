@@ -96,7 +96,7 @@ in
 
     # ── Nix/Python development tools ──
     home.packages = with pkgs; [
-      nixfmt-rfc-style
+      nixfmt
       nixd
       statik
       deadnix
