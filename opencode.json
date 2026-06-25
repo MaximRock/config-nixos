@@ -1,4 +1,13 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": ["promt-help.md", "AGENTS.md"]
+  "instructions": ["promt-help.md", "AGENTS.md"],
+  "mcp": {
+    "dotfiles-helper": {
+      "type": "local",
+      "command": ["mcp-dotfiles-helper"],
+      "environment": {
+        "DOTFILES_REPO": "/home/max/.dotfiles"
+      }
+    }
+  }
 }

@@ -19,6 +19,8 @@
     ./modules/nixos/sops/sops.nix
     # ./modules/nixos/desktop/xsfce.nix
 
+    ./modules/nixos/devshell.nix
+
     # ./modules/nixos/llm/llama-server.nix
   ];
 
