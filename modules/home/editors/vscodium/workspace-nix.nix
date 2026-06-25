@@ -50,7 +50,7 @@ in
       "nix.serverSettings" = {
         nixd = {
           formatting = {
-            command = [ "${pkgs.nixfmt-rfc-style}/bin/nixfmt" ];
+            command = [ "${pkgs.nixfmt}/bin/nixfmt" ];
           };
           options = {
             nixos = {
