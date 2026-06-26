@@ -1,6 +1,7 @@
 ---
 description: Предлагает git commit на основе изменений
 mode: subagent
+model: opencode/big-pickle
 temperature: 0.3
 permission:
   bash: allow
