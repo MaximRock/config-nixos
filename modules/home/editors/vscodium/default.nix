@@ -1,6 +1,11 @@
 # modules/home/editors/vscodium/default.nix
 
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -17,16 +22,16 @@ in
 
   config = codeLib.mkCodeConfig {
     inherit cfg;
-    programName = "vscodium";   # ← пишет в programs.vscodium
-    extensions = commonExtensions.list ++ extensions.list ++ (with pkgs.vscode-extensions; [
-      ms-python.vscode-pylance
-    ]);
+    programName = "vscodium"; # ← пишет в programs.vscodium
+    extensions =
+      commonExtensions.list
+      ++ extensions.list
+      ++ (with pkgs.vscode-extensions; [
+        ms-python.vscode-pylance
+      ]);
     settings = settings.attrs // vscodeSettings.attrs;
   };
 }
-
-
-# # modules/home/editors/vscodium/default.nix
 
 # { config, pkgs, lib, ... }:
 
