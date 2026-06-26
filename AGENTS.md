@@ -37,3 +37,13 @@ Alias: `nrs` (defined in `modules/home/shell/zsh.nix`). Others: `nrd` (dry-build
 - `11/` directory is experimental/staging — not imported in production config
 - `.aider*` files are aider artifacts, gitignored
 - Dotfiles are sourced via HM symlinks to the repo path, not copied
+
+## Git Commit Workflow
+
+Перед коммитом всегда показывать пользователю:
+1. 📊 Анализ изменений (файлы + суть)
+2. 💬 Предлагаемое сообщение коммита
+3. 💻 Команду для выполнения
+4. ⚠️ Запрос явного согласия
+
+Коммитить только после подтверждения ("Да", "Ок", "Подтверждаю").
