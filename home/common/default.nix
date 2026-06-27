@@ -10,6 +10,7 @@
     ./editors.nix
     ./power-menu.nix
     ./qtile-help.nix
+    ./rime-mcp.nix
 
     # === Ваши существующие модули из ./modules/ ===
     # Editors

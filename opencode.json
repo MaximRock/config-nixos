@@ -8,6 +8,11 @@
       "environment": {
         "DOTFILES_REPO": "/home/max/.dotfiles"
       }
+    },
+    "rime": {
+      "type": "local",
+      "command": ["rime", "stdio"],
+      "enabled": true
     }
   }
 }

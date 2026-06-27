@@ -34,6 +34,11 @@
       url = "github:utensils/mcp-nixos";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    rime = {
+      url = "github:lukasl-dev/rime";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =

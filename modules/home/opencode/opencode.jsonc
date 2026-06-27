@@ -13,4 +13,11 @@
       },
     },
   },
+  "mcp": {
+    "rime": {
+      "type": "local",
+      "command": ["rime", "stdio"],
+      "enabled": true
+    }
+  },
 }

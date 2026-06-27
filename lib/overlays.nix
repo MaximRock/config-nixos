@@ -6,6 +6,7 @@ let
     yandex-browser
     nur
     llm-agents
+    rime
     ;
 
   system = "x86_64-linux";
@@ -27,4 +28,5 @@ in
   # Внешние overlays
   nur.overlays.default
   llm-agents.overlays.default
+  rime.overlays.default
 ]
