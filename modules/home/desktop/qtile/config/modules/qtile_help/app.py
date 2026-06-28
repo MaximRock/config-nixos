@@ -14,7 +14,7 @@ from modules.qtile_help.constants import (
     _WINDOW_WIDTH,
 )
 from modules.qtile_help.controller import HelpController
-from modules.qtile_help.parser.hotkey_repository import HotkeyEntry
+from modules.qtile_help.parser.hotkey_repository import GroupHeader, ListEntry
 
 logger: logging.Logger = logging.getLogger("qtile-help.app")
 
@@ -32,7 +32,7 @@ class Application(ctk.CTk):
         self._setup_window()
         self._create_widgets()
 
-        self._entries: list[HotkeyEntry] = self._controller.load()
+        self._entries: list[ListEntry] = self._controller.load()
         self._render_entries(self._entries)
 
         self._make_floating()
@@ -172,7 +172,7 @@ class Application(ctk.CTk):
         self._scroll_frame.pack(fill="both", expand=True, padx=10, pady=(0, 10))
         self._bind_hover(self._scroll_frame)
 
-    def _render_entries(self, entries: list[HotkeyEntry]) -> None:
+    def _render_entries(self, entries: list[ListEntry]) -> None:
         for widget in self._scroll_frame.winfo_children():
             widget.destroy()
 
@@ -195,21 +195,23 @@ class Application(ctk.CTk):
         content.grid_columnconfigure(1, weight=0)
         content.grid_columnconfigure(2, weight=1)
 
-        total_rows: int = len(entries) * 2
+        row = 0
+        for entry in entries:
+            if isinstance(entry, GroupHeader):
+                header_label: ctk.CTkLabel = ctk.CTkLabel(
+                    master=content,
+                    text=entry.name,
+                    font=ctk.CTkFont(size=13, weight="bold"),
+                    text_color=self._colors["accent"],
+                    anchor="w",
+                )
+                header_label.grid(
+                    row=row, column=0, columnspan=3,
+                    sticky="w", padx=5, pady=(12, 4),
+                )
+                row += 1
+                continue
 
-        vertical_sep: ctk.CTkFrame = ctk.CTkFrame(
-            master=content,
-            width=SEPARATOR_COLUMN_WIDTH,
-            fg_color=self._colors["separator"],
-        )
-        vertical_sep.grid(
-            row=0, column=1,
-            rowspan=total_rows,
-            sticky="ns",
-            padx=4,
-        )
-
-        for i, entry in enumerate(entries):
             combo_label: ctk.CTkLabel = ctk.CTkLabel(
                 master=content,
                 text=entry.combo,
@@ -217,7 +219,7 @@ class Application(ctk.CTk):
                 text_color=self._colors["accent"],
                 anchor="w",
             )
-            combo_label.grid(row=i * 2, column=0, sticky="w", padx=5, pady=0)
+            combo_label.grid(row=row, column=0, sticky="w", padx=5, pady=0)
 
             desc_label: ctk.CTkLabel = ctk.CTkLabel(
                 master=content,
@@ -226,7 +228,7 @@ class Application(ctk.CTk):
                 text_color=self._colors["foreground"],
                 anchor="w",
             )
-            desc_label.grid(row=i * 2, column=2, sticky="w", padx=5, pady=0)
+            desc_label.grid(row=row, column=2, sticky="w", padx=5, pady=0)
 
             separator: ctk.CTkFrame = ctk.CTkFrame(
                 master=content,
@@ -234,9 +236,21 @@ class Application(ctk.CTk):
                 fg_color=self._colors["border"],
             )
             separator.grid(
-                row=i * 2 + 1, column=0, columnspan=3, sticky="ew",
+                row=row + 1, column=0, columnspan=3, sticky="ew",
             )
+            row += 2
 
+        vertical_sep: ctk.CTkFrame = ctk.CTkFrame(
+            master=content,
+            width=SEPARATOR_COLUMN_WIDTH,
+            fg_color=self._colors["separator"],
+        )
+        vertical_sep.grid(
+            row=0, column=1,
+            rowspan=row,
+            sticky="ns",
+            padx=4,
+        )
         vertical_sep.tkraise()
 
     def _on_global_scroll_up(self, event: object) -> None:
@@ -279,10 +293,10 @@ class Application(ctk.CTk):
         if not query:
             self._render_entries(self._entries)
             return
-        results: list[HotkeyEntry] = self._controller.search(query)
+        results: list[ListEntry] = self._controller.search(query)
         self._render_entries(results)
 
-    def _on_data_update(self, entries: list[HotkeyEntry]) -> None:
+    def _on_data_update(self, entries: list[ListEntry]) -> None:
         self._entries = entries
         self._on_search()
 

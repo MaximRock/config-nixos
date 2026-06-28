@@ -5,7 +5,12 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Callable
 
 from modules.qtile_help.parser.hotkey_parser import HotkeyParser
-from modules.qtile_help.parser.hotkey_repository import HotkeyEntry, HotkeyRepository
+from modules.qtile_help.parser.hotkey_repository import (
+    GroupHeader,
+    HotkeyEntry,
+    HotkeyRepository,
+    ListEntry,
+)
 from modules.qtile_help.watcher.file_watcher import FileWatcher
 
 
@@ -25,24 +30,24 @@ class HelpController:
         self._parser: HotkeyParser = parser or HotkeyParser()
         self._repository: HotkeyRepository = repository or HotkeyRepository()
         self._watcher: FileWatcher | None = watcher
-        self._on_update: Callable[[list[HotkeyEntry]], None] | None = None
+        self._on_update: Callable[[list[ListEntry]], None] | None = None
 
-    def set_on_update(self, callback: Callable[[list[HotkeyEntry]], None]) -> None:
+    def set_on_update(self, callback: Callable[[list[ListEntry]], None]) -> None:
         self._on_update = callback
 
-    def load(self) -> list[HotkeyEntry]:
-        bindings: list[KeyBinding] = self._parser.parse()
-        self._repository.update(bindings)
-        entries: list[HotkeyEntry] = self._repository.get_entries()
-        logger.info("Loaded %d hotkey entries", len(entries))
+    def load(self) -> list[ListEntry]:
+        raw_entries: list[KeyBinding | GroupHeader] = self._parser.parse()
+        self._repository.update(raw_entries)
+        entries: list[ListEntry] = self._repository.get_entries()
+        logger.info("Loaded %d entries", len(entries))
         return entries
 
     def refresh(self) -> None:
-        entries: list[HotkeyEntry] = self.load()
+        entries: list[ListEntry] = self.load()
         if self._on_update is not None:
             self._on_update(entries)
 
-    def search(self, query: str) -> list[HotkeyEntry]:
+    def search(self, query: str) -> list[ListEntry]:
         return self._repository.search(query)
 
     def start_watching(self) -> None:

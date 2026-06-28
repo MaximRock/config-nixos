@@ -1,11 +1,16 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Protocol
+from typing import TYPE_CHECKING, Protocol, Union
 
 
 if TYPE_CHECKING:
     from config_qtile.key_definitions import KeyBinding
+
+
+@dataclass(frozen=True)
+class GroupHeader:
+    name: str
 
 
 @dataclass(frozen=True)
@@ -14,13 +19,16 @@ class HotkeyEntry:
     description: str
 
 
+ListEntry = Union[HotkeyEntry, GroupHeader]
+
+
 _MOD_ALIASES: dict[str, str] = {
-    "mod": "Mod4",
+    "mod": "Mod",
     "control": "Ctrl",
     "shift": "Shift",
     "alt": "Alt",
     "mod1": "Alt",
-    "mod4": "Mod4",
+    "mod4": "Mod",
 }
 
 
@@ -30,25 +38,30 @@ class HotkeyRenderer(Protocol):
 
 @dataclass
 class HotkeyRepository:
-    bindings: list[KeyBinding] = field(default_factory=list)
+    entries: list[ListEntry] = field(default_factory=list)
     renderer: HotkeyRenderer | None = None
 
-    def update(self, bindings: list[KeyBinding]) -> None:
-        self.bindings = bindings
-
-    def get_entries(self) -> list[HotkeyEntry]:
+    def update(self, raw_entries: list[KeyBinding | GroupHeader]) -> None:
         renderer = self.renderer or _default_renderer
-        return [
-            HotkeyEntry(combo=renderer(b), description=b.desc)
-            for b in self.bindings
-        ]
+        self.entries = []
+        for entry in raw_entries:
+            if isinstance(entry, GroupHeader):
+                self.entries.append(entry)
+            else:
+                self.entries.append(HotkeyEntry(combo=renderer(entry), description=entry.desc))
 
-    def search(self, query: str) -> list[HotkeyEntry]:
+    def get_entries(self) -> list[ListEntry]:
+        return list(self.entries)
+
+    def search(self, query: str) -> list[ListEntry]:
         q = query.lower()
-        return [
-            e for e in self.get_entries()
-            if q in e.combo.lower() or q in e.description.lower()
-        ]
+        result: list[ListEntry] = []
+        for entry in self.entries:
+            if isinstance(entry, GroupHeader):
+                continue
+            if q in entry.combo.lower() or q in entry.description.lower():
+                result.append(entry)
+        return result
 
 
 def _default_renderer(binding: KeyBinding) -> str:
