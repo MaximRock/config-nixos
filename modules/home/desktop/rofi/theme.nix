@@ -21,11 +21,24 @@ let
       selected:        ${c.selected};
       active:          ${c.primary};
       urgent:          ${c.error};
+      button-selected: ${c.secondary};
+      selected-border: ${c.active};
     }
   '';
 
   configRasi = pkgs.writeText "config-${themeName}.rasi" ''
     @import "colors.rasi"
+
+    configuration {
+      modi:                       "drun,run,window,ssh,calc";
+      show-icons:                 true;
+      display-drun:               "";
+      display-run:                "";
+      display-window:             "";
+      display-ssh:                "";
+      display-calc:               "";
+      drun-display-format:        "{name}";
+    }
 
     window {
       transparency:       "real";
@@ -90,6 +103,7 @@ let
       spacing:            5px;
       background-color:   transparent;
       text-color:         @foreground;
+      fixed-height:       true;
     }
 
     scrollbar {
@@ -133,10 +147,10 @@ let
 
     element selected.normal {
       background-color:   @background;
-      text-color:         @selected;
+      text-color:         @foreground;
       border:             0 2px 2px 0;
       border-radius:      10px;
-      border-color:       @selected;
+      border-color:       @selected-border;
     }
 
     element-icon {
@@ -171,10 +185,10 @@ let
 
     button selected {
       background-color:   @background-alt;
-      text-color:         @selected;
+      text-color:         @foreground;
       border:             0 2px 2px 0;
       border-radius:      10px;
-      border-color:       @selected;
+      border-color:       @button-selected;
     }
 
     message {

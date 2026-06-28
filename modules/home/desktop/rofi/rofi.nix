@@ -12,19 +12,18 @@
       "drun"
       "run"
       "window"
-      "emoji"
       "ssh"
       "calc"
     ];
     theme = "${config.xdg.configHome}/rofi/themes/material.rasi";
-    font = "JetBrainsMono Nerd Font 14";
+    font = "JetBrainsMono Nerd Font Mono";
     plugins = with pkgs; [
       rofi-calc
-      rofi-emoji
+      rofi-blezz
     ];
     extraConfig = {
       show-icons = true;
-      icon-theme = "Papirus";
+      # icon-theme = "Papirus-Dark";
     };
   };
 }

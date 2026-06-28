@@ -26,16 +26,7 @@
     font = "JetBrainsMono Nerd Font 14";
     plugins = with pkgs; [
       rofi-calc
+      rofi-blezz
     ];
-    extraConfig = {
-      show-icons = true;
-      icon-theme = "breeze";
-      display-drun = " ";
-      display-run = " ";
-      display-window = " ";
-      display-ssh = " ";
-      display-calc = " ";
-      drun-display-format = "{name}";
-    };
   };
 }
