@@ -35,7 +35,7 @@
     ../../modules/home/desktop/qtile/default.nix
     ../../modules/home/desktop/gtk.nix
     ../../modules/home/desktop/picom.nix
-    ../../modules/home/desktop/rofi/rofi.nix
+    ../../modules/home/desktop/rofi
 
     # Apps
     ../../modules/home/apps/flameshot.nix

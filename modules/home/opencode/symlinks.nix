@@ -18,6 +18,8 @@ in
     "opencode/tui.jsonc".source = config.lib.file.mkOutOfStoreSymlink "${root}/tui.jsonc";
     "opencode/agents/git-commit.md".source =
       config.lib.file.mkOutOfStoreSymlink "${root}/git-commit.md";
+    "opencode/skills/nixos-rules/SKILL.md".source =
+      config.lib.file.mkOutOfStoreSymlink "${root}/skills/nixos-rules/SKILL.md";
 
   };
 

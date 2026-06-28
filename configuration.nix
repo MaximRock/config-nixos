@@ -24,6 +24,8 @@
     # ./modules/nixos/llm/llama-server.nix
   ];
 
+  programs.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = false;
   boot.loader = {
