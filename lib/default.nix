@@ -20,24 +20,7 @@ let
 
   nvfConfig = import ../modules/home/editors/configs/nvf-config { inherit pkgs; };
 
-  # ── Theme: читаем THEME_COLOR из constants.py и JSON пресеты ──
-  constantsContent = builtins.readFile ../modules/home/desktop/qtile/config/constants.py;
-  themeMatch = builtins.match
-    ".*\n?THEME_COLOR = \"([^\"]+)\".*" constantsContent;
-  themeName = if themeMatch == null
-    then builtins.throw "Cannot parse THEME_COLOR from constants.py"
-    else builtins.head themeMatch;
-
-  presetsDir = ../modules/home/desktop/qtile/config/config_qtile/theme/presets;
-  readPreset = name: builtins.elemAt (builtins.fromJSON (builtins.readFile "${presetsDir}/${name}.json")) 0;
-
-  themePresets = {
-    catppuccin = readPreset "catppuccin";
-    gruvbox = readPreset "gruvbox";
-    tokyonight = readPreset "tokyonight";
-  };
-
-  activeTheme = themePresets.${themeName};
+  inherit (import ./theme.nix) themeName themePresets activeTheme;
 
   specialArgs = {
     inherit
@@ -45,6 +28,7 @@ let
       username
       variables
       nvfConfig
+      nvf
       overlays
       unstable
       themeName
@@ -71,7 +55,7 @@ in
   mkNixosConfiguration =
     { hostName, hostPath }:
     nixpkgs.lib.nixosSystem {
-      inherit specialArgs;
+      specialArgs = specialArgs // { inherit hostName; };
       modules = [
         { nixpkgs.hostPlatform = system; }
         sops-nix.nixosModules.sops
