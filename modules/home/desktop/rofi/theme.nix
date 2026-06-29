@@ -3,7 +3,6 @@
   lib,
   pkgs,
   themeName,
-  themePresets,
   activeTheme,
   ...
 }:
