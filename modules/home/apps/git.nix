@@ -1,4 +1,6 @@
-{ config, pkgs, ... }:
+# modules/home/apps/git.nix
+
+{ ... }:
 
 {
   programs.git = {

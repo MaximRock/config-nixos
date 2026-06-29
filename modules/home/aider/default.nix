@@ -1,8 +1,6 @@
 # modules/home/aider/default.nix
 
 {
-  config,
-  pkgs,
   ...
 }:
 

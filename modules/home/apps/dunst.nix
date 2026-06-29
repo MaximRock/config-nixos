@@ -1,3 +1,5 @@
+# modules/home/apps/dunst.nix
+
 {
   services.dunst.enable = true;
   services.dunst.settings = {
