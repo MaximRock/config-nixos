@@ -8,6 +8,7 @@
     ./packages.nix
     ./user.nix
     ./editors.nix
+    ./browsers.nix
     ./power-menu.nix
     ./qtile-help.nix
     ./rime-mcp.nix
