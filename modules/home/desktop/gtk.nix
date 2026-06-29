@@ -1,3 +1,5 @@
+# modules/home/desktop/gtk.nix
+
 { pkgs, ... }:
 
 {

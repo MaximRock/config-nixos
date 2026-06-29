@@ -1,3 +1,5 @@
+# modules/home/desktop/picom.nix
+
 {
   services.picom = {
     enable = true;
