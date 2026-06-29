@@ -1,3 +1,11 @@
+"""
+    Текстовый парсинг key_definitions.py.
+
+    Вместо динамического импорта модуля через importlib читает
+    исходный файл напрямую, извлекая комментарии-группы (# Навигация)
+    и вызовы KeyBinding через regex + eval.
+"""
+
 from __future__ import annotations
 
 import logging
@@ -16,6 +24,16 @@ _KEYBINDING_START_RE = re.compile(r"^\s*KeyBinding\s*\(")
 
 
 class HotkeyParser:
+    """Парсер файла key_definitions.py.
+
+    Читает исходный файл, парсит комментарии как GroupHeader
+    и KeyBinding-вызовы через regex + eval с подстановкой
+    констант из модуля constants.
+
+    Аргументы:
+        module_path (str): путь к модулю через точки
+            (по умолчанию "config_qtile.key_definitions")
+    """
     def __init__(self, module_path: str = "config_qtile.key_definitions") -> None:
         self._module_path: str = module_path
 

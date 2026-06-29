@@ -1,3 +1,11 @@
+"""
+    Репозиторий и рендеринг горячих клавиш Qtile.
+
+    Модуль предоставляет структуры данных для хранения записей
+    (HotkeyEntry, GroupHeader), рендеринг KeyBinding в человекочитаемый
+    формат и поиск по комбо/описанию.
+"""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -10,11 +18,24 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True)
 class GroupHeader:
+    """Заголовок группы горячих клавиш.
+
+    Аргументы:
+        name (str): название группы (например, "Навигация")
+    """
+
     name: str
 
 
 @dataclass(frozen=True)
 class HotkeyEntry:
+    """Готовая запись горячей клавиши для отображения.
+
+    Аргументы:
+        combo (str): отрендеренное комбо (например, "Mod + L")
+        description (str): описание действия (например, "Фокус вправо")
+    """
+
     combo: str
     description: str
 
@@ -33,11 +54,23 @@ _MOD_ALIASES: dict[str, str] = {
 
 
 class HotkeyRenderer(Protocol):
+    """Протокол рендеринга KeyBinding в строку."""
+
     def render(self, binding: KeyBinding) -> str: ...
 
 
 @dataclass
 class HotkeyRepository:
+    """Репозиторий горячих клавиш.
+
+    Хранит записи типа ListEntry (HotkeyEntry | GroupHeader),
+    выполняет рендеринг KeyBinding через renderer и поиск
+    по комбо/описанию (GroupHeader пропускаются).
+
+    Аргументы:
+        entries (list[ListEntry]): список записей
+        renderer (HotkeyRenderer | None): рендерер для KeyBinding
+    """
     entries: list[ListEntry] = field(default_factory=list)
     renderer: HotkeyRenderer | None = None
 
