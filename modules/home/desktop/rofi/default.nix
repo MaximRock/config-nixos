@@ -1,14 +1,9 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
     ./theme.nix
   ];
-
-  xdg.configFile."rofi/themes" = {
-    source = ./themes;
-    recursive = true;
-  };
 
   home.packages = with pkgs; [
     papirus-icon-theme
