@@ -1,3 +1,5 @@
+# modules/home/editors/configs/nvf-config/plugins/neo-tree.nix
+
 { ... }:
 
 {

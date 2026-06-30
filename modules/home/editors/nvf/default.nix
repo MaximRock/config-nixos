@@ -1,12 +1,12 @@
 # modules/home/editors/nvf/default.nix
 
-{ config, pkgs, lib, nvfConfig ? {}, ... }:
+{ lib, ... }:
 
 with lib;
 
-let
-  cfg = config.modules.home.editors.nvf;
-in
+#let
+#  cfg = config.modules.home.editors.nvf;
+#in
 {
   imports = [
     ./editor.nix
@@ -18,19 +18,19 @@ in
 
     extraPlugins = mkOption {
       type = types.attrs;
-      default = {};
+      default = { };
       description = "Extra lazy plugins to merge with nvfConfig";
     };
 
     extraSettings = mkOption {
       type = types.attrs;
-      default = {};
+      default = { };
       description = "Extra vim settings to merge with nvfConfig";
     };
 
     extraPackages = mkOption {
       type = types.listOf types.package;
-      default = [];
+      default = [ ];
       description = "Additional packages (LSP servers, formatters, tools)";
     };
   };

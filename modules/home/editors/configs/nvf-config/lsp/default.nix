@@ -1,3 +1,5 @@
+# modules/home/editors/config/nvf-config/lsp/default.nix
+
 { ... }:
 
 {
@@ -92,9 +94,20 @@
       root_markers = [ ".git" ];
     };
     pyright = {
-      cmd = ["pyright-langserver" "--stdio"];
-      filetypes = ["python"];
-      root_markers = [ "pyrightconfig.json" "pyproject.toml" "setup.py" "setup.cfg" "requirements.txt" "Pipfile" ".git" ];
+      cmd = [
+        "pyright-langserver"
+        "--stdio"
+      ];
+      filetypes = [ "python" ];
+      root_markers = [
+        "pyrightconfig.json"
+        "pyproject.toml"
+        "setup.py"
+        "setup.cfg"
+        "requirements.txt"
+        "Pipfile"
+        ".git"
+      ];
       settings = {
         python = {
           analysis = {
@@ -102,7 +115,7 @@
             autoImportCompletions = true;
             autoSearchPaths = true;
             useLibraryCodeForTypes = true;
-            
+
             # Подсказки типов
             inlayHints = {
               variableTypes = true;
@@ -123,13 +136,21 @@
       # };
     };
     ruff = {
-      cmd = [ "ruff" "server" ];
-      filetypes = ["python"];
-      root_markers = ["pyproject.toml" "ruff.toml" ".ruff.toml" ".git"];
+      cmd = [
+        "ruff"
+        "server"
+      ];
+      filetypes = [ "python" ];
+      root_markers = [
+        "pyproject.toml"
+        "ruff.toml"
+        ".ruff.toml"
+        ".git"
+      ];
       settings = {
         lineLength = 88;
         configuration = "pyproject.toml";
       };
-    }; 
+    };
   };
 }

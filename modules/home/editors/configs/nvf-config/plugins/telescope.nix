@@ -1,3 +1,5 @@
+# modules/home/editors/configs/nvf-config/plugins/telescope.nix
+
 { pkgs, ... }:
 
 {

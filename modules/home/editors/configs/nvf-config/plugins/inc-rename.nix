@@ -1,3 +1,5 @@
+# modules/home/editors/configs/nvf-config/plugins/inc-rename.nix
+
 { pkgs, ... }:
 
 {
