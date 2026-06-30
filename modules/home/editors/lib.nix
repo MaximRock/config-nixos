@@ -1,6 +1,6 @@
 # modules/home/editors/lib.nix
 
-{ pkgs, lib }:
+{ lib, ... }:
 
 with lib;
 
@@ -22,7 +22,13 @@ with lib;
     };
   };
 
-  mkCodeConfig = { cfg, programName ? "vscode", extensions, settings }:
+  mkCodeConfig =
+    {
+      cfg,
+      programName ? "vscode",
+      extensions,
+      settings,
+    }:
     mkIf cfg.enable {
       programs.${programName} = {
         enable = true;

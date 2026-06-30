@@ -25,10 +25,7 @@ in
     programName = "vscodium"; # ← пишет в programs.vscodium
     extensions =
       commonExtensions.list
-      ++ extensions.list
-      ++ (with pkgs.vscode-extensions; [
-        ms-python.vscode-pylance
-      ]);
+      ++ extensions.list;
     settings = settings.attrs // vscodeSettings.attrs;
   };
 }

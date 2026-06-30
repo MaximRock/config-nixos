@@ -44,6 +44,10 @@
       "editor.defaultFormatter" = "esbenp.prettier-vscode";
     };
 
+    # -- DirEnv --
+    "direnv.enabled" = true;
+    "direnv.restart.automatic" = true;
+
     # ── LLama Coder ──
     # "llama-vscode.tool_search_source_enabled" = false;
     # "llama-vscode.tool_run_terminal_command_enabled" = false;

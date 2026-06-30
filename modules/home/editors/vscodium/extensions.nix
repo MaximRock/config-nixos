@@ -7,7 +7,7 @@
     with pkgs.vscode-extensions;
     [
       # -- Python --
-      ms-python.python
+      ms-pyright.pyright
 
       # -- Markdown --
       yzhang.markdown-all-in-one
