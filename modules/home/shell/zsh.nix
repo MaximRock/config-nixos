@@ -1,3 +1,5 @@
+# modules/home/shell/zsh.nix
+
 { ... }:
 
 {

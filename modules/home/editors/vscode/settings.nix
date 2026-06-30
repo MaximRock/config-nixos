@@ -1,6 +1,6 @@
 # modules/home/editors/vscode/settings.nix
 
-{ lib, cfg }:
+{ cfg, ... }:
 
 {
   attrs = {

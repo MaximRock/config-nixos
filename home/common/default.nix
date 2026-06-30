@@ -12,6 +12,7 @@
     ./power-menu.nix
     ./qtile-help.nix
     ./rime-mcp.nix
+    ./terminals.nix
 
     # === Ваши существующие модули из ./modules/ ===
     # Editors
@@ -22,11 +23,6 @@
     # ../../modules/home/editors/vscode-nix.nix
     # ../../modules/home/editors/vscode-python.nix
     # ../../modules/home/editors/nvf-nvim.nix
-
-    # Terminals
-    ../../modules/home/terminals/wezterm/wezterm.nix
-    ../../modules/home/terminals/yazi.nix
-    ../../modules/home/terminals/fastfetch/fastfetch.nix
 
     # Shell
     ../../modules/home/shell/zsh.nix
