@@ -4,6 +4,6 @@
 {
   modules.home.browsers.firefox = {
     nighttab = true;
-    chromeCss = false;
+    chromeCss = true;
   };
 }
