@@ -1,10 +1,18 @@
 # modules/common/user.nix
-{ config, pkgs, lib, username ? "max", ... }:
+
+{
+  pkgs,
+  username ? "max",
+  ...
+}:
 {
   users.users.${username} = {
     isNormalUser = true;
     description = "${username}";
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ];
     shell = pkgs.zsh;
     # Пароль задаётся отдельно: $ passwd
   };

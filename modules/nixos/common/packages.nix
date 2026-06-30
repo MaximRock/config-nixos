@@ -1,9 +1,9 @@
 # modules/nixos/common/packages.nix
+
 {
-  config,
+
   pkgs,
   unstable,
-  lib,
   ...
 }:
 {

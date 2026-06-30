@@ -1,6 +1,7 @@
 # modules/common/base.nix
+
 {
-  config,
+
   pkgs,
   lib,
   ...
