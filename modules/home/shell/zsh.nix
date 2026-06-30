@@ -8,7 +8,10 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-    initContent = "fastfetch";
+    initContent = ''
+      fastfetch
+      eval "$(direnv hook zsh)"
+    '';
     shellAliases = {
       nrs = "sudo nixos-rebuild switch";
       nrd = "sudo nixos-rebuild dry-build";

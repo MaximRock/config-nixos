@@ -18,4 +18,5 @@
   bufferLine = import ./bufferline.nix { inherit pkgs; };
   noIce = import ./noice.nix { inherit pkgs; };
   dashboardAlpha = import ./dashboard-alpha.nix { inherit pkgs; };
+  direnv = import ./direnv.nix { inherit pkgs; };
 }

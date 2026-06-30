@@ -28,6 +28,7 @@ in
             inc-rename = plugins.incRename or {};
             rainbow-delimiters = plugins.rainbowDelimiters or {};
             indent-blankline = plugins.indentBlankline or {};
+            direnv = plugins.direnv or {};
           } // cfg.extraPlugins;
 
           # ── Lazy Plugins ──
@@ -75,6 +76,14 @@ in
           binds.whichKey = { enable = true; };
           ui.noice = plugins.noIce or {};
           dashboard.alpha = plugins.dashboardAlpha or {};
+
+          # ── Auto-check external file changes ──
+          luaConfigPost = ''
+            vim.api.nvim_create_autocmd({ "CursorHold", "FocusGained", "BufEnter" }, {
+              pattern = "*",
+              command = "checktime",
+            })
+          '';
 
         } // cfg.extraSettings;
       };

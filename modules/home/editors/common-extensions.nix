@@ -20,6 +20,9 @@
       bradlc.vscode-tailwindcss
       esbenp.prettier-vscode
 
+      # -- DirEnv
+      mkhl.direnv
+
     ]
     ++ cfg.extraExtensions;
 }

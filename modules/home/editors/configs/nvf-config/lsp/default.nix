@@ -94,6 +94,7 @@
       root_markers = [ ".git" ];
     };
     pyright = {
+      enable = true;
       cmd = [
         "pyright-langserver"
         "--stdio"
@@ -136,6 +137,7 @@
       # };
     };
     ruff = {
+      enable = true;
       cmd = [
         "ruff"
         "server"

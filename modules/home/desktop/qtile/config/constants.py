@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 
 from settings.path import QtilePath
@@ -6,7 +7,7 @@ qp: QtilePath = QtilePath()
 
 LOG_DIR: Path = Path("~/.local/state/qtile").expanduser()
 
-POWER_MENU_SCRIPT: str = "qtile-power-menu" #str(qp.get("modules/power_menu/main.py"))
+POWER_MENU_SCRIPT: str = "qtile-power-menu"  # str(qp.get("modules/power_menu/main.py"))
 QTILE_HELP_SCRIPT: str = "qtile-help"
 
 # config.py
@@ -17,7 +18,7 @@ MOD_KEY = "mod4"
 TERMINAL = "wezterm"
 BROWSER = "yandex-browser-stable"
 FILE_MANAGER = "thunar"
-EDITOR = "code"
+EDITOR = "codium" if shutil.which("codium") else "code"  # EDITOR = "code"
 YAZI = f"{TERMINAL} start -- yazi"
 ROFI = "rofi -show drun"
 FLAMESHOT_GUI = "flameshot gui"

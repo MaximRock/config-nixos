@@ -10,4 +10,5 @@
   cursorlineopt = "both";
   smarttab = true;
   clipboard = "unnamedplus";
+  autoread = true;
 }
