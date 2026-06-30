@@ -1,4 +1,4 @@
-# home/common/edirors.nix
+# home/common/editors.nix
 
 { pkgs, ... }:
 

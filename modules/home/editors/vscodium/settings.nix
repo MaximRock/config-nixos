@@ -1,6 +1,6 @@
 # modules/home/editors/vscodium/settings.nix
 
-{ lib, cfg }:
+{ cfg }:
 
 {
   attrs = {
@@ -101,5 +101,6 @@
     #   }
     # ];
 
-  } // cfg.extraSettings;
+  }
+  // cfg.extraSettings;
 }
