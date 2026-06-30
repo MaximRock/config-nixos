@@ -1,16 +1,15 @@
 """
-    Репозиторий и рендеринг горячих клавиш Qtile.
+Репозиторий и рендеринг горячих клавиш Qtile.
 
-    Модуль предоставляет структуры данных для хранения записей
-    (HotkeyEntry, GroupHeader), рендеринг KeyBinding в человекочитаемый
-    формат и поиск по комбо/описанию.
+Модуль предоставляет структуры данных для хранения записей
+(HotkeyEntry, GroupHeader), рендеринг KeyBinding в человекочитаемый
+формат и поиск по комбо/описанию.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Protocol, Union
-
+from typing import TYPE_CHECKING, Protocol
 
 if TYPE_CHECKING:
     from config_qtile.key_definitions import KeyBinding
@@ -40,7 +39,7 @@ class HotkeyEntry:
     description: str
 
 
-ListEntry = Union[HotkeyEntry, GroupHeader]
+ListEntry = HotkeyEntry | GroupHeader
 
 
 _MOD_ALIASES: dict[str, str] = {
@@ -56,7 +55,7 @@ _MOD_ALIASES: dict[str, str] = {
 class HotkeyRenderer(Protocol):
     """Протокол рендеринга KeyBinding в строку."""
 
-    def render(self, binding: KeyBinding) -> str: ...
+    def __call__(self, binding: KeyBinding) -> str: ...
 
 
 @dataclass
@@ -71,6 +70,7 @@ class HotkeyRepository:
         entries (list[ListEntry]): список записей
         renderer (HotkeyRenderer | None): рендерер для KeyBinding
     """
+
     entries: list[ListEntry] = field(default_factory=list)
     renderer: HotkeyRenderer | None = None
 
@@ -81,7 +81,9 @@ class HotkeyRepository:
             if isinstance(entry, GroupHeader):
                 self.entries.append(entry)
             else:
-                self.entries.append(HotkeyEntry(combo=renderer(entry), description=entry.desc))
+                self.entries.append(
+                    HotkeyEntry(combo=renderer(entry), description=entry.desc)
+                )
 
     def get_entries(self) -> list[ListEntry]:
         return list(self.entries)
