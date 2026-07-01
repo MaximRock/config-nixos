@@ -1,6 +1,6 @@
 # modules/home/editors/vscodium/settings.nix
 
-{ cfg, ... }:
+{ cfg, pkgs, ... }:
 
 {
   attrs = {
@@ -43,6 +43,12 @@
     "[astro]" = {
       "editor.defaultFormatter" = "esbenp.prettier-vscode";
     };
+
+    # -- Python --
+    "python.defaultInterpreterPath" = "python3";
+    "python.analysis.extraPaths" = [
+      "${pkgs.python3Packages.qtile}/${pkgs.python3.sitePackages}"
+    ];
 
     # -- DirEnv --
     "direnv.enabled" = true;

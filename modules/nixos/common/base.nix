@@ -70,6 +70,7 @@
     wireplumber.enable = true;
     pulse.enable = true;
   };
+  boot.kernelParams = [ "snd-intel-dspcfg.dsp_driver=1" ];
 
   # === Printing ===
   services.printing.enable = true;

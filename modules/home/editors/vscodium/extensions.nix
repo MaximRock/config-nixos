@@ -8,6 +8,7 @@
     [
       # -- Python --
       ms-pyright.pyright
+      ms-python.python
 
       # -- Markdown --
       yzhang.markdown-all-in-one

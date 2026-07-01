@@ -6,12 +6,11 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 from config_qtile.config_groups import work
-from constants import MOD_KEY, THEME_COLOR
+from constants import BROWSER, EDITOR, MOD_KEY, TERMINAL, THEME_COLOR
 from settings.behavior import BehaviorConfig
 from settings.floating import FloatingFactory
 from settings.groups import create_gpups
-from settings.key_manager import get_keys
-from settings.keys import create_group_keys
+from settings.key_manager import create_group_keys, get_keys
 from settings.layouts import LayoutsManager
 from settings.logger import get_logger
 from settings.mouse import load_mouse
@@ -21,17 +20,11 @@ from settings.theme_controller import ThemeController
 logger: Logger = get_logger("qtile.qtile_startup", file="qtile_startup")
 logger.info("Qtile config started")
 
-
 THEME_COLOR = THEME_COLOR  # "catppuccin" "gruvbox"
 
-# kb = Keybindings(mod="mod1")
-# keys: list = kb.get()
-
 mod = MOD_KEY  # "mod1"
-terminal: str | None = guess_terminal()
+terminal: str = guess_terminal() or TERMINAL
 
-# keys: list = []
-# keys += create_keys(mod=mod, terminal=terminal)
 keys: list[Key] = get_keys(mod=mod, terminal=terminal)
 
 groups: list[Group] = create_gpups(config_groups=work())
@@ -52,9 +45,9 @@ mouse = load_mouse()
 @hook.subscribe.startup_once
 def autostart_apps() -> None:
     qtile.spawn(terminal)
-    qtile.spawn("code")
+    qtile.spawn(EDITOR)
     qtile.spawn("Throne")
-    qtile.spawn("yandex-browser-stable")
+    qtile.spawn(BROWSER)
 
 
 @hook.subscribe.startup_complete
@@ -84,9 +77,6 @@ floating_config = FloatingFactory(tc).build()
 
 floating_layout = floating_config.get_layout()
 
-# fc = FloatingConfig()
-# floating_layout = fc.get_floating_layout()
-
 auto_fullscreen: bool = behavior.auto_fullscreen
 focus_on_window_activation: str = behavior.focus_on_window_activation
 focus_previous_on_window_remove: bool = behavior.focus_previous_on_window_remove
@@ -100,6 +90,15 @@ wl_xcursor_size: int = behavior.wl_xcursor_size
 
 wmname: str = behavior.wmname
 
+
+# fc = FloatingConfig()
+# floating_layout = fc.get_floating_layout()
+
+# kb = Keybindings(mod="mod1")
+# keys: list = kb.get()
+
+# keys: list = []
+# keys += create_keys(mod=mod, terminal=terminal)
 
 # groups = [Group(i) for i in "123456789"]
 

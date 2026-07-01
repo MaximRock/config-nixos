@@ -1,6 +1,6 @@
 # modules/home/editors/common-settings.nix
 
-{ lib, cfg }:
+{ cfg, ... }:
 
 {
   attrs = {

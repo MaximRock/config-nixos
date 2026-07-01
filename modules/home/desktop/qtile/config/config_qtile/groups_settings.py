@@ -11,14 +11,16 @@
 
 from libqtile.config import Match
 
+from constants import BROWSER, TERMINAL
+
 DEFAULT_OVERRIDES: dict[str, dict[str, object]] = {
     "9": {"matches": [Match(wm_class="Throne")]}
 }
 
 WORK_OVERRIDES: dict[str, dict[str, object]] = {
-    "1": {"matches": [Match(wm_class="wezterm")]},
-    "2": {"matches": [Match(wm_class="code")]},
-    "3": {"matches": [Match(wm_class="yandex-browser-stable")]},
+    "1": {"matches": [Match(wm_class=TERMINAL)]},
+    "2": {"matches": [Match(wm_class="VSCodium"), Match(wm_class="Code")]},
+    "3": {"matches": [Match(wm_class=BROWSER)]},
     "4": {"matches": [Match(wm_class="firefox")]},
     "9": {"matches": [Match(wm_class="Throne")]},
 }

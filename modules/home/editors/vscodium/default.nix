@@ -15,7 +15,7 @@ let
   commonExtensions = import ../common-extensions.nix { inherit pkgs cfg; };
   extensions = import ./extensions.nix { inherit pkgs cfg; };
   settings = import ../common-settings.nix { inherit lib cfg; };
-  vscodeSettings = import ./settings.nix { inherit lib cfg; };
+  vscodeSettings = import ./settings.nix { inherit lib cfg pkgs; };
 in
 {
   options.modules.home.editors.vscodium = codeLib.mkCodeOptions "VSCodium" pkgs.vscodium;
