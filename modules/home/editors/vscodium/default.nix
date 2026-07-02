@@ -7,7 +7,7 @@
   ...
 }:
 
-with lib;
+# with lib;
 
 let
   codeLib = import ../lib.nix { inherit pkgs lib; };

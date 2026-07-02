@@ -1,17 +1,18 @@
 from __future__ import annotations
 
 import logging
+from typing import Any
 
 import customtkinter as ctk
 
 from modules.qtile_help.colors import THEMES, ThemeColors
 from modules.qtile_help.constants import (
+    _WINDOW_HEIGHT,
+    _WINDOW_WIDTH,
     SEPARATOR_COLUMN_WIDTH,
     WINDOW_GEOMETRY,
     WINDOW_RESIZABLE,
     WINDOW_TITLE,
-    _WINDOW_HEIGHT,
-    _WINDOW_WIDTH,
 )
 from modules.qtile_help.controller import HelpController
 from modules.qtile_help.parser.hotkey_repository import GroupHeader, ListEntry
@@ -83,11 +84,11 @@ class Application(ctk.CTk):
         self.bind("<FocusOut>", self._on_focus_out)
         self._set_active(True)
 
-    def _bind_hover(self, widget: ctk.CTkBaseClass) -> None:
+    def _bind_hover(self, widget: Any) -> None:
         widget.bind("<Enter>", self._on_enter, add="+")
         widget.bind("<Leave>", self._on_leave_window, add="+")
 
-    def _on_leave_window(self, _event: object) -> None:
+    def _on_leave_window(self, _event: Any) -> None:
         self.after(50, self._check_pointer)
 
     def _check_pointer(self) -> None:
@@ -99,15 +100,15 @@ class Application(ctk.CTk):
         except Exception:
             self._set_active(False)
 
-    def _on_enter(self, _event: object) -> None:
+    def _on_enter(self, _event: Any) -> None:
         self.focus_set()
         self.focus_force()
         self._set_active(True)
 
-    def _on_focus_in(self, _event: object) -> None:
+    def _on_focus_in(self, _event: Any) -> None:
         self._set_active(True)
 
-    def _on_focus_out(self, _event: object) -> None:
+    def _on_focus_out(self, _event: Any) -> None:
         self._set_active(False)
 
     def _set_active(self, active: bool) -> None:
@@ -202,7 +203,7 @@ class Application(ctk.CTk):
                     master=content,
                     text=entry.name,
                     font=ctk.CTkFont(size=13, weight="bold"),
-                    text_color=self._colors["accent"],
+                    text_color=self._colors["warning"],
                     anchor="w",
                 )
                 header_label.grid(
@@ -253,31 +254,31 @@ class Application(ctk.CTk):
         )
         vertical_sep.tkraise()
 
-    def _on_global_scroll_up(self, event: object) -> None:
+    def _on_global_scroll_up(self, event: Any) -> None:
         if self._is_scroll_event_for_us(event):
             self._scroll_frame._parent_canvas.yview_scroll(-3, "units")
 
-    def _on_global_scroll_down(self, event: object) -> None:
+    def _on_global_scroll_down(self, event: Any) -> None:
         if self._is_scroll_event_for_us(event):
             self._scroll_frame._parent_canvas.yview_scroll(3, "units")
 
-    def _on_scroll_up_key(self, event: object) -> None:
+    def _on_scroll_up_key(self, event: Any) -> None:
         if self._is_search_focused(event):
             return
         self._scroll_frame._parent_canvas.yview_scroll(-3, "units")
 
-    def _on_scroll_down_key(self, event: object) -> None:
+    def _on_scroll_down_key(self, event: Any) -> None:
         if self._is_search_focused(event):
             return
         self._scroll_frame._parent_canvas.yview_scroll(3, "units")
 
-    def _is_search_focused(self, _event: object) -> bool:
+    def _is_search_focused(self, _event: Any) -> bool:
         try:
             return self.focus_get() == self._search_entry
         except Exception:
             return False
 
-    def _is_scroll_event_for_us(self, event: object) -> bool:
+    def _is_scroll_event_for_us(self, event: Any) -> bool:
         try:
             widget = event.widget
             while widget is not None:
@@ -288,7 +289,7 @@ class Application(ctk.CTk):
         except AttributeError:
             return False
 
-    def _on_search(self, *_args: object) -> None:
+    def _on_search(self, *_args: Any) -> None:
         query: str = self._search_var.get()
         if not query:
             self._render_entries(self._entries)
@@ -313,7 +314,7 @@ class Application(ctk.CTk):
             ...
         self.destroy()
 
-    def mainloop(self, *args: object, **kwargs: object) -> None:
+    def mainloop(self, *args: Any, **kwargs: Any) -> None:
         try:
             super().mainloop(*args, **kwargs)
         except KeyboardInterrupt:

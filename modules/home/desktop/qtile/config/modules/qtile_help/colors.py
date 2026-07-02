@@ -7,6 +7,7 @@ class ThemeColors(TypedDict):
     background: str
     foreground: str
     accent: str
+    warning: str
     surface: str
     border: str
     separator: str
@@ -21,6 +22,7 @@ CATPPUCCIN: ThemeColors = {
     "border": "#45475a",
     "separator": "#585b70",
     "hover": "#252536",
+    "warning": "#F9E2AF",
 }
 
 GRUVBOX: ThemeColors = {
@@ -31,6 +33,7 @@ GRUVBOX: ThemeColors = {
     "border": "#504945",
     "separator": "#665c54",
     "hover": "#32302f",
+    "warning": "#fabd2f",
 }
 
 TOKYONIGHT: ThemeColors = {
@@ -41,6 +44,7 @@ TOKYONIGHT: ThemeColors = {
     "border": "#3b4261",
     "separator": "#565f89",
     "hover": "#1f2137",
+    "warning": "#e0af68",
 }
 
 THEMES: dict[str, ThemeColors] = {
