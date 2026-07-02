@@ -13,6 +13,7 @@
     ./qtile-help.nix
     ./rime-mcp.nix
     ./terminals.nix
+    ../../modules/home/git
 
     # === Ваши существующие модули из ./modules/ ===
     # Editors
@@ -38,7 +39,7 @@
     ../../modules/home/apps/flameshot.nix
     ../../modules/home/apps/dunst.nix
     ../../modules/home/apps/koda.nix
-    ../../modules/home/apps/git.nix
+    # ../../modules/home/apps/git.nix
 
     # Browsers
     ../../modules/home/browsers/firefox/default.nix
@@ -50,4 +51,7 @@
     ../../modules/home/opencode/default.nix
   ];
 
+  modules.home = {
+    git.enable = true;
+  };
 }
