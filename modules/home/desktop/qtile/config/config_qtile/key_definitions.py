@@ -61,8 +61,14 @@ KEYS_CONFIG: list[KeyBinding] = [
     KeyBinding("Сброс размеров", ["mod"], "n", "layout.normalize"),
     KeyBinding(
         "Смена раскладки",
-        ["control", "shift"],
-        "space",
+        ["mod1"],
+        "Shift_L",
+        "widget.keyboardlayout.next_keyboard",
+    ),
+    KeyBinding(
+        "Смена раскладки",
+        ["mod1"],
+        "Shift_R",
         "widget.keyboardlayout.next_keyboard",
     ),
     # Layout

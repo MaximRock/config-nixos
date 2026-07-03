@@ -57,7 +57,7 @@
   services.xserver.xkb = {
     layout = "us,ru";
     variant = ",";
-    options = "grp:alt_shift_toggle"; # "grp:ctrl_shift_toggle";
+    # options = "grp:alt_shift_toggle"; # "grp:ctrl_shift_toggle";
   };
 
   # === Sound ===
