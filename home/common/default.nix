@@ -14,6 +14,8 @@
     ./rime-mcp.nix
     ./terminals.nix
     ../../modules/home/git
+    ../../modules/home/flameshot
+    ../../modules/home/dunst
 
     # === Ваши существующие модули из ./modules/ ===
     # Editors
@@ -36,8 +38,8 @@
     ../../modules/home/desktop/rofi
 
     # Apps
-    ../../modules/home/apps/flameshot.nix
-    ../../modules/home/apps/dunst.nix
+    #../../modules/home/apps/flameshot.nix
+    # ../../modules/home/apps/dunst.nix
     ../../modules/home/apps/koda.nix
     # ../../modules/home/apps/git.nix
 
@@ -53,5 +55,9 @@
 
   modules.home = {
     git.enable = true;
+
+    flameshot.enable = true;
+
+    dunst.enable = true;
   };
 }
