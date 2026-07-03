@@ -174,7 +174,8 @@
             "fontsize": "{fontsize}",
             "padding": "{padding}",
             "foreground": "{secondary}",
-            "background": "{background}"
+            "background": "{background}",
+            "format": "{class}"
         }
     },
     {

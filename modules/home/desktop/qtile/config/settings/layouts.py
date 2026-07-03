@@ -28,7 +28,7 @@ class LayoutsManager:
         LayoutConfigurationError: При невалидных входных данных или сбое фабрики.
     """
 
-    def __init__(self, theme_controller: ThemeController = None) -> None:
+    def __init__(self, theme_controller: ThemeController | None = None) -> None:
         logger.info("Инициализация LayoutsManager")
 
         if theme_controller is None:

@@ -12,6 +12,7 @@ from typing import Any
 
 from libqtile import bar
 
+from constants import THEME_COLOR
 from exceptions.bar_exception import (
     BarConfigurationError,
     BarInitializationError,
@@ -31,10 +32,10 @@ class BarManager:
         theme_controller: Экземпляр ThemeController. Если None, создаётся новый.
     """
 
-    def __init__(self, theme_controller: ThemeController = None) -> None:
+    def __init__(self, theme_controller: ThemeController | None = None) -> None:
         if theme_controller is None:
             logger.warning("BarManager: theme_controller не передан, создаётся новый")
-            self.tc = ThemeController()
+            self.tc = ThemeController(theme_color=THEME_COLOR)
         else:
             self.tc = theme_controller
 

@@ -10,7 +10,9 @@ from logging import Logger
 
 from libqtile import widget
 
+from config_qtile.custom_widgets import CleanWindowName
 from config_qtile.theme.theme_model import Theme
+from constants import THEME_COLOR
 from exceptions.theme_exceptions import ThemeLoadError
 from exceptions.widget_exceptions import WidgetConfigurationError, WidgetNotFoundError
 from settings.base_factory import BaseFactory
@@ -31,10 +33,10 @@ class WidgetManager:
         WidgetConfigurationError: При ошибке инициализации темы или фабрики.
     """
 
-    def __init__(self, theme_controller: ThemeController = None) -> None:
+    def __init__(self, theme_controller: ThemeController | None = None) -> None:
         logger.info("Инициализация WidgetManager")
         try:
-            self.tc: ThemeController = theme_controller or ThemeController()
+            self.tc: ThemeController = theme_controller or ThemeController(theme_color=THEME_COLOR)
             self.colors = self.tc.get_theme_color()
             self.settings = self.tc.get_theme_settings()
             logger.debug(f"Загружены цвета темы: {len(self.colors)} параметров")
@@ -50,10 +52,10 @@ class WidgetManager:
         themes: list[Theme] = self.tc.get_theme_widgets()
         logger.debug(f"Загружено тем виджетов: {len(themes)}")
 
-        classes: dict[str, object] = {
+        classes: dict[str, type] = {
             "GroupBox": widget.GroupBox,
             "Clock": widget.Clock,
-            "WindowName": widget.WindowName,
+            "WindowName": CleanWindowName,
             "WindowTabs": widget.WindowTabs,
             "KeyboardLayout": widget.KeyboardLayout,
             "Spacer": widget.Spacer,
