@@ -63,5 +63,7 @@
     koda.enable = true;
 
     aider.enable = true;
+
+    opencode.enable = true;
   };
 }
