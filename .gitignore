@@ -31,4 +31,5 @@ secrets.yaml.bak
 
 11
 .aider*
+opencode.json
 .direnv/
