@@ -40,7 +40,7 @@
     # Apps
     #../../modules/home/apps/flameshot.nix
     # ../../modules/home/apps/dunst.nix
-    ../../modules/home/apps/koda.nix
+    ../../modules/home/koda
     # ../../modules/home/apps/git.nix
 
     # Browsers
@@ -59,5 +59,7 @@
     flameshot.enable = true;
 
     dunst.enable = true;
+
+    koda.enable = true;
   };
 }
