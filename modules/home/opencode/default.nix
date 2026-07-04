@@ -6,7 +6,9 @@ with lib;
 
 let
   cfg = config.modules.home.opencode;
-  root = "${variables.basePathFilesDir}/modules/home/opencode";
+  base = "${variables.basePathFilesDir}/modules/home/opencode";
+  configRoot = "${base}/config";
+  projectRoot = "${base}/project";
 in
 
 {
@@ -23,21 +25,21 @@ in
       secrets.OPENROUTER_API_KEY = { };
     };
 
-    # === Симлинки на конфиги в ~/.config/opencode/ ===
+    # === Системные конфиги (config/) → ~/.config/opencode/ ===
     xdg.configFile = {
       "opencode/opencode.jsonc".source =
-        config.lib.file.mkOutOfStoreSymlink "${root}/opencode.jsonc";
+        config.lib.file.mkOutOfStoreSymlink "${configRoot}/opencode.jsonc";
       "opencode/tui.jsonc".source =
-        config.lib.file.mkOutOfStoreSymlink "${root}/tui.jsonc";
+        config.lib.file.mkOutOfStoreSymlink "${configRoot}/tui.jsonc";
       "opencode/agents/git-commit.md".source =
-        config.lib.file.mkOutOfStoreSymlink "${root}/git-commit.md";
+        config.lib.file.mkOutOfStoreSymlink "${base}/agents/git-commit.md";
       "opencode/skills/nixos-rules/SKILL.md".source =
-        config.lib.file.mkOutOfStoreSymlink "${root}/skills/nixos-rules/SKILL.md";
+        config.lib.file.mkOutOfStoreSymlink "${base}/skills/nixos-rules/SKILL.md";
     };
 
-    # === Симлинк на проектный opencode.json в корне репозитория ===
+    # === Проектные конфиги (project/) → корень репозитория ===
     home.file.".dotfiles/opencode.json".source =
-      config.lib.file.mkOutOfStoreSymlink "${root}/opencode.json";
+      config.lib.file.mkOutOfStoreSymlink "${projectRoot}/opencode.json";
 
     # === Переменные окружения ===
     home.sessionVariables = {
