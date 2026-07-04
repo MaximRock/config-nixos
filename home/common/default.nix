@@ -61,5 +61,7 @@
     dunst.enable = true;
 
     koda.enable = true;
+
+    aider.enable = true;
   };
 }
