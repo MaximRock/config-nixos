@@ -3,10 +3,10 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.modules.qtile-help;
+  cfg = config.modules.home.qtile-help;
 in
 {
-  options.modules.qtile-help = {
+  options.modules.home.qtile-help = {
     enable = lib.mkEnableOption "qtile help";
   };
 

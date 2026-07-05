@@ -3,10 +3,10 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.modules.power-menu;
+  cfg = config.modules.home.power-menu;
 in
 {
-  options.modules.power-menu = {
+  options.modules.home.power-menu = {
     enable = lib.mkEnableOption "qtile power menu";
   };
 

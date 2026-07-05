@@ -3,10 +3,10 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.modules.rime-mcp;
+  cfg = config.modules.home.rime-mcp;
 in
 {
-  options.modules.rime-mcp = {
+  options.modules.home.rime-mcp = {
     enable = lib.mkEnableOption "rime MCP server (Nix tooling for LLM agents)";
   };
 
