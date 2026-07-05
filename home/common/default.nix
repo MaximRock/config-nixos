@@ -30,7 +30,7 @@
     # ../../modules/home/editors/nvf-nvim.nix
 
     # Shell
-    ../../modules/home/shell/zsh.nix
+    ../../modules/home/shell/zsh
 
     # Desktop
     # qtile config
@@ -71,5 +71,7 @@
     gtk.enable = true;
 
     picom.enable = true;
+
+    zsh.enable = true;
   };
 }
