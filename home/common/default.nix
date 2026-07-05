@@ -16,6 +16,7 @@
     ../../modules/home/git
     ../../modules/home/flameshot
     ../../modules/home/dunst
+    ../../modules/home/desktop/gtk
 
     # === Ваши существующие модули из ./modules/ ===
     # Editors
@@ -33,7 +34,7 @@
     # Desktop
     # qtile config
     ../../modules/home/desktop/qtile/default.nix
-    ../../modules/home/desktop/gtk.nix
+    #../../modules/home/desktop/gtk.nix
     ../../modules/home/desktop/picom.nix
     ../../modules/home/desktop/rofi
 
@@ -65,5 +66,7 @@
     aider.enable = true;
 
     opencode.enable = true;
+
+    gtk.enable = true;
   };
 }
