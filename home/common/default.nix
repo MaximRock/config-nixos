@@ -17,6 +17,7 @@
     ../../modules/home/flameshot
     ../../modules/home/dunst
     ../../modules/home/desktop/gtk
+    ../../modules/home/desktop/picom
 
     # === Ваши существующие модули из ./modules/ ===
     # Editors
@@ -35,7 +36,7 @@
     # qtile config
     ../../modules/home/desktop/qtile/default.nix
     #../../modules/home/desktop/gtk.nix
-    ../../modules/home/desktop/picom.nix
+    # ../../modules/home/desktop/picom.nix
     ../../modules/home/desktop/rofi
 
     # Apps
@@ -68,5 +69,7 @@
     opencode.enable = true;
 
     gtk.enable = true;
+
+    picom.enable = true;
   };
 }
