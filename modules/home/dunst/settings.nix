@@ -1,3 +1,12 @@
+# modules/home/dunst/settings.nix
+#
+# Конфигурация dunst (уведомления).
+# Параметры берутся из центрального settings.json (секция `dunst`),
+# цвета — из lib/theme.nix (preset + overrides в theme.colors).
+#
+# Доступные цвета (из catppuccin/gruvbox/tokyonight или кастомные):
+#   primary (frame_color), surface (фон), foreground (текст), error (critical-фон)
+#
 { colors, settings }:
 
 let
