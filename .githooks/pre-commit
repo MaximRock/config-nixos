@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "🔍 Pre-commit: проверка синтаксиса..."
+echo "🔍 Pre-commit: проверка staged-файлов..."
 
 staged=$(git diff --cached --name-only --diff-filter=ACM)
 if [ -z "$staged" ]; then
@@ -13,13 +13,24 @@ errors=0
 
 check_nix() {
     local f="$1"
-    if command -v nix-instantiate &>/dev/null; then
-        if ! nix-instantiate --parse "$f" &>/dev/null; then
-            echo "❌ $f — синтаксическая ошибка Nix"
-            nix-instantiate --parse "$f" 2>&1 | head -5
-            return 1
-        fi
+    if ! command -v nix-instantiate &>/dev/null; then
+        return 0
     fi
+
+    # eval: глубокая проверка (undefined vars, missing imports)
+    if nix-instantiate --eval "$f" &>/dev/null; then
+        return 0
+    fi
+
+    # fallback: если eval упал (напр. функция без аргументов), проверяем синтаксис
+    if nix-instantiate --parse "$f" &>/dev/null; then
+        return 0
+    fi
+
+    # обе проверки упали — показываем ошибку eval
+    echo "❌ $f — ошибка Nix"
+    nix-instantiate --eval "$f" 2>&1 | head -5
+    return 1
 }
 
 check_py() {
@@ -72,4 +83,4 @@ if [ "$errors" -gt 0 ]; then
     exit 1
 fi
 
-echo "✅ Синтаксис всех staged-файлов в порядке"
+echo "✅ Все staged-файлы в порядке"
