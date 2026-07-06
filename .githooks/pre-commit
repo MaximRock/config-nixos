@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "🔍 Pre-commit: проверка синтаксиса..."
+
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+if [ -z "$staged" ]; then
+    echo "✅ Нет staged-файлов для проверки"
+    exit 0
+fi
+
+errors=0
+
+check_nix() {
+    local f="$1"
+    if command -v nix-instantiate &>/dev/null; then
+        if ! nix-instantiate --parse "$f" &>/dev/null; then
+            echo "❌ $f — синтаксическая ошибка Nix"
+            nix-instantiate --parse "$f" 2>&1 | head -5
+            return 1
+        fi
+    fi
+}
+
+check_py() {
+    local f="$1"
+    if command -v python &>/dev/null; then
+        if ! python -m py_compile "$f" 2>/dev/null; then
+            echo "❌ $f — синтаксическая ошибка Python"
+            python -m py_compile "$f" 2>&1 | head -5
+            return 1
+        fi
+    fi
+}
+
+check_json() {
+    local f="$1"
+    if command -v python &>/dev/null; then
+        if ! python -m json.tool "$f" &>/dev/null; then
+            echo "❌ $f — некорректный JSON"
+            python -m json.tool "$f" 2>&1 | head -5
+            return 1
+        fi
+    fi
+}
+
+check_lua() {
+    local f="$1"
+    if command -v luac &>/dev/null; then
+        if ! luac -p "$f" &>/dev/null; then
+            echo "❌ $f — синтаксическая ошибка Lua"
+            luac -p "$f" 2>&1 | head -5
+            return 1
+        fi
+    fi
+}
+
+while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    [ ! -f "$f" ] && continue
+
+    case "$f" in
+        *.nix)   check_nix "$f"   || errors=$((errors + 1)) ;;
+        *.py)    check_py "$f"    || errors=$((errors + 1)) ;;
+        *.json)  check_json "$f"  || errors=$((errors + 1)) ;;
+        *.lua)   check_lua "$f"   || errors=$((errors + 1)) ;;
+    esac
+done <<< "$staged"
+
+if [ "$errors" -gt 0 ]; then
+    echo "❌ Найдено $errors ошибок. Коммит отменён."
+    exit 1
+fi
+
+echo "✅ Синтаксис всех staged-файлов в порядке"
