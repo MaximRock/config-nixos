@@ -1,8 +1,9 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, colors, settings, ... }:
 
 let
   terminalLib = import ../lib.nix { inherit pkgs lib; };
   cfg = config.modules.home.terminals.fastfetch;
+  ff = settings.fastfetch;
 
   logoFile = ./logo3.png;
 
@@ -10,8 +11,8 @@ let
     logo = {
       type = "kitty";
       source = "$HOME/.config/fastfetch/logo.png";
-      width = 30;
-      height = 15;
+      width = ff.logo_width;
+      height = ff.logo_height;
       padding = {
         top = 1;
         bottom = 1;
@@ -21,29 +22,29 @@ let
     };
 
     color = {
-      keys = "#b4befe";
-      title = "#cba6f7";
-      subtitle = "#9399b2";
-      bar = "#585b70";
-      separator = "#6c7086";
+      keys = colors.primary;
+      title = colors.secondary;
+      subtitle = colors.inactive;
+      bar = colors.selected;
+      separator = colors.separator_color;
     };
 
     modules = [
-      { type = "title"; keyColor = "#cba6f7"; }
+      { type = "title"; keyColor = colors.secondary; }
       "separator"
-      { type = "os"; key = " "; keyColor = "#89b4fa"; }
-      { type = "host"; key = "󰍹 "; keyColor = "#cba6f7"; }
-      { type = "kernel"; key = " "; keyColor = "#94e2d5"; }
-      { type = "uptime"; key = "󰔟 "; keyColor = "#a6e3a1"; }
-      { type = "shell"; key = " "; keyColor = "#cba6f7"; }
-      { type = "display"; key = "󰍹 "; keyColor = "#89b4fa"; }
-      { type = "de"; key = " "; keyColor = "#94e2d5"; }
-      { type = "theme"; key = " "; keyColor = "#f9e2af"; }
-      { type = "terminal"; key = " "; keyColor = "#a6e3a1"; }
-      { type = "cpu"; key = " "; keyColor = "#f38ba8"; }
-      { type = "gpu"; key = "󰢮 "; keyColor = "#a6e3a1"; }
-      { type = "memory"; key = " "; keyColor = "#89b4fa"; }
-      { type = "disk"; key = "󰋊 "; keyColor = "#fab387"; }
+      { type = "os"; key = " "; keyColor = colors.primary; }
+      { type = "host"; key = "󰍹 "; keyColor = colors.secondary; }
+      { type = "kernel"; key = " "; keyColor = colors.tertiary; }
+      { type = "uptime"; key = "󰔟 "; keyColor = colors.success; }
+      { type = "shell"; key = " "; keyColor = colors.secondary; }
+      { type = "display"; key = "󰍹 "; keyColor = colors.primary; }
+      { type = "de"; key = " "; keyColor = colors.tertiary; }
+      { type = "theme"; key = " "; keyColor = colors.warning; }
+      { type = "terminal"; key = " "; keyColor = colors.success; }
+      { type = "cpu"; key = " "; keyColor = colors.error; }
+      { type = "gpu"; key = "󰢮 "; keyColor = colors.success; }
+      { type = "memory"; key = " "; keyColor = colors.primary; }
+      { type = "disk"; key = "󰋊 "; keyColor = colors.accent; }
       "colors"
     ];
   };
