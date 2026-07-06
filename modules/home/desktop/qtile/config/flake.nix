@@ -37,7 +37,7 @@
             echo "🚀 Qtile dev shell activated"
             export UV_PYTHON="${pkgs.python3}/bin/python3"
             export PYTHONPATH="$PWD:$PYTHONPATH"
-            
+
             if [ -d ".venv" ]; then
               export PYTHONPATH="$PWD/.venv/lib/python3.13/site-packages:$PYTHONPATH"
             fi

@@ -1,9 +1,8 @@
 from pathlib import Path
 
+import json
+
 import customtkinter as ctk
-from colors.catpuccin import catppuccin
-from colors.gruvbox import gruvbox
-from colors.tokyonight import tokyonight
 from config_pm.config_button import ButtonConfig, create_button_config
 from config_pm.frame_config import BUTTON_FRAME, HEADER_FRAME, FrameConfig
 from config_pm.image_config import ImageConfig, get_icon
@@ -15,7 +14,6 @@ from widgets.image import AppImage
 from widgets.label import Label
 from windows.base_window import BaseWindow
 
-from constants import THEME_COLOR
 from settings.path import QtilePath
 
 import os
@@ -26,16 +24,32 @@ class Application(ctk.CTk, BaseWindow):
         super().__init__()
         config_base = os.environ.get("QTILE_CONFIG_PATH")
         self.qp: Path = QtilePath(config_base)
-        # self.qp: Path = QtilePath()
         self.config: WindowConfig = POWER_MENU_WINDOW
         self.setup_geometry(self, config=self.config)
-        self.themes: dict[str, dict[str, dict[str, str]]] = {
-            "catppuccin": catppuccin,
-            "gruvbox": gruvbox,
-            "tokyonight": tokyonight,
-        }
 
-        self.current_theme: dict[str, dict[str, str]] = self.themes[THEME_COLOR]
+        theme_name_path = self.qp.get("settings/settings.json")
+        with open(theme_name_path) as f:
+            theme_name = json.load(f)["theme"]["active"]
+        preset_path = self.qp.get(f"config_qtile/theme/presets/{theme_name}.json")
+        with open(preset_path) as f:
+            flat = json.load(f)[0]["config"]
+
+        self.current_theme = {
+            "background": {
+                "mantle":   flat.get("surface", "#181825"),
+                "surface0": flat.get("hover", "#313244"),
+                "surface1": flat.get("separator_color", "#45475a"),
+            },
+            "text": {
+                "primary": flat.get("foreground", "#cdd6f4"),
+            },
+            "accent": {
+                "mauve":  flat.get("secondary", "#cba6f7"),
+                "blue":   flat.get("primary", "#89b4fa"),
+                "red":    flat.get("error", "#f38ba8"),
+                "yellow": flat.get("warning", "#f9e2af"),
+            },
+        }
         self.configure(fg_color=self.current_theme["background"]["mantle"])
 
         self.create_frames()

@@ -1,0 +1,26 @@
+{
+  "theme": {
+    "active": "catppuccin"
+  },
+  "apps": {
+    "terminal": "wezterm",
+    "browser": "yandex-browser-stable",
+    "file_manager": "thunar",
+    "editor": "codium",
+    "rofi": "rofi -show drun",
+    "flameshot_gui": "flameshot gui",
+    "flameshot_full": "flameshot full"
+  },
+  "qtile": {
+    "mod_key": "mod4",
+    "log_dir": "~/.local/state/qtile",
+    "power_menu_script": "qtile-power-menu",
+    "qtile_help_script": "qtile-help"
+  },
+  "wezterm": {
+    "font_family": "JetBrainsMono Nerd Font Mono",
+    "font_size": 14.0,
+    "opacity": 0.92,
+    "padding": 12
+  }
+}

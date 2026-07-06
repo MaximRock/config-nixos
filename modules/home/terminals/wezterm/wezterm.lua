@@ -6,42 +6,41 @@ local config = wezterm.config_builder()
 local keys = require 'keys'
 config.keys = keys
 
--- 1. ШРИФТЫ И ЛИГАТУРЫ
-config.font = wezterm.font('JetBrainsMono Nerd Font Mono')
-config.font_size = 14.0
-config.harfbuzz_features = { 'calt=1', 'clig=1', 'liga=1' }
+-- Загрузка центрального конфига
+local settings_path = os.getenv('HOME') .. '/.config/qtile/settings/settings.json'
+local f = io.open(settings_path, 'r')
+local s = f and wezterm.json_parse(f:read('*a'))
+if f then f:close() end
+if s then
+    -- 1. ШРИФТЫ И ЛИГАТУРЫ
+    config.font = wezterm.font(s.wezterm.font_family)
+    config.font_size = s.wezterm.font_size
+    config.harfbuzz_features = { 'calt=1', 'clig=1', 'liga=1' }
 
--- 2. ЦВЕТОВАЯ СХЕМА TOKYO NIGHT
-config.color_scheme = 'Tokyo Night'
+    -- 2. ЦВЕТОВАЯ СХЕМА ИЗ ЦЕНТРАЛЬНОЙ ТЕМЫ
+    local scheme_map = {
+        catppuccin = 'Catppuccin Mocha',
+        gruvbox = 'Gruvbox (Gogh)',
+        tokyonight = 'Tokyo Night',
+    }
+    config.color_scheme = scheme_map[s.theme.active] or 'Tokyo Night'
 
--- Ручная настройка цветов Tokyo Night (опционально, для точного соответствия Gogh)
--- Раскомментируйте, если встроенная тема не подходит
---[[
-config.colors = {
-    foreground = '#c0caf5',
-    background = '#1a1b26',
-    cursor_bg = '#c0caf5',
-    cursor_border = '#c0caf5',
-    cursor_fg = '#1a1b26',
-    selection_bg = '#33467c',
-    selection_fg = '#c0caf5',
-    ansi = { '#15161e', '#f7768e', '#9ece6a', '#e0af68', '#7aa2f7', '#ad8ee6', '#449dab', '#787c99' },
-    brights = { '#444b6a', '#ff7a93', '#b9f27c', '#ff9e64', '#7da6ff', '#bb9af7', '#0db9d7', '#acb0d0' },
-}
---]]
-
--- 3. ОКНО И ДЕКОРАЦИИ
-config.window_decorations = 'RESIZE'
-config.hide_tab_bar_if_only_one_tab = true
-config.window_background_opacity = 0.92
-
--- Отступы внутри окна (padding)
-config.window_padding = {
-    left = 12,
-    right = 12,
-    top = 12,
-    bottom = 12,
-}
+    -- 3. ОКНО И ДЕКОРАЦИИ
+    config.window_decorations = 'RESIZE'
+    config.hide_tab_bar_if_only_one_tab = true
+    config.window_background_opacity = s.wezterm.opacity
+    local pad = s.wezterm.padding
+    config.window_padding = { left = pad, right = pad, top = pad, bottom = pad }
+else
+    config.font = wezterm.font('JetBrainsMono Nerd Font Mono')
+    config.font_size = 14.0
+    config.harfbuzz_features = { 'calt=1', 'clig=1', 'liga=1' }
+    config.color_scheme = 'Tokyo Night'
+    config.window_decorations = 'RESIZE'
+    config.hide_tab_bar_if_only_one_tab = true
+    config.window_background_opacity = 0.92
+    config.window_padding = { left = 12, right = 12, top = 12, bottom = 12 }
+end
 
 -- 4. КУРСОР
 config.default_cursor_style = 'BlinkingUnderline'
@@ -49,7 +48,7 @@ config.cursor_thickness = 2.0
 
 -- 5. СКРОЛЛБАР
 config.enable_scroll_bar = true
-config.scrollback_lines = 10000 -- Размер буфера прокрутки
+config.scrollback_lines = 10000
 
 -- 6. ССЫЛКИ И МЫШЬ
 config.hyperlink_rules = wezterm.default_hyperlink_rules()
@@ -61,7 +60,6 @@ config.colors = {
 }
 
 -- 8. ЗВУК И УВЕДОМЛЕНИЯ
--- Отключить звуковой сигнал, использовать визуальный
 config.audible_bell = 'Disabled'
 config.visual_bell = {
     target = 'CursorColor',

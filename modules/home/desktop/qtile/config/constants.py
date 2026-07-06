@@ -1,29 +1,26 @@
-import shutil
 from pathlib import Path
 
 from settings.path import QtilePath
+from settings.settings_loader import get_app, get_qtile, get_theme_name
 
 qp: QtilePath = QtilePath()
 
 LOG_DIR: Path = Path("~/.local/state/qtile").expanduser()
 
-POWER_MENU_SCRIPT: str = "qtile-power-menu"  # str(qp.get("modules/power_menu/main.py"))
+POWER_MENU_SCRIPT: str = "qtile-power-menu"
 QTILE_HELP_SCRIPT: str = "qtile-help"
 
-# config.py
-THEME_COLOR = "catppuccin"  # или "c" "catppuccin" "tokyonight" "gruvbox"
-MOD_KEY = "mod4"
+THEME_COLOR = get_theme_name()
+MOD_KEY = get_qtile("mod_key")
 
-# приложения key_definitions.py
-TERMINAL = "wezterm"
-BROWSER = "yandex-browser-stable"
-FILE_MANAGER = "thunar"
-EDITOR = "codium" if shutil.which("codium") else "code"  # EDITOR = "code"
+TERMINAL = get_app("terminal")
+BROWSER = get_app("browser")
+FILE_MANAGER = get_app("file_manager")
+EDITOR = get_app("editor")
 YAZI = f"{TERMINAL} start -- yazi"
-ROFI = "rofi -show drun"
-FLAMESHOT_GUI = "flameshot gui"
-FLAMESHOT_FULL = "flameshot full"
+ROFI = get_app("rofi")
+FLAMESHOT_GUI = get_app("flameshot_gui")
+FLAMESHOT_FULL = get_app("flameshot_full")
 
-# theme_controller.py
 SETTINGS_JSON_PATH = "config_qtile/settings_json"
 THEME_PRESETS_PATH = "config_qtile/theme/presets"

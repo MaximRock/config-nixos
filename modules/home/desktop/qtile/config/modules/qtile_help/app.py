@@ -3,9 +3,11 @@ from __future__ import annotations
 import logging
 from typing import Any
 
+import json
+import os
+
 import customtkinter as ctk
 
-from modules.qtile_help.colors import THEMES, ThemeColors
 from modules.qtile_help.constants import (
     _WINDOW_HEIGHT,
     _WINDOW_WIDTH,
@@ -27,8 +29,7 @@ class Application(ctk.CTk):
         self._controller: HelpController = controller
         self._controller.set_on_update(self._on_data_update)
 
-        self._theme_name: str = self._resolve_theme()
-        self._colors: ThemeColors = THEMES.get(self._theme_name, THEMES["catppuccin"])
+        self._colors: dict[str, str] = self._load_colors()
 
         self._setup_window()
         self._create_widgets()
@@ -40,13 +41,35 @@ class Application(ctk.CTk):
 
         self._controller.start_watching()
 
-    def _resolve_theme(self) -> str:
+    def _load_colors(self) -> dict[str, str]:
+        config_base = os.environ.get("QTILE_CONFIG_PATH", os.path.expanduser("~/.config/qtile"))
         try:
-            from constants import THEME_COLOR
-
-            return THEME_COLOR
-        except ImportError:
-            return "catppuccin"
+            with open(os.path.join(config_base, "settings", "settings.json")) as f:
+                settings = json.load(f)
+            theme_name = settings["theme"]["active"]
+            with open(os.path.join(config_base, "config_qtile", "theme", "presets", f"{theme_name}.json")) as f:
+                preset = json.load(f)[0]["config"]
+            return {
+                "background": preset.get("background", "#1e1e2e"),
+                "foreground": preset.get("foreground", "#cdd6f4"),
+                "accent": preset.get("primary", "#89b4fa"),
+                "warning": preset.get("warning", "#f9e2af"),
+                "surface": preset.get("surface", "#313244"),
+                "border": preset.get("border_color", "#45475a"),
+                "separator": preset.get("separator_color", "#585b70"),
+                "hover": preset.get("hover", "#252536"),
+            }
+        except Exception:
+            return {
+                "background": "#1e1e2e",
+                "foreground": "#cdd6f4",
+                "accent": "#89b4fa",
+                "warning": "#f9e2af",
+                "surface": "#313244",
+                "border": "#45475a",
+                "separator": "#585b70",
+                "hover": "#252536",
+            }
 
     def _setup_window(self) -> None:
         self.title(WINDOW_TITLE)
