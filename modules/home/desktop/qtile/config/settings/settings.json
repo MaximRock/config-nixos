@@ -93,6 +93,27 @@
     "font_family": "JetBrainsMono Nerd Font Mono",
     "font_size": 14.0,
     "opacity": 0.92,
-    "padding": 12
+    "padding": 12,
+    "cursor_style": "BlinkingUnderline",
+    "cursor_thickness": 2.0,
+    "scrollback_lines": 10000,
+    "color_scheme_map": {
+      "catppuccin": "Catppuccin Mocha",
+      "gruvbox": "Gruvbox (Gogh)",
+      "tokyonight": "Tokyo Night"
+    },
+    "split_color": null,
+    "tab": {
+      "active_bg": null,
+      "active_fg": null,
+      "inactive_bg": null,
+      "inactive_fg": null,
+      "hover_bg": null
+    },
+    "status_bar": {
+      "hostname_color": null,
+      "separator_color": null,
+      "date_color": null
+    }
   }
 }
