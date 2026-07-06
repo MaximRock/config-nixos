@@ -23,21 +23,28 @@ in
       enable = true;
 
       theme = {
-        name = "orchis-dark";
+        name = "Orchis-Dark";
         package = pkgs.orchis-theme;
       };
 
       iconTheme = {
-        name = "papirus-dark";
+        name = "Papirus-Dark";
         package = pkgs.papirus-icon-theme;
       };
 
       cursorTheme = {
-        name = "bibata-modern-ice";
+        name = "Bibata-Modern-Ice";
         package = pkgs.bibata-cursors;
         size = 24;
       };
-      gtk4.theme = null;
+
+      gtk4.theme = config.gtk.theme;
+      gtk4.extraConfig = {
+        gtk-theme-name = "Orchis-Dark";
+        gtk-icon-theme-name = "Papirus-Dark";
+        gtk-cursor-theme-name = "Bibata-Modern-Ice";
+        gtk-cursor-theme-size = 24;
+      };
     };
   };
 }
