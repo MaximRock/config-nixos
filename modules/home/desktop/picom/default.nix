@@ -5,7 +5,7 @@
 # corner-radius-rules для notification-окон остаётся здесь — это фикс
 # совместимости picom+dunst, а не пользовательская настройка.
 #
-{ config, lib, colors, settings, ... }:
+{ config, lib, settings, ... }:
 
 with lib;
 

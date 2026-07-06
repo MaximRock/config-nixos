@@ -4,7 +4,7 @@
 # Имена тем берутся из центрального settings.json (секция `gtk`),
 # пакеты резолвятся здесь — они специфичны для Nixpkgs.
 #
-{ config, lib, pkgs, colors, settings, ... }:
+{ config, lib, pkgs, settings, ... }:
 
 with lib;
 
