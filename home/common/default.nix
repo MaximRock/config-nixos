@@ -1,6 +1,10 @@
 # home/common/default.nix
 { ... }:
 
+let
+  modulesHome = toString ../../modules/home;
+in
+
 {
   # === Базовые модули ===
   imports = [
@@ -12,38 +16,38 @@
 
     # === Ваши существующие модули из ./modules/ ===
     # Editors
-    ../../modules/home/editors/vscodium
-    ../../modules/home/editors/vscodium/workspace-nix.nix
-    ../../modules/home/editors
+    "${modulesHome}/editors/vscodium"
+    "${modulesHome}/editors/vscodium/workspace-nix.nix"
+    "${modulesHome}/editors"
 
     # Shell
-    ../../modules/home/shell/zsh
+    "${modulesHome}/shell/zsh"
 
     # Git
-    ../../modules/home/git
+    "${modulesHome}/git"
 
     # Qtile
-    ../../modules/home/desktop/qtile/default.nix
-    ../../modules/home/power-menu
-    ../../modules/home/qtile-help
+    "${modulesHome}/desktop/qtile/default.nix"
+    "${modulesHome}/power-menu"
+    "${modulesHome}/qtile-help"
 
     # Desktop
-    ../../modules/home/desktop/gtk
-    ../../modules/home/desktop/picom
-    ../../modules/home/desktop/rofi
+    "${modulesHome}/desktop/gtk"
+    "${modulesHome}/desktop/picom"
+    "${modulesHome}/desktop/rofi"
 
     # Apps
-    ../../modules/home/flameshot
-    ../../modules/home/dunst
+    "${modulesHome}/flameshot"
+    "${modulesHome}/dunst"
 
     # Browsers
-    ../../modules/home/browsers/firefox/default.nix
+    "${modulesHome}/browsers/firefox/default.nix"
 
     # AI and agents
-    ../../modules/home/aider
-    ../../modules/home/opencode
-    ../../modules/home/rime-mcp
-    ../../modules/home/koda
+    "${modulesHome}/aider"
+    "${modulesHome}/opencode"
+    "${modulesHome}/rime-mcp"
+    "${modulesHome}/koda"
   ];
 
   modules.home = {

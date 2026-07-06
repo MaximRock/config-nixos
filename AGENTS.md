@@ -38,6 +38,10 @@ Alias: `nrs` (defined in `modules/home/shell/zsh.nix`). Others: `nrd` (dry-build
 - `.aider*` files are aider artifacts, gitignored
 - Dotfiles are sourced via HM symlinks to the repo path, not copied
 
+## Skills
+
+- `nixos-rules` — автоматически загружать при написании или ревью Nix-кода (NixOS-модули, flakes, nixpkgs-пакеты, общие Nix-выражения).
+
 ## Git Commit Workflow
 
 Перед коммитом всегда показывать пользователю:
