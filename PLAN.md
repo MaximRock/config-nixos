@@ -115,3 +115,20 @@ git log backup/pre-central-config..main --oneline
 # удалить тег (когда миграция завершена)
 git tag -d backup/pre-central-config
 ```
+
+---
+
+# Миграция приложений на SSOT (settings.json)
+
+Прогресс миграции модулей с хардкода на центральный конфиг.
+
+- [x] **Dunst** — `colors.*` + `settings.dunst.*`
+- [x] **Picom** — `settings.picom.*` (backend, opacity, corner-radius...)
+- [ ] **GTK** — `settings.gtk.*` (theme, icon_theme, cursor_theme, cursor_size)
+- [ ] **Rofi** — `settings.rofi.*` + `colors.*`
+- [ ] **Fastfetch** — `colors.*` для keyColor, `settings.fastfetch.*`
+- [ ] **Yazi** — `colors.*` для theme.toml (cwd, hovered, preview_hovered)
+- [ ] **Wezterm** — расширить: tab_colors, status_bar, cursor, split_color
+- [ ] **Git** — user_name, user_email в settings.json
+- [ ] **Shell (zsh)** — theme, plugins, aliases (опционально)
+```
