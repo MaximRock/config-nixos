@@ -4,6 +4,7 @@
   pkgs,
   themeName,
   activeTheme,
+  settings,
   ...
 }:
 
@@ -25,11 +26,13 @@ let
     }
   '';
 
+  modiStr = lib.concatStringsSep "," settings.rofi.modes;
+
   configRasi = pkgs.writeText "config-${themeName}.rasi" ''
     @import "colors.rasi"
 
     configuration {
-      modi:                       "drun,run,window,ssh,calc";
+      modi:                       "${modiStr}";
       show-icons:                 true;
       display-drun:               "";
       display-run:                "";

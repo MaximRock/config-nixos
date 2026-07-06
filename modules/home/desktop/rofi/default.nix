@@ -1,4 +1,10 @@
-{ pkgs, ... }:
+# modules/home/desktop/rofi/default.nix
+#
+# Лаунчер rofi.
+# Шрифт и modes из центрального settings.json (секция `rofi`).
+# Цвета темы — из activeTheme (lib/theme.nix → specialArgs).
+#
+{ pkgs, settings, ... }:
 
 {
   imports = [
@@ -11,14 +17,8 @@
 
   programs.rofi = {
     enable = true;
-    modes = [
-      "drun"
-      "run"
-      "window"
-      "ssh"
-      "calc"
-    ];
-    font = "JetBrainsMono Nerd Font 14";
+    modes = settings.rofi.modes;
+    font = "${settings.rofi.font} ${toString settings.rofi.font_size}";
     plugins = with pkgs; [
       rofi-calc
       rofi-blezz

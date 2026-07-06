@@ -125,7 +125,7 @@ git tag -d backup/pre-central-config
 - [x] **Dunst** — `colors.*` + `settings.dunst.*`
 - [x] **Picom** — `settings.picom.*` (backend, opacity, corner-radius...)
 - [x] **GTK** — `settings.gtk.*` (theme, icon_theme, cursor_theme, cursor_size)
-- [ ] **Rofi** — `settings.rofi.*` + `colors.*`
+- [x] **Rofi** — `settings.rofi.*` + `colors.*`
 - [ ] **Fastfetch** — `colors.*` для keyColor, `settings.fastfetch.*`
 - [ ] **Yazi** — `colors.*` для theme.toml (cwd, hovered, preview_hovered)
 - [ ] **Wezterm** — расширить: tab_colors, status_bar, cursor, split_color
