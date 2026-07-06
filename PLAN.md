@@ -130,5 +130,5 @@ git tag -d backup/pre-central-config
 - [x] **Yazi** — `colors.*` для theme.toml (cwd, hovered, preview_hovered)
 - [x] **Wezterm** — расширить: tab_colors, status_bar, cursor, split_color
 - [x] **Git** — user_name, user_email в settings.json
-- [ ] **Shell (zsh)** — theme, plugins, aliases (опционально)
+- [x] **Shell (zsh)** — oh-my-zsh theme, plugins в settings.json
 ```

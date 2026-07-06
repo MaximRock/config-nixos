@@ -1,11 +1,15 @@
 # modules/home/shell/zsh/default.nix
-
-{ config, lib, ... }:
+#
+# Shell zsh.
+# oh-my-zsh theme и plugins из центрального settings.json (секция `shell.zsh`).
+#
+{ config, lib, settings, ... }:
 
 with lib;
 
 let
   cfg = config.modules.home.zsh;
+  z = settings.shell.zsh;
 in
 
 {
@@ -45,13 +49,8 @@ in
       };
       oh-my-zsh = {
         enable = true;
-        plugins = [
-          "git"
-          "sudo"
-          "python"
-          "docker"
-        ];
-        theme = "bira";
+        plugins = z.plugins;
+        theme = z.theme;
       };
     };
   };
