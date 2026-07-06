@@ -20,7 +20,7 @@ let
 
   nvfConfig = import ../modules/home/editors/configs/nvf-config { inherit pkgs; };
 
-  inherit (import ./theme.nix) themeName themePresets activeTheme;
+  inherit (import ./theme.nix) themeName themePresets activeTheme colors settings;
 
   specialArgs = {
     inherit
@@ -34,6 +34,8 @@ let
       themeName
       themePresets
       activeTheme
+      colors
+      settings
       ;
   };
 in
@@ -50,6 +52,8 @@ in
     themeName
     themePresets
     activeTheme
+    colors
+    settings
     ;
 
   mkNixosConfiguration =

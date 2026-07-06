@@ -11,8 +11,20 @@ let
     tokyonight = readPreset "tokyonight";
   };
 
-  activeTheme = themePresets.${themeName};
+  basePresetColors = (themePresets.${themeName} or {}).config or {};
+  colors = basePresetColors // (settings.theme.colors or {});
+
+  activeTheme = themePresets.${themeName} or {
+    name = "custom";
+    inherit colors;
+  };
 in
 {
-  inherit themeName themePresets activeTheme;
+  inherit
+    settings
+    themeName
+    themePresets
+    activeTheme
+    colors
+    ;
 }

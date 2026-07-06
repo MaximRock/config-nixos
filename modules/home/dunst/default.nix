@@ -1,12 +1,10 @@
-# modules/home/dunst/default.nix
-
-{ config, lib, ... }:
+{ config, lib, colors, settings, ... }:
 
 with lib;
 
 let
   cfg = config.modules.home.dunst;
-  dunstSettings = import ./settings.nix;
+  dunstSettings = import ./settings.nix { inherit colors settings; };
 in
 
 {
