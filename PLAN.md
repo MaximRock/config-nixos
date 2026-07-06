@@ -129,6 +129,6 @@ git tag -d backup/pre-central-config
 - [x] **Fastfetch** — `colors.*` для keyColor, `settings.fastfetch.*`
 - [x] **Yazi** — `colors.*` для theme.toml (cwd, hovered, preview_hovered)
 - [x] **Wezterm** — расширить: tab_colors, status_bar, cursor, split_color
-- [ ] **Git** — user_name, user_email в settings.json
+- [x] **Git** — user_name, user_email в settings.json
 - [ ] **Shell (zsh)** — theme, plugins, aliases (опционально)
 ```

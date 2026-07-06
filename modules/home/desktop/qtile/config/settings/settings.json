@@ -83,6 +83,11 @@
     "ratio": [2, 4, 3],
     "editor": "nvim"
   },
+  "git": {
+    "user_name": "MaximRock",
+    "user_email": "maxrockvardill@gmail.com",
+    "default_branch": "main"
+  },
   "qtile": {
     "mod_key": "mod4",
     "log_dir": "~/.local/state/qtile",
