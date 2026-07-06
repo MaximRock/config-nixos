@@ -1,4 +1,10 @@
-{ config, lib, colors, settings, ... }:
+# modules/home/dunst/default.nix
+#
+# Подключает dunst через Home Manager.
+# Настройки читает из ./settings.nix, который получает цвета и параметры
+# из центрального SSOT (settings.json + lib/theme.nix → specialArgs).
+#
+{ config, lib, pkgs, colors, settings, ... }:
 
 with lib;
 
@@ -13,6 +19,8 @@ in
   };
 
   config = mkIf cfg.enable {
+    home.packages = [ pkgs.libnotify ];
+
     services.dunst = {
       enable = true;
       settings = dunstSettings;

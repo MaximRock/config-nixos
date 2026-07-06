@@ -30,6 +30,9 @@ in
           "100:class_g = 'rofi'"
         ];
         corner-radius = 12;
+        corner-radius-rules = [
+          "0:window_type = 'notification'"
+        ];
       };
     };
   };
