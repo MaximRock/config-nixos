@@ -3,7 +3,7 @@
 let
   terminalLib = import ../lib.nix { inherit pkgs lib; };
   cfg = config.modules.home.terminals.wezterm;
-  configDir = builtins.toString ./.;
+  configDir = toString ./.;
 in
 
 {
