@@ -1,3 +1,9 @@
+# modules/home/terminals/yazi/default.nix
+#
+# Файловый менеджер Yazi.
+# Цвета темы (cwd, hovered) из colors.* (lib/theme.nix → specialArgs).
+# Параметры (ratio, editor) из центрального settings.json (секция `yazi`).
+#
 {
   config,
   pkgs,
