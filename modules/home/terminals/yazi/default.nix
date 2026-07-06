@@ -2,12 +2,16 @@
   config,
   pkgs,
   lib,
+  colors,
+  settings,
   ...
 }:
 
 let
   terminalLib = import ../lib.nix { inherit pkgs lib; };
   cfg = config.modules.home.terminals.yazi;
+  y = settings.yazi;
+  ratioStr = lib.concatStringsSep ", " (map toString y.ratio);
 in
 
 {
@@ -35,7 +39,7 @@ in
 
     xdg.configFile."yazi/yazi.toml".text = ''
       [mgr]
-      ratio          = [ 2, 4, 3 ]
+      ratio          = [ ${ratioStr} ]
       show_hidden = true
       sort_by = "natural"
       sort_dir_first = true
@@ -46,7 +50,7 @@ in
 
       [opener]
       edit = [
-        { run = 'nvim "$@"', block = true }
+        { run = '${y.editor} "$@"', block = true }
       ]
     '';
 
@@ -58,15 +62,15 @@ in
 
       [[manager.prepend_keymap]]
       on = ["E"]
-      run = "shell 'wezterm start -- nvim \"$@\"'"
+      run = "shell 'wezterm start -- ${y.editor} \"$@\"'"
       desc = "Open in Neovim (new terminal)"
     '';
 
     xdg.configFile."yazi/theme.toml".text = ''
       [manager]
-      cwd = { fg = "#89b4fa" }
-      hovered = { fg = "#1e1e2e", bg = "#f38ba8" }
-      preview_hovered = { fg = "#1e1e2e", bg = "#a6e3a1" }
+      cwd = { fg = "${colors.primary}" }
+      hovered = { fg = "${colors.background}", bg = "${colors.error}" }
+      preview_hovered = { fg = "${colors.background}", bg = "${colors.success}" }
     '';
   };
 }
