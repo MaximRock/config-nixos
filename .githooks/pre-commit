@@ -57,13 +57,28 @@ check_json() {
 
 check_lua() {
     local f="$1"
-    if command -v luac &>/dev/null; then
-        if ! luac -p "$f" &>/dev/null; then
-            echo "❌ $f — синтаксическая ошибка Lua"
-            luac -p "$f" 2>&1 | head -5
-            return 1
-        fi
+
+    local luac_bin
+    luac_bin=$(command -v luac || find /nix/store -maxdepth 3 -name luac -type f 2>/dev/null | head -1)
+    local lua_bin
+    lua_bin=$(command -v lua || find /nix/store -maxdepth 3 -name lua -type f 2>/dev/null | head -1)
+
+    if [ -n "$luac_bin" ] && "$luac_bin" -p "$f" &>/dev/null; then
+        return 0
     fi
+
+    if [ -n "$lua_bin" ] && "$lua_bin" -e "loadfile('$f')" &>/dev/null; then
+        return 0
+    fi
+
+    if [ -n "$luac_bin" ]; then
+        echo "❌ $f — синтаксическая ошибка Lua"
+        "$luac_bin" -p "$f" 2>&1 | head -5
+    elif [ -n "$lua_bin" ]; then
+        echo "❌ $f — синтаксическая ошибка Lua"
+        "$lua_bin" -e "loadfile('$f')" 2>&1 | head -5
+    fi
+    return 1
 }
 
 while IFS= read -r f; do
