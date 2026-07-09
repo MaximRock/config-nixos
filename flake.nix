@@ -39,6 +39,11 @@
       url = "github:lukasl-dev/rime";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    yazi = {
+      url = "github:sxyazi/yazi";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =

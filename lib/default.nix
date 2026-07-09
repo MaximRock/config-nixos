@@ -6,6 +6,7 @@ let
     home-manager
     sops-nix
     nvf
+    yazi
     ;
 
   system = "x86_64-linux";
@@ -20,7 +21,7 @@ let
 
   nvfConfig = import ../modules/home/editors/configs/nvf-config { inherit pkgs; };
 
-  inherit (import ./theme.nix) themeName themePresets activeTheme colors settings;
+  inherit (import ./theme.nix) themeName themePresets activeTheme colors;
 
   specialArgs = {
     inherit
@@ -35,7 +36,6 @@ let
       themePresets
       activeTheme
       colors
-      settings
       ;
   };
 in
@@ -53,7 +53,6 @@ in
     themePresets
     activeTheme
     colors
-    settings
     ;
 
   mkNixosConfiguration =

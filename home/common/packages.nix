@@ -28,7 +28,7 @@
     pkgs.yandex-browser.yandex-browser-stable # nix flake lock --update-input yandex-browser
 
     # terminal
-    yazi
+    # yazi
     tmux
 
     # превью

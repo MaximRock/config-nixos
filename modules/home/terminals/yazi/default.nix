@@ -1,35 +1,64 @@
-# modules/home/terminals/yazi/default.nix
-#
-# Файловый менеджер Yazi.
-# Цвета темы (cwd, hovered) из colors.* (lib/theme.nix → specialArgs).
-# Параметры (ratio, editor) из центрального settings.json (секция `yazi`).
-#
 {
   config,
   pkgs,
   lib,
   colors,
-  settings,
+  themeName,
   ...
 }:
 
 let
   terminalLib = import ../lib.nix { inherit pkgs lib; };
   cfg = config.modules.home.terminals.yazi;
-  y = settings.yazi;
-  ratioStr = lib.concatStringsSep ", " (map toString y.ratio);
+  editor = "nvim";
+
+  # ── Flavor sources ──────────────────────────────────────────
+  flavorsSrc = {
+    catppuccin-mocha = pkgs.fetchFromGitHub {
+      owner = "yazi-rs";
+      repo = "flavors";
+      rev = "4770a3467169bfdb0a3b11601921aaf27c100630";
+      hash = "sha256-erZI0H5TxqFu2P917juL5PIB3LC0oJGKPcB1VibJDqo=";
+    };
+    gruvbox-dark = pkgs.fetchFromGitHub {
+      owner = "bennyyip";
+      repo = "gruvbox-dark.yazi";
+      rev = "619fdc5844db0c04f6115a62cf218e707de2821e";
+      hash = "sha256-Y/i+eS04T2+Sg/Z7/CGbuQHo5jxewXIgORTQm25uQb4=";
+    };
+    tokyo-night = pkgs.fetchFromGitHub {
+      owner = "BennyOe";
+      repo = "tokyo-night.yazi";
+      rev = "8e6296f14daff24151c736ebd0b9b6cd89b02b03";
+      hash = "sha256-LArhRteD7OQRBguV1n13gb5jkl90sOxShkDzgEf3PA0=";
+    };
+  };
+
+  # Map theme name → flavor directory name (without .yazi)
+  # Monorepo flavors are subdirectories of the source.
+  themeFlavorMap = {
+    catppuccin = "catppuccin-mocha";
+    gruvbox = "gruvbox-dark";
+    tokyonight = "tokyo-night";
+  };
+
+  activeFlavorName = themeFlavorMap.${themeName} or "catppuccin-mocha";
+
+  # For single-repo flavors the source root IS the flavor dir.
+  # For the yazi-rs/flavors monorepo we must extract the subdirectory.
+  flavorDirs = {
+    catppuccin-mocha = pkgs.runCommandLocal "catppuccin-mocha.yazi" { } ''
+      cp -r ${flavorsSrc.catppuccin-mocha}/catppuccin-mocha.yazi $out
+    '';
+    gruvbox-dark = flavorsSrc.gruvbox-dark;
+    tokyo-night = flavorsSrc.tokyo-night;
+  };
 in
 
 {
   options.modules.home.terminals.yazi = terminalLib.mkTerminalOptions "Yazi" pkgs.yazi;
 
   config = lib.mkIf cfg.enable {
-    programs.yazi = {
-      enable = true;
-      package = cfg.package;
-      shellWrapperName = "y";
-    };
-
     home.packages = with pkgs; [
       chafa
       ffmpegthumbnailer
@@ -43,40 +72,54 @@ in
       fzf
     ];
 
-    xdg.configFile."yazi/yazi.toml".text = ''
-      [mgr]
-      ratio          = [ ${ratioStr} ]
-      show_hidden = true
-      sort_by = "natural"
-      sort_dir_first = true
+    programs.yazi = {
+      enable = true;
+      package = cfg.package;
+      shellWrapperName = "y";
 
-      [preview]
-      max_width = 800
-      max_height = 900
+      flavors = flavorDirs;
 
-      [opener]
-      edit = [
-        { run = '${y.editor} "$@"', block = true }
-      ]
-    '';
+      theme = {
+        flavor.dark = activeFlavorName;
+        manager = {
+          cwd = { fg = "${colors.primary}"; };
+          hovered = { fg = "${colors.background}"; bg = "${colors.error}"; };
+          preview_hovered = { fg = "${colors.background}"; bg = "${colors.success}"; };
+        };
+      };
 
-    xdg.configFile."yazi/keymap.toml".text = ''
-      [[manager.prepend_keymap]]
-      on = ["e"]
-      run = "open"
-      desc = "Open in default editor"
+      settings = {
+        mgr = {
+          ratio = [ 2 4 3 ];
+          show_hidden = true;
+          sort_by = "natural";
+          sort_dir_first = true;
+        };
+        preview = {
+          max_width = 800;
+          max_height = 900;
+        };
+        opener = {
+          edit = [
+            { run = ''nvim "$@"''; block = true; }
+          ];
+        };
+      };
 
-      [[manager.prepend_keymap]]
-      on = ["E"]
-      run = "shell 'wezterm start -- ${y.editor} \"$@\"'"
-      desc = "Open in Neovim (new terminal)"
-    '';
-
-    xdg.configFile."yazi/theme.toml".text = ''
-      [manager]
-      cwd = { fg = "${colors.primary}" }
-      hovered = { fg = "${colors.background}", bg = "${colors.error}" }
-      preview_hovered = { fg = "${colors.background}", bg = "${colors.success}" }
-    '';
+      keymap = {
+        manager.prepend_keymap = [
+          {
+            on = [ "e" ];
+            run = "open";
+            desc = "Open in default editor";
+          }
+          {
+            on = [ "E" ];
+            run = ''shell 'wezterm start -- nvim "$@"' '';
+            desc = "Open in Neovim (new terminal)";
+          }
+        ];
+      };
+    };
   };
 }

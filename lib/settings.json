@@ -1,0 +1,18 @@
+{
+    "theme": {
+        "active": "gruvbox",
+        "colors": {}
+    },
+    "apps": {
+        "terminal": "wezterm",
+        "browser": "yandex-browser-stable",
+        "file_manager": "thunar",
+        "editor": "codium",
+        "rofi": "rofi -show drun",
+        "flameshot_gui": "flameshot gui",
+        "flameshot_full": "flameshot full"
+    },
+    "qtile": {
+        "mod_key": "mod4"
+    }
+}

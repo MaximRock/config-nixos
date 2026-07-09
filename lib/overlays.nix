@@ -7,6 +7,7 @@ let
     nur
     llm-agents
     rime
+    yazi
     ;
 
   system = "x86_64-linux";
@@ -16,7 +17,9 @@ in
   (final: prev: {
     unstable = import nixpkgs-unstable {
       inherit system;
-      config = prev.config // { allowUnfree = true; };
+      config = prev.config // {
+        allowUnfree = true;
+      };
     };
   })
 
@@ -29,4 +32,5 @@ in
   nur.overlays.default
   llm-agents.overlays.default
   rime.overlays.default
+  yazi.overlays.default
 ]
