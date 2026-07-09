@@ -2,17 +2,16 @@
   config,
   lib,
   pkgs,
-  themeName,
-  activeTheme,
-  settings,
+  appThemeNames,
+  appActiveThemes,
   ...
 }:
 
 let
   cfg = config.custom.rofi;
-  c = activeTheme.config;
+  c = appActiveThemes.rofi.config;
 
-  colorsRasi = pkgs.writeText "colors-${themeName}.rasi" ''
+  colorsRasi = pkgs.writeText "colors-${appThemeNames.rofi}.rasi" ''
     * {
       background:      ${c.background};
       background-alt:  ${c.surface};
@@ -26,9 +25,9 @@ let
     }
   '';
 
-  modiStr = lib.concatStringsSep "," settings.rofi.modes;
+  modiStr = lib.concatStringsSep "," [ "drun" "run" "window" "ssh" "calc" ];
 
-  configRasi = pkgs.writeText "config-${themeName}.rasi" ''
+  configRasi = pkgs.writeText "config-${appThemeNames.rofi}.rasi" ''
     @import "colors.rasi"
 
     configuration {
@@ -211,7 +210,7 @@ let
     }
   '';
 
-  rasiDir = pkgs.linkFarm "rofi-${themeName}" [
+  rasiDir = pkgs.linkFarm "rofi-${appThemeNames.rofi}" [
     {
       name = "config.rasi";
       path = configRasi;

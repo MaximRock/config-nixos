@@ -1,9 +1,8 @@
-{ config, pkgs, lib, colors, settings, ... }:
+{ config, pkgs, lib, appColors, ... }:
 
 let
   terminalLib = import ../lib.nix { inherit pkgs lib; };
   cfg = config.modules.home.terminals.fastfetch;
-  ff = settings.fastfetch;
 
   logoFile = ./logo3.png;
 
@@ -11,8 +10,8 @@ let
     logo = {
       type = "kitty";
       source = "$HOME/.config/fastfetch/logo.png";
-      width = ff.logo_width;
-      height = ff.logo_height;
+      width = 30;
+      height = 15;
       padding = {
         top = 1;
         bottom = 1;
@@ -22,29 +21,29 @@ let
     };
 
     color = {
-      keys = colors.primary;
-      title = colors.secondary;
-      subtitle = colors.inactive;
-      bar = colors.selected;
-      separator = colors.separator_color;
+      keys = appColors.fastfetch.primary;
+      title = appColors.fastfetch.secondary;
+      subtitle = appColors.fastfetch.inactive;
+      bar = appColors.fastfetch.selected;
+      separator = appColors.fastfetch.separator_color;
     };
 
     modules = [
-      { type = "title"; keyColor = colors.secondary; }
+      { type = "title"; keyColor = appColors.fastfetch.secondary; }
       "separator"
-      { type = "os"; key = " "; keyColor = colors.primary; }
-      { type = "host"; key = "󰍹 "; keyColor = colors.secondary; }
-      { type = "kernel"; key = " "; keyColor = colors.tertiary; }
-      { type = "uptime"; key = "󰔟 "; keyColor = colors.success; }
-      { type = "shell"; key = " "; keyColor = colors.secondary; }
-      { type = "display"; key = "󰍹 "; keyColor = colors.primary; }
-      { type = "de"; key = " "; keyColor = colors.tertiary; }
-      { type = "theme"; key = " "; keyColor = colors.warning; }
-      { type = "terminal"; key = " "; keyColor = colors.success; }
-      { type = "cpu"; key = " "; keyColor = colors.error; }
-      { type = "gpu"; key = "󰢮 "; keyColor = colors.success; }
-      { type = "memory"; key = " "; keyColor = colors.primary; }
-      { type = "disk"; key = "󰋊 "; keyColor = colors.accent; }
+      { type = "os"; key = " "; keyColor = appColors.fastfetch.primary; }
+      { type = "host"; key = "󰍹 "; keyColor = appColors.fastfetch.secondary; }
+      { type = "kernel"; key = " "; keyColor = appColors.fastfetch.tertiary; }
+      { type = "uptime"; key = "󰔟 "; keyColor = appColors.fastfetch.success; }
+      { type = "shell"; key = " "; keyColor = appColors.fastfetch.secondary; }
+      { type = "display"; key = "󰍹 "; keyColor = appColors.fastfetch.primary; }
+      { type = "de"; key = " "; keyColor = appColors.fastfetch.tertiary; }
+      { type = "theme"; key = " "; keyColor = appColors.fastfetch.warning; }
+      { type = "terminal"; key = " "; keyColor = appColors.fastfetch.success; }
+      { type = "cpu"; key = " "; keyColor = appColors.fastfetch.error; }
+      { type = "gpu"; key = "󰢮 "; keyColor = appColors.fastfetch.success; }
+      { type = "memory"; key = " "; keyColor = appColors.fastfetch.primary; }
+      { type = "disk"; key = "󰋊 "; keyColor = appColors.fastfetch.accent; }
       "colors"
     ];
   };

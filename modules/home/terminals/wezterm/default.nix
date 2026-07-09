@@ -1,4 +1,4 @@
-{ config, pkgs, lib, themeName, ... }:
+{ config, pkgs, lib, appThemeNames, ... }:
 
 let
   terminalLib = import ../lib.nix { inherit pkgs lib; };
@@ -9,7 +9,7 @@ let
     gruvbox = "Gruvbox Dark (Gogh)";
     tokyonight = "Tokyo Night";
   };
-  colorScheme = themeToScheme.${themeName} or "Catppuccin Mocha";
+  colorScheme = themeToScheme.${appThemeNames.wezterm} or "Catppuccin Mocha";
 in
 
 {
@@ -30,8 +30,9 @@ in
         font_size = 14.0;
         harfbuzz_features = [ "calt=1" "clig=1" "liga=1" ];
 
-        window_decorations = "INTEGRATED_BUTTONS";
+        window_decorations = "NONE";
         hide_tab_bar_if_only_one_tab = true;
+        show_new_tab_button_in_tab_bar = false;
         window_background_opacity = 0.92;
         window_padding = {
           left = 12;
@@ -42,9 +43,6 @@ in
 
         default_cursor_style = "BlinkingUnderline";
         cursor_thickness = 2.0;
-
-        enable_scroll_bar = true;
-        scrollback_lines = 10000;
 
         selection_word_boundary = " \t\n{}[]()\"\"'`.,:;!?|<>=@";
         audible_bell = "Disabled";
@@ -88,23 +86,6 @@ in
       };
 
       extraConfig = ''
-        local sb_hostname = '#89b4fa'
-        local sb_separator = '#585b70'
-        local sb_date = '#cdd6f4'
-
-        wezterm.on('update-right-status', function(window, pane)
-            local date = wezterm.strftime('%H:%M │ %d.%m.%Y')
-            local hostname = wezterm.hostname()
-            window:set_right_status(wezterm.format({
-                { Foreground = { Color = sb_hostname } },
-                { Text = ' ' .. hostname .. ' ' },
-                { Foreground = { Color = sb_separator } },
-                { Text = '│' },
-                { Foreground = { Color = sb_date } },
-                { Text = ' ' .. date .. ' ' },
-            }))
-        end)
-
         wezterm.on('format-tab-title', function(tab, tabs, panes, cfg, hover, max_width)
             local title = tab.active_pane.title
             local bar = cfg.colors.tab_bar

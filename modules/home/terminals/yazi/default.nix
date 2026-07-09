@@ -2,8 +2,8 @@
   config,
   pkgs,
   lib,
-  colors,
-  themeName,
+  appThemeNames,
+  appColors,
   ...
 }:
 
@@ -42,7 +42,7 @@ let
     tokyonight = "tokyo-night";
   };
 
-  activeFlavorName = themeFlavorMap.${themeName} or "catppuccin-mocha";
+  activeFlavorName = themeFlavorMap.${appThemeNames.yazi} or "catppuccin-mocha";
 
   # For single-repo flavors the source root IS the flavor dir.
   # For the yazi-rs/flavors monorepo we must extract the subdirectory.
@@ -82,9 +82,9 @@ in
       theme = {
         flavor.dark = activeFlavorName;
         manager = {
-          cwd = { fg = "${colors.primary}"; };
-          hovered = { fg = "${colors.background}"; bg = "${colors.error}"; };
-          preview_hovered = { fg = "${colors.background}"; bg = "${colors.success}"; };
+          cwd = { fg = "${appColors.yazi.primary}"; };
+          hovered = { fg = "${appColors.yazi.background}"; bg = "${appColors.yazi.error}"; };
+          preview_hovered = { fg = "${appColors.yazi.background}"; bg = "${appColors.yazi.success}"; };
         };
       };
 

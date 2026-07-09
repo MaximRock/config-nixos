@@ -1,18 +1,29 @@
 {
     "theme": {
-        "active": "gruvbox",
+        "active": "catppuccin",
         "colors": {}
-    },
-    "apps": {
-        "terminal": "wezterm",
-        "browser": "yandex-browser-stable",
-        "file_manager": "thunar",
-        "editor": "codium",
-        "rofi": "rofi -show drun",
-        "flameshot_gui": "flameshot gui",
-        "flameshot_full": "flameshot full"
     },
     "qtile": {
         "mod_key": "mod4"
+    },
+    "wezterm": {
+        "enable": true,
+        "theme": "gruvbox"
+    },
+    "yazi": {
+        "enable": true,
+        "theme": "tokyonight"
+    },
+    "rofi": {
+        "enable": true,
+        "theme": "tokyonight"
+    },
+    "dunst": {
+        "enable": true,
+        "theme": "gruvbox"
+    },
+    "fastfetch": {
+        "enable": true,
+        "theme": "gruvbox"
     }
 }
