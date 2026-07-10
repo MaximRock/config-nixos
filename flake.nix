@@ -44,6 +44,11 @@
       url = "github:sxyazi/yazi";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    wezterm = {
+      url = "github:wezterm/wezterm?dir=nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =

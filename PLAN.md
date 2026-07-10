@@ -132,3 +132,62 @@ git tag -d backup/pre-central-config
 - [x] **Git** — user_name, user_email в settings.json
 - [x] **Shell (zsh)** — oh-my-zsh theme, plugins в settings.json
 ```
+
+---
+
+## Architecture v2 — Minimal SSOT (only colors)
+
+После переосмысления: `settings.json` раздут, настройки каждого приложения
+должны жить в его Nix-модуле (Nix way). Единственный реально общий SSOT —
+**цветовая схема**.
+
+### Что изменилось
+
+| Файл | Действие |
+|---|---|
+| `lib/settings.json` | **NEW** — только {theme, apps, qtile} |
+| `config/settings/settings.json` | → symlink на `lib/settings.json` |
+| `lib/theme.nix` | путь: `./settings.json`; убран экспорт `settings` |
+| `lib/default.nix` | убран `settings` из specialArgs |
+| `settings_loader.py` | удалены `get_wezterm`, `resolve_theme`, `resolve_color` |
+| `dunst/settings.nix` | хардкод + комменты; цвета `colors.*` |
+| `picom/default.nix` | полный хардкод |
+| `gtk/default.nix` | полный хардкод |
+| `rofi/default.nix` + `theme.nix` | хардкод font/modes; цвета `activeTheme.config` |
+| `git/default.nix` | полный хардкод |
+| `shell/zsh/default.nix` | полный хардкод |
+| `yazi/default.nix` | хардкод ratio/editor; цвета `colors.*` |
+| `fastfetch/default.nix` | хардкод logo width/height; цвета `colors.*` |
+| `wezterm.lua` | полный хардкод (без JSON) |
+| `PLAN.md` | добавлен этот раздел |
+
+### Новая архитектура
+
+```
+lib/settings.json              ← только {theme, apps, qtile}
+  │
+  ├── Nix: lib/theme.nix ──→ specialArgs.colors ──→ модули (dunst, rofi, yazi, fastfetch)
+  │         ↑ читает только theme.active + theme.colors
+  │
+  └── Python (Qtile runtime): symlink → ~/.config/qtile/settings/settings.json
+                └─→ settings_loader.py ──→ constants.py (apps, qtile)
+```
+
+### Статус v2
+
+- [x] `lib/settings.json` — только {theme, apps, qtile}
+- [x] `lib/theme.nix` — читает `./settings.json`, экспортирует `colors`
+- [x] `lib/default.nix` — `settings` убран из specialArgs
+- [x] `config/settings/settings.json` — symlink на `lib/settings.json`
+- [x] `settings_loader.py` — убраны лишние функции
+- [x] `dunst/settings.nix` — хардкод + комменты, цвета из `colors.*`
+- [x] `picom/default.nix` — полный хардкод
+- [x] `gtk/default.nix` — полный хардкод
+- [x] `rofi/default.nix` + `theme.nix` — хардкод, цвета из `activeTheme`
+- [x] `git/default.nix` — полный хардкод
+- [x] `shell/zsh/default.nix` — полный хардкод
+- [x] `yazi/default.nix` — хардкод, цвета из `colors.*`
+- [x] `fastfetch/default.nix` — хардкод, цвета из `colors.*`
+- [x] `wezterm.lua` — полный хардкод (без JSON)
+- [x] PLAN.md — обновлён
+```

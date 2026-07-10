@@ -1,8 +1,9 @@
-{ config, pkgs, lib, appThemeNames, ... }:
+{ config, pkgs, lib, appThemeNames, wezterm, ... }:
 
 let
   terminalLib = import ../lib.nix { inherit pkgs lib; };
   cfg = config.modules.home.terminals.wezterm;
+  weztermPkg = wezterm.packages.${pkgs.system}.default;
 
   themeToScheme = {
     catppuccin = "Catppuccin Mocha";
@@ -14,7 +15,7 @@ in
 
 {
   options.modules.home.terminals.wezterm =
-    terminalLib.mkTerminalOptions "WezTerm" pkgs.wezterm;
+    terminalLib.mkTerminalOptions "WezTerm" weztermPkg;
 
   config = lib.mkIf cfg.enable {
     programs.wezterm = {
@@ -113,6 +114,6 @@ in
     };
 
     xdg.configFile."wezterm/keys.lua".source =
-      config.lib.file.mkOutOfStoreSymlink "${toString ./.}/keys.lua";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/modules/home/terminals/wezterm/keys.lua";
   };
 }

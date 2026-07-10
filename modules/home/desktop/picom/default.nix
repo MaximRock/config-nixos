@@ -1,17 +1,9 @@
-# modules/home/desktop/picom/default.nix
-#
-# Композитор окон picom.
-# Настройки берутся из центрального settings.json (секция `picom`).
-# corner-radius-rules для notification-окон остаётся здесь — это фикс
-# совместимости picom+dunst, а не пользовательская настройка.
-#
-{ config, lib, settings, ... }:
+{ config, lib, ... }:
 
 with lib;
 
 let
   cfg = config.modules.home.picom;
-  p = settings.picom;
 in
 
 {
@@ -22,14 +14,14 @@ in
   config = mkIf cfg.enable {
     services.picom = {
       enable = true;
-      backend = p.backend;
-      activeOpacity = p.active_opacity;
-      inactiveOpacity = p.inactive_opacity;
-      fade = p.fade;
-      fadeSteps = p.fade_steps;
+      backend = "glx";
+      activeOpacity = 1.0;
+      inactiveOpacity = 1.0;
+      fade = true;
+      fadeSteps = [ 0.04 0.04 ];
       settings = {
-        opacity-rule = p.opacity_rules;
-        corner-radius = p.corner_radius;
+        opacity-rule = [ "100:class_g = 'rofi'" ];
+        corner-radius = 12;
         corner-radius-rules = [
           "0:window_type = 'notification'"
         ];

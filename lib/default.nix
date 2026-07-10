@@ -6,7 +6,7 @@ let
     home-manager
     sops-nix
     nvf
-    yazi
+    wezterm
     ;
 
   system = "x86_64-linux";
@@ -22,8 +22,13 @@ let
   nvfConfig = import ../modules/home/editors/configs/nvf-config { inherit pkgs; };
 
   inherit (import ./theme.nix { inherit (pkgs) lib; })
-    themeName themePresets activeTheme colors
-    appThemeNames appColors appActiveThemes
+    themeName
+    themePresets
+    activeTheme
+    colors
+    appThemeNames
+    appColors
+    appActiveThemes
     ;
 
   specialArgs = {
@@ -33,6 +38,7 @@ let
       variables
       nvfConfig
       nvf
+      wezterm
       overlays
       unstable
       themeName
@@ -67,7 +73,9 @@ in
   mkNixosConfiguration =
     { hostName, hostPath }:
     nixpkgs.lib.nixosSystem {
-      specialArgs = specialArgs // { inherit hostName; };
+      specialArgs = specialArgs // {
+        inherit hostName;
+      };
       modules = [
         { nixpkgs.hostPlatform = system; }
         sops-nix.nixosModules.sops
