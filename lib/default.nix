@@ -35,6 +35,7 @@ let
   specialArgs = {
     inherit
       inputs
+      system
       username
       variables
       nvfConfig
@@ -75,11 +76,11 @@ in
   mkNixosConfiguration =
     { hostName, hostPath }:
     nixpkgs.lib.nixosSystem {
+      inherit system;
       specialArgs = specialArgs // {
         inherit hostName;
       };
       modules = [
-        { nixpkgs.hostPlatform = system; }
         sops-nix.nixosModules.sops
         (hostPath + /default.nix)
         ../modules/nixos

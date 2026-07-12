@@ -24,7 +24,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ llm-agents.packages.${pkgs.system}.opencode ];
+    home.packages = [ llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode ];
 
     # === sops-секреты ===
     sops = {

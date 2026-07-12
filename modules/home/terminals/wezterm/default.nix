@@ -3,7 +3,7 @@
 let
   terminalLib = import ../lib.nix { inherit pkgs lib; };
   cfg = config.modules.home.terminals.wezterm;
-  weztermPkg = wezterm.packages.${pkgs.system}.default;
+  weztermPkg = wezterm.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   themeToScheme = {
     catppuccin = "Catppuccin Mocha";

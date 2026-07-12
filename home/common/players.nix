@@ -14,6 +14,6 @@ in
 
   modules.home.players = {
     deadbeef.enable = true;
-    strawberry.enable = true;
+    strawberry.enable = false;
   };
 }

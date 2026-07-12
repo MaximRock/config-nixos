@@ -24,8 +24,6 @@
     # yazi
     tmux
 
-
-
     xwallpaper
 
     lxqt.lxqt-policykit
