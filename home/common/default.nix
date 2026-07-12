@@ -15,6 +15,7 @@ in
     ./terminals.nix
     ./ai-agents.nix
     ./wm.nix
+    ./players.nix
 
     # === Ваши существующие модули из ./modules/ ===
     # Editors

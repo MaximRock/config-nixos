@@ -26,10 +26,6 @@
 
 
 
-    # плеер
-    deadbeef
-    strawberry
-
     xwallpaper
 
     lxqt.lxqt-policykit
