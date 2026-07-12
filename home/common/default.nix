@@ -38,8 +38,8 @@ in
     "${modulesHome}/desktop/rofi"
 
     # Apps
-    "${modulesHome}/flameshot"
-    "${modulesHome}/dunst"
+    "${modulesHome}/desktop/flameshot"
+    "${modulesHome}/desktop/dunst"
 
     # Browsers
     "${modulesHome}/browsers/firefox/default.nix"

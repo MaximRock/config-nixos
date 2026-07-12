@@ -1,4 +1,4 @@
-# modules/home/flameshot/default.nix
+# modules/home/desktop/flameshot/default.nix
 
 { config, lib, ... }:
 
