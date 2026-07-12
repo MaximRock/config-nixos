@@ -5,7 +5,6 @@ let
     nixpkgs-unstable
     yandex-browser
     nur
-    llm-agents
     rime
     yazi
     ;
@@ -30,7 +29,6 @@ in
 
   # Внешние overlays
   nur.overlays.default
-  llm-agents.overlays.default
   rime.overlays.default
   yazi.overlays.default
 ]

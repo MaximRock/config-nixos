@@ -7,6 +7,7 @@ let
     sops-nix
     nvf
     wezterm
+    llm-agents
     ;
 
   system = "x86_64-linux";
@@ -39,6 +40,7 @@ let
       nvfConfig
       nvf
       wezterm
+      llm-agents
       overlays
       unstable
       themeName

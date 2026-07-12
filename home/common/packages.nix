@@ -1,6 +1,7 @@
 # home/common/packages.nix
 {
   pkgs,
+  llm-agents,
   ...
 }:
 {
@@ -19,7 +20,7 @@
     # LLm
     nodejs_22
     # llm-agents.reasonix
-    llm-agents.opencode
+    llm-agents.packages.${pkgs.system}.opencode
     python313Packages.huggingface-hub
     # aider-chat-with-help
     # unstable.mcp-nixos
