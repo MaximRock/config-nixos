@@ -13,6 +13,7 @@ in
     ./user.nix
     ./editors.nix
     ./terminals.nix
+    ./ai-agents.nix
 
     # === Ваши существующие модули из ./modules/ ===
     # Editors
@@ -44,10 +45,10 @@ in
     "${modulesHome}/browsers/firefox/default.nix"
 
     # AI and agents
-    "${modulesHome}/aider"
-    "${modulesHome}/opencode"
-    "${modulesHome}/rime-mcp"
-    "${modulesHome}/koda"
+#    "${modulesHome}/aider"
+#    "${modulesHome}/opencode"
+#    "${modulesHome}/rime-mcp"
+#    "${modulesHome}/koda"
   ];
 
   modules.home = {
@@ -68,10 +69,10 @@ in
     dunst.enable = true;
 
     # AI and Agents
-    koda.enable = true;
-    aider.enable = true;
-    opencode.enable = true;
-    rime-mcp.enable = true;
+#    koda.enable = true;
+#    aider.enable = true;
+#    opencode.enable = true;
+#    rime-mcp.enable = true;
 
     # Desktop
     gtk.enable = true;

@@ -1,12 +1,19 @@
 # modules/home/opencode/default.nix
 
-{ config, lib, pkgs, variables, llm-agents, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  variables,
+  llm-agents,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.modules.home.opencode;
-  base = "${variables.basePathFilesDir}/modules/home/opencode";
+  base = "${variables.basePathFilesDir}/modules/home/ai-agents/opencode";
   configRoot = "${base}/config";
   projectRoot = "${base}/project";
 in
@@ -21,7 +28,7 @@ in
 
     # === sops-секреты ===
     sops = {
-      defaultSopsFile = ../../nixos/sops/secrets.yaml;
+      defaultSopsFile = ../../../nixos/sops/secrets.yaml;
       defaultSopsFormat = "yaml";
       age.keyFile = "/home/${variables.username}/.config/sops/age/keys.txt";
       secrets.OPENROUTER_API_KEY = { };
@@ -31,8 +38,7 @@ in
     xdg.configFile = {
       "opencode/opencode.jsonc".source =
         config.lib.file.mkOutOfStoreSymlink "${configRoot}/opencode.jsonc";
-      "opencode/tui.jsonc".source =
-        config.lib.file.mkOutOfStoreSymlink "${configRoot}/tui.jsonc";
+      "opencode/tui.jsonc".source = config.lib.file.mkOutOfStoreSymlink "${configRoot}/tui.jsonc";
       "opencode/agents/git-commit.md".source =
         config.lib.file.mkOutOfStoreSymlink "${base}/agents/git-commit.md";
       "opencode/skills/nixos-rules/SKILL.md".source =
