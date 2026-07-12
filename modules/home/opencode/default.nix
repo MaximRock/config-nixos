@@ -1,6 +1,6 @@
 # modules/home/opencode/default.nix
 
-{ config, lib, variables, ... }:
+{ config, lib, pkgs, variables, llm-agents, ... }:
 
 with lib;
 
@@ -17,6 +17,8 @@ in
   };
 
   config = mkIf cfg.enable {
+    home.packages = [ llm-agents.packages.${pkgs.system}.opencode ];
+
     # === sops-секреты ===
     sops = {
       defaultSopsFile = ../../nixos/sops/secrets.yaml;

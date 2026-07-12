@@ -1,9 +1,5 @@
 # home/common/packages.nix
-{
-  pkgs,
-  llm-agents,
-  ...
-}:
+{ pkgs, ... }:
 {
   home.packages = with pkgs; [
     # Utils
@@ -13,14 +9,10 @@
     htop
 
     # Apps
-    dunst
-    fastfetch
     mousepad
 
     # LLm
     nodejs_22
-    # llm-agents.reasonix
-    llm-agents.packages.${pkgs.system}.opencode
     python313Packages.huggingface-hub
     # aider-chat-with-help
     # unstable.mcp-nixos
@@ -32,21 +24,7 @@
     # yazi
     tmux
 
-    # превью
-    chafa
-    ffmpegthumbnailer
-    poppler-utils
-    mediainfo
 
-    # архивы
-    p7zip
-    unzip
-    zip
-
-    # ускорение поиска
-    fd
-    ripgrep
-    fzf
 
     # плеер
     deadbeef
