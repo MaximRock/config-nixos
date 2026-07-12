@@ -5,7 +5,7 @@
 pkgs.stdenvNoCC.mkDerivation {
   pname = "qtile-help";
   version = "0.1.0";
-  src = ../../home/desktop/qtile/config;
+  src = ../config;
 
   nativeBuildInputs = [ pkgs.makeWrapper ];
 

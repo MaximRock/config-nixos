@@ -14,6 +14,7 @@ in
     ./editors.nix
     ./terminals.nix
     ./ai-agents.nix
+    ./wm.nix
 
     # === Ваши существующие модули из ./modules/ ===
     # Editors
@@ -27,17 +28,10 @@ in
     # Git
     "${modulesHome}/git"
 
-    # Qtile
-    "${modulesHome}/desktop/qtile/default.nix"
-    "${modulesHome}/power-menu"
-    "${modulesHome}/qtile-help"
-
     # Desktop
     "${modulesHome}/desktop/gtk"
     "${modulesHome}/desktop/picom"
     "${modulesHome}/desktop/rofi"
-
-    # Apps
     "${modulesHome}/desktop/flameshot"
     "${modulesHome}/desktop/dunst"
 
@@ -58,13 +52,8 @@ in
       nighttab = true;
       chromeCss = true;
     };
-    # Qtile modules
-    power-menu.enable = true;
-    qtile-help.enable = true;
-
     git.enable = true;
 
-    # Apps
     flameshot.enable = true;
     dunst.enable = true;
 
