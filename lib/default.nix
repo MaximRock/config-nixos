@@ -8,6 +8,7 @@ let
     nvf
     wezterm
     llm-agents
+    herdr
     ;
 
   system = "x86_64-linux";
@@ -42,6 +43,7 @@ let
       nvf
       wezterm
       llm-agents
+      herdr
       overlays
       unstable
       themeName

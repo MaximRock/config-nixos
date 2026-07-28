@@ -6,6 +6,7 @@
     ../../modules/home/terminals/wezterm
     ../../modules/home/terminals/yazi
     ../../modules/home/terminals/fastfetch
+    ../../modules/home/terminals/herdr
   ];
 
   modules.home.terminals.wezterm = {
@@ -17,6 +18,10 @@
   };
 
   modules.home.terminals.fastfetch = {
+    enable = true;
+  };
+
+  modules.home.terminals.herdr = {
     enable = true;
   };
 }
