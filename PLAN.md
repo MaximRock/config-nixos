@@ -191,3 +191,111 @@ lib/settings.json              ← только {theme, apps, qtile}
 - [x] `wezterm.lua` — полный хардкод (без JSON)
 - [x] PLAN.md — обновлён
 ```
+
+---
+
+# Niri (Wayland compositor) — ветка `feat/niri-wayland`
+
+Добавление niri как второго WM на ту же машину, переключение через SDDM.
+
+## Файлы (только изменения)
+
+### NEW
+
+| Файл | Описание |
+|---|---|
+| `modules/nixos/desktop/niri.nix` | Системный модуль niri (programs.niri, xdg.portal, Wayland-пакеты) |
+| `modules/home/wm/niri/default.nix` | HM-модуль niri (опция enable, symlink конфига, пакеты) |
+| `modules/home/wm/niri/config/config.kdl` | Конфиг niri (layout, input, binds, autostart) |
+| `modules/home/wm/niri/config/scripts/layout.sh` | Скрипт текущей раскладки для waybar (JSON) |
+
+### MODIFIED
+
+| Файл | Что изменилось |
+|---|---|
+| `configuration.nix` | Добавлен импорт `./modules/nixos/desktop/niri.nix` |
+| `home/common/wm.nix` | Добавлен импорт niri HM-модуля + `modules.home.wm.niri.enable = true` |
+
+### UNCHANGED
+
+`flake.nix`, `hosts/`, `lib/`, все остальные модули — новый хост не создаётся, niri работает на той же машине.
+
+## Структура
+
+```
+modules/
+├── nixos/
+│   └── desktop/
+│       ├── qtile.nix         ← без изменений
+│       └── niri.nix          ← NEW: programs.niri + portals
+└── home/
+    └── wm/
+        ├── qtile/            ← без изменений
+        └── niri/
+            ├── default.nix   ← NEW: HM-модуль
+            └── config/
+                ├── config.kdl ← NEW: niri (layout, input, binds, autostart)
+                └── scripts/
+                    └── layout.sh ← NEW: раскладка для waybar
+configuration.nix             ← +import niri.nix
+home/common/wm.nix            ← +import niri HM
+```
+
+## Пакеты
+
+### Системные (niri.nix)
+- `programs.niri.enable = true` — сам compositor
+- `xdg.portal.enable = true` + `xdg.portal.extraPortals = [ xdg-desktop-portal-gtk xdg-desktop-portal-wlr ]`
+
+### Пользовательские (niri/default.nix)
+- `waybar` — статус-бар
+- `fuzzel` — лаунчер
+- `grim` + `slurp` — скриншоты
+- `wl-clipboard` — буфер обмена
+- `swaybg` — обои
+- `swaylock` — блокировка
+- `swayidle` — idle/power
+- `mako` — уведомления (либо dunst)
+- `wlogout` — меню выхода
+- `brightnessctl` — яркость
+- `playerctl` — MPRIS
+- `pamixer` — звук
+- `polkit_gnome` — polkit-агент для Wayland
+
+## Раскладка клавиатуры
+
+**Раскладка:** us,ru, переключение **Ctrl+Shift**.
+
+**Способ:** Option 1 — явно в `config.kdl`:
+```kdl
+input {
+    keyboard {
+        xkb {
+            layout "us,ru"
+            options "grp:ctrl_shift_toggle"
+        }
+        repeat-delay 200
+        repeat-rate 35
+        numlock
+        track-layout "global"
+    }
+}
+```
+
+**Переключение:**
+- `Ctrl+Shift` — xkb-опция `grp:ctrl_shift_toggle` (аппаратное, работает всегда)
+- Мышь — `on-click` на виджете waybar → `niri msg action switch-layout next`
+- `switch-layout` в binds НЕ добавляем — xkb уже переключает, иначе двойное срабатывание
+
+**Виджет waybar:**
+- `custom/layout` — `exec: scripts/layout.sh`
+- Возвращает `{"text": "US", "tooltip": "English | Русская"}`
+- `return-type: json`, `interval: 1`
+- `on-click: niri msg action switch-layout next`
+
+**Скрипт `layout.sh`:**
+- Читает `/proc/bus/input/leds` или через `niri msg` — запрашивает текущий xkb-индекс
+- Выводит либо "US" (индекс 0), либо "RU" (индекс 1)
+
+**Base.nix:** `services.xserver.xkb` остаётся без изменений — это для Qtile/X11. niri использует свою настройку из config.kdl, не пересекаясь.
+```
