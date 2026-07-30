@@ -3,6 +3,7 @@
 let
   terminalLib = import ../lib.nix { inherit pkgs lib; };
   cfg = config.modules.home.terminals.fastfetch;
+  colors = cfg.colors or appColors.fastfetch;
 
   logoFile = ./logo3.png;
 
@@ -21,29 +22,29 @@ let
     };
 
     color = {
-      keys = appColors.fastfetch.primary;
-      title = appColors.fastfetch.secondary;
-      subtitle = appColors.fastfetch.inactive;
-      bar = appColors.fastfetch.selected;
-      separator = appColors.fastfetch.separator_color;
+      keys = colors.primary;
+      title = colors.secondary;
+      subtitle = colors.inactive;
+      bar = colors.selected;
+      separator = colors.separator_color;
     };
 
     modules = [
-      { type = "title"; keyColor = appColors.fastfetch.secondary; }
+      { type = "title"; keyColor = colors.secondary; }
       "separator"
-      { type = "os"; key = " "; keyColor = appColors.fastfetch.primary; }
-      { type = "host"; key = "󰍹 "; keyColor = appColors.fastfetch.secondary; }
-      { type = "kernel"; key = " "; keyColor = appColors.fastfetch.tertiary; }
-      { type = "uptime"; key = "󰔟 "; keyColor = appColors.fastfetch.success; }
-      { type = "shell"; key = " "; keyColor = appColors.fastfetch.secondary; }
-      { type = "display"; key = "󰍹 "; keyColor = appColors.fastfetch.primary; }
-      { type = "de"; key = " "; keyColor = appColors.fastfetch.tertiary; }
-      { type = "theme"; key = " "; keyColor = appColors.fastfetch.warning; }
-      { type = "terminal"; key = " "; keyColor = appColors.fastfetch.success; }
-      { type = "cpu"; key = " "; keyColor = appColors.fastfetch.error; }
-      { type = "gpu"; key = "󰢮 "; keyColor = appColors.fastfetch.success; }
-      { type = "memory"; key = " "; keyColor = appColors.fastfetch.primary; }
-      { type = "disk"; key = "󰋊 "; keyColor = appColors.fastfetch.accent; }
+      { type = "os"; key = " "; keyColor = colors.primary; }
+      { type = "host"; key = "󰍹 "; keyColor = colors.secondary; }
+      { type = "kernel"; key = " "; keyColor = colors.tertiary; }
+      { type = "uptime"; key = "󰔟 "; keyColor = colors.success; }
+      { type = "shell"; key = " "; keyColor = colors.secondary; }
+      { type = "display"; key = "󰍹 "; keyColor = colors.primary; }
+      { type = "de"; key = " "; keyColor = colors.tertiary; }
+      { type = "theme"; key = " "; keyColor = colors.warning; }
+      { type = "terminal"; key = " "; keyColor = colors.success; }
+      { type = "cpu"; key = " "; keyColor = colors.error; }
+      { type = "gpu"; key = "󰢮 "; keyColor = colors.success; }
+      { type = "memory"; key = " "; keyColor = colors.primary; }
+      { type = "disk"; key = "󰋊 "; keyColor = colors.accent; }
       "colors"
     ];
   };
@@ -51,7 +52,13 @@ in
 
 {
   options.modules.home.terminals.fastfetch =
-    terminalLib.mkTerminalOptions "fastfetch" pkgs.fastfetch;
+    terminalLib.mkTerminalOptions "fastfetch" pkgs.fastfetch // {
+      colors = lib.mkOption {
+        type = lib.types.nullOr (lib.types.attrsOf lib.types.str);
+        default = null;
+        description = "Override color palette for fastfetch";
+      };
+    };
 
   config = lib.mkIf cfg.enable {
     home.packages = [ cfg.package ];

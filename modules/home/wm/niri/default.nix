@@ -19,9 +19,29 @@ in
   };
 
   config = mkIf cfg.enable {
-    modules.home.desktop.wayland.waybar = {
-      enable = true;
-      colors = cfg.theme.appColors.waybar;
+    modules.home = {
+      desktop.wayland = {
+        common.enable = true;
+        fuzzel.enable = true;
+        mako.enable = true;
+        swaybg.enable = true;
+        swaylock.enable = true;
+        swayidle.enable = true;
+        wlogout.enable = true;
+        waybar = {
+          enable = true;
+          colors = cfg.theme.appColors.waybar;
+        };
+      };
+
+      terminals = {
+        wezterm.themeName = cfg.theme.appThemeNames.wezterm;
+        yazi = {
+          themeName = cfg.theme.appThemeNames.yazi;
+          colors = cfg.theme.appColors.yazi;
+        };
+        fastfetch.colors = cfg.theme.appColors.fastfetch;
+      };
     };
 
     xdg.configFile."niri/config.kdl" = {
@@ -55,22 +75,5 @@ in
           backdrop-color "${colors.surface}"
       }
     '';
-
-    home.packages = with pkgs; [
-      fuzzel
-      grim
-      slurp
-      wl-clipboard
-      swaybg
-      swaylock
-      swayidle
-      mako
-      wlogout
-      brightnessctl
-      playerctl
-      pamixer
-      polkit_gnome
-      jq
-    ];
   };
 }
