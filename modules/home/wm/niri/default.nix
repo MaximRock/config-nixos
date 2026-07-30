@@ -23,9 +23,15 @@ in
       desktop.wayland = {
         common.enable = true;
         fuzzel.enable = true;
-        mako.enable = true;
+        mako = {
+          enable = true;
+          colors = cfg.theme.appColors.mako;
+        };
         swaybg.enable = true;
-        swaylock.enable = true;
+        swaylock = {
+          enable = true;
+          colors = cfg.theme.appColors.swaylock;
+        };
         swayidle.enable = true;
         wlogout.enable = true;
         waybar = {
