@@ -6,7 +6,7 @@ let
   settings = fromJSON (readFile ./settings.json);
   themeName = settings.theme.active;
 
-  presetsDir = ../modules/home/wm/qtile/config/config_qtile/theme/presets;
+  presetsDir = ../theme/presets;
   readPreset = name: elemAt (fromJSON (readFile "${presetsDir}/${name}.json")) 0;
 
   themePresets = {

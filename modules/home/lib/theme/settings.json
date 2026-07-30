@@ -1,8 +1,0 @@
-{
-    "active": "catppuccin",
-    "programs": {
-        "waybar": "catppuccin",
-        "mako": "catppuccin",
-        "swaylock": "catppuccin"
-    }
-}

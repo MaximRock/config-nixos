@@ -3,12 +3,19 @@
 with lib;
 
 let
-  cfg = config.modules.home.wm.niri;
-  colors = cfg.theme.colors;
+  cfg = config.modules.home.desktop.wayland.waybar;
   niriConfigDir = "${variables.basePathFilesDir}/modules/home/wm/niri/config";
-in
+in {
+  options.modules.home.desktop.wayland.waybar = {
+    enable = mkEnableOption "waybar status bar";
 
-{
+    colors = mkOption {
+      type = types.attrsOf types.str;
+      default = {};
+      description = "Color palette for waybar CSS";
+    };
+  };
+
   config = mkIf cfg.enable {
     programs.waybar = {
       enable = true;
@@ -43,16 +50,12 @@ in
             };
           };
 
-          clock = {
-            format = "{:%H:%M}";
-          };
+          clock = { format = "{:%H:%M}"; };
 
           pulseaudio = {
             format = "{icon} {volume}%";
             format-muted = "";
-            format-icons = {
-              default = [ "" "" "" ];
-            };
+            format-icons = { default = [ "" "" "" ]; };
             on-click = "pamixer -t";
           };
 
@@ -62,26 +65,14 @@ in
             format-disconnected = "⚠";
           };
 
-          cpu = {
-            format = " {usage}%";
-          };
-
-          memory = {
-            format = " {}%";
-          };
-
-          temperature = {
-            format = "{temperatureC}°C";
-          };
-
+          cpu = { format = " {usage}%"; };
+          memory = { format = " {}%"; };
+          temperature = { format = "{temperatureC}°C"; };
           battery = {
             format = "{capacity}% {icon}";
             format-icons = [ "" "" "" "" "" ];
           };
-
-          tray = {
-            spacing = 10;
-          };
+          tray = { spacing = 10; };
         };
       };
       style = ''
@@ -94,49 +85,47 @@ in
         }
 
         window#waybar {
-          background: ${colors.background};
-          color: ${colors.foreground};
+          background: ${cfg.colors.background};
+          color: ${cfg.colors.foreground};
         }
 
         #workspaces button {
           padding: 0 5px;
-          color: ${colors.surface};
+          color: ${cfg.colors.surface};
         }
 
         #workspaces button.active {
-          color: ${colors.foreground};
+          color: ${cfg.colors.foreground};
         }
 
         #workspaces button:hover {
-          background: ${colors.hover};
+          background: ${cfg.colors.hover};
         }
 
         #custom-layout {
-          color: ${colors.success};
+          color: ${cfg.colors.success};
           padding: 0 8px;
         }
 
-        #clock {
-          color: ${colors.primary};
-        }
+        #clock { color: ${cfg.colors.primary}; }
 
         #pulseaudio {
-          color: ${colors.secondary};
+          color: ${cfg.colors.secondary};
           padding: 0 8px;
         }
 
         #network {
-          color: ${colors.tertiary};
+          color: ${cfg.colors.tertiary};
           padding: 0 8px;
         }
 
         #cpu, #memory, #temperature {
-          color: ${colors.accent};
+          color: ${cfg.colors.accent};
           padding: 0 8px;
         }
 
         #battery {
-          color: ${colors.success};
+          color: ${cfg.colors.success};
           padding: 0 8px;
         }
       '';

@@ -23,7 +23,7 @@ let
 
   nvfConfig = import ../modules/home/editors/configs/nvf-config { inherit pkgs; };
 
-  inherit (import ./theme.nix { inherit (pkgs) lib; })
+  inherit (import ./qtile/theme.nix { inherit (pkgs) lib; })
     themeName
     themePresets
     activeTheme

@@ -10,8 +10,8 @@ in
 
 {
   imports = [
-    ./lib/theme.nix
-    ./waybar.nix
+    ../../../../lib/niri/theme.nix
+    ../../desktop/wayland
   ];
 
   options.modules.home.wm.niri = {
@@ -19,6 +19,11 @@ in
   };
 
   config = mkIf cfg.enable {
+    modules.home.desktop.wayland.waybar = {
+      enable = true;
+      colors = cfg.theme.appColors.waybar;
+    };
+
     xdg.configFile."niri/config.kdl" = {
       source = config.lib.file.mkOutOfStoreSymlink "${niriConfigDir}/config.kdl";
     };
@@ -52,7 +57,6 @@ in
     '';
 
     home.packages = with pkgs; [
-      waybar
       fuzzel
       grim
       slurp
