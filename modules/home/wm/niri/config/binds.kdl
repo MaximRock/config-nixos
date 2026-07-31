@@ -1,62 +1,76 @@
 binds {
-    Mod+T { spawn "foot"; }
-    Mod+D { spawn "fuzzel"; }
-    Mod+Q { close-window; }
-    Mod+Return { spawn "wezterm"; }
+    // ─── Запуск приложений ───
+    Mod+T       { spawn "foot"; }                // Открыть терминал foot
+    Mod+D       { spawn "fuzzel"; }              // Открыть лаунчер fuzzel
+    Mod+Return  { spawn "wezterm"; }             // Открыть терминал wezterm
+    Mod+B       { spawn "yandex-browser-stable"; } // Открыть Яндекс Браузер
+    Mod+C       { spawn "codium"; }              // Открыть редактор VS Codium
+    Mod+P       { spawn "deadbeef"; }            // Открыть плеер DeaDBeeF
 
-    Mod+Shift+Q { quit; }
+    // ─── Управление окнами ───
+    Mod+Q       { close-window; }                // Закрыть текущее окно
+    Mod+Shift+Q { quit; }                        // Выйти из niri
 
-    Mod+H { focus-column-left; }
-    Mod+L { focus-column-right; }
-    Mod+J { focus-window-down; }
-    Mod+K { focus-window-up; }
+    // ─── Навигация (фокус) ───
+    Mod+H { focus-column-left; }                 // Фокус на колонку слева
+    Mod+L { focus-column-right; }                // Фокус на колонку справа
+    Mod+J { focus-window-down; }                 // Фокус на окно ниже
+    Mod+K { focus-window-up; }                   // Фокус на окно выше
 
-    Mod+Shift+H { move-column-left; }
-    Mod+Shift+L { move-column-right; }
-    Mod+Shift+J { move-window-down; }
-    Mod+Shift+K { move-window-up; }
+    // ─── Перемещение ───
+    Mod+Shift+H { move-column-left; }             // Переместить колонку влево
+    Mod+Shift+L { move-column-right; }            // Переместить колонку вправо
+    Mod+Shift+J { move-window-down; }             // Переместить окно вниз
+    Mod+Shift+K { move-window-up; }               // Переместить окно вверх
 
-    Mod+1 { focus-workspace 1; }
-    Mod+2 { focus-workspace 2; }
-    Mod+3 { focus-workspace 3; }
-    Mod+4 { focus-workspace 4; }
-    Mod+5 { focus-workspace 5; }
-    Mod+6 { focus-workspace 6; }
-    Mod+7 { focus-workspace 7; }
-    Mod+8 { focus-workspace 8; }
-    Mod+9 { focus-workspace 9; }
+    // ─── Рабочие столы (фокус) ───
+    Mod+1 { focus-workspace 1; }                 // Перейти на рабочий стол 1
+    Mod+2 { focus-workspace 2; }                 // Перейти на рабочий стол 2
+    Mod+3 { focus-workspace 3; }                 // Перейти на рабочий стол 3
+    Mod+4 { focus-workspace 4; }                 // Перейти на рабочий стол 4
+    Mod+5 { focus-workspace 5; }                 // Перейти на рабочий стол 5
+    Mod+6 { focus-workspace 6; }                 // Перейти на рабочий стол 6
+    Mod+7 { focus-workspace 7; }                 // Перейти на рабочий стол 7
+    Mod+8 { focus-workspace 8; }                 // Перейти на рабочий стол 8
+    Mod+9 { focus-workspace 9; }                 // Перейти на рабочий стол 9
 
-    Mod+Shift+1 { move-column-to-workspace 1; }
-    Mod+Shift+2 { move-column-to-workspace 2; }
-    Mod+Shift+3 { move-column-to-workspace 3; }
-    Mod+Shift+4 { move-column-to-workspace 4; }
-    Mod+Shift+5 { move-column-to-workspace 5; }
-    Mod+Shift+6 { move-column-to-workspace 6; }
-    Mod+Shift+7 { move-column-to-workspace 7; }
-    Mod+Shift+8 { move-column-to-workspace 8; }
-    Mod+Shift+9 { move-column-to-workspace 9; }
+    // ─── Рабочие столы (перемещение колонки) ───
+    Mod+Shift+1 { move-column-to-workspace 1; }  // Перенести колонку на стол 1
+    Mod+Shift+2 { move-column-to-workspace 2; }  // Перенести колонку на стол 2
+    Mod+Shift+3 { move-column-to-workspace 3; }  // Перенести колонку на стол 3
+    Mod+Shift+4 { move-column-to-workspace 4; }  // Перенести колонку на стол 4
+    Mod+Shift+5 { move-column-to-workspace 5; }  // Перенести колонку на стол 5
+    Mod+Shift+6 { move-column-to-workspace 6; }  // Перенести колонку на стол 6
+    Mod+Shift+7 { move-column-to-workspace 7; }  // Перенести колонку на стол 7
+    Mod+Shift+8 { move-column-to-workspace 8; }  // Перенести колонку на стол 8
+    Mod+Shift+9 { move-column-to-workspace 9; }  // Перенести колонку на стол 9
 
-    Mod+Shift+Space { toggle-window-floating; }
+    // ─── Режимы окна ───
+    Mod+Shift+Space { toggle-window-floating; }   // Плавающее / тайловое окно
 
-    Mod+Ctrl+H { focus-monitor-left; }
-    Mod+Ctrl+L { focus-monitor-right; }
+    // ─── Мониторы ───
+    Mod+Ctrl+H { focus-monitor-left; }            // Фокус на монитор слева
+    Mod+Ctrl+L { focus-monitor-right; }           // Фокус на монитор справа
 
-    Mod+Shift+F { maximize-column; }
+    // ─── Размер окна ───
+    Mod+Shift+F { maximize-column; }              // Развернуть колонку на всю ширину
+    Mod+F       { fullscreen-window; }            // Полный экран (скрывает бар)
+    Mod+Shift+G { maximize-window-to-edges; }     // Развернуть окно, бар остаётся виден
 
-    Mod+S { screenshot; }
-    Mod+Shift+S { screenshot-screen; }
-    Mod+Ctrl+S { screenshot-window; }
+    // ─── Скриншоты ───
+    Mod+S       { screenshot; }                   // Скриншот выделенной области
+    Mod+Shift+S { screenshot-screen; }            // Скриншот всего экрана
+    Mod+Ctrl+S  { screenshot-window; }            // Скриншот текущего окна
+    Print       { screenshot; }                   // Скриншот области (клавиша PrtSc)
 
-    Mod+F { fullscreen-window; }
+    // ─── Переключение рабочих столов вверх/вниз ───
+    Mod+Period { focus-workspace-down; }          // Следующий рабочий стол
+    Mod+Comma  { focus-workspace-up; }            // Предыдущий рабочий стол
 
-    Mod+Period { focus-workspace-down; }
-    Mod+Comma { focus-workspace-up; }
-
-    XF86AudioRaiseVolume { spawn "pamixer" "-i" "5"; }
-    XF86AudioLowerVolume { spawn "pamixer" "-d" "5"; }
-    XF86AudioMute { spawn "pamixer" "-t"; }
-    XF86MonBrightnessUp { spawn "brightnessctl" "s" "+5%"; }
-    XF86MonBrightnessDown { spawn "brightnessctl" "s" "5%-"; }
-
-    Print { screenshot; }
+    // ─── Медиа-клавиши ───
+    XF86AudioRaiseVolume  { spawn "pamixer" "-i" "5"; }   // Громкость +
+    XF86AudioLowerVolume  { spawn "pamixer" "-d" "5"; }   // Громкость -
+    XF86AudioMute         { spawn "pamixer" "-t"; }       // Выключить звук
+    Mod+Equal      { spawn "brightnessctl" "s" "+5%"; }   // = Яркость +
+    Mod+Minus      { spawn "brightnessctl" "s" "5%-"; }    // - Яркость -
 }

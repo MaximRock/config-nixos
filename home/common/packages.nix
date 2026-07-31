@@ -41,5 +41,6 @@
     telegram-desktop
 
     zoom-us
+
   ];
 }
