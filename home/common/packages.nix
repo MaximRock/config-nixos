@@ -14,7 +14,6 @@
     # LLm
     nodejs_22
     python313Packages.huggingface-hub
-    # aider-chat-with-help
     # unstable.mcp-nixos
 
     # Browser (из внешнего флока)
@@ -40,6 +39,6 @@
 
     telegram-desktop
 
-    zoom-us
+
   ];
 }
