@@ -21,7 +21,7 @@
 
     ./modules/nixos/devshell.nix
 
-    # ./modules/nixos/llm/llama-server.nix
+    ./modules/nixos/llm/llama-server.nix
   ];
 
   programs.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];
