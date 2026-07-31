@@ -1,19 +1,53 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "instructions": ["promt-help.md", "AGENTS.md"],
-  "lsp": true,
-  "mcp": {
-    "dotfiles-helper": {
-      "type": "local",
-      "command": ["mcp-dotfiles-helper"],
-      "environment": {
-        "DOTFILES_REPO": "/home/max/.dotfiles"
-      }
+    "$schema": "https://opencode.ai/config.json",
+    "model": "llama.cpp/qwen2.5-coder-7b-instruct-q4_k_m.gguf",
+    "instructions": [
+        "promt-help.md",
+        "AGENTS.md"
+    ],
+    "lsp": true,
+    "provider": {
+        "llama.cpp": {
+            "npm": "@ai-sdk/openai-compatible",
+            "name": "llama-server (local)",
+            "options": {
+                "baseURL": "http://127.0.0.1:8080/v1"
+            },
+            "models": {
+                "qwen2.5-coder-7b-instruct-q4_k_m.gguf": {
+                    "name": "Qwen2.5-Coder-7B-Q4_K_M",
+                    "supportsToolCalls": true,
+                    "limit": {
+                        "context": 32768,
+                        "output": 4096
+                    }
+                }
+            }
+        }
     },
-    "rime": {
-      "type": "local",
-      "command": ["rime", "stdio"],
-      "enabled": true
+    "mcp": {
+        "dotfiles-helper": {
+            "type": "local",
+            "command": [
+                "mcp-dotfiles-helper"
+            ],
+            "environment": {
+                "DOTFILES_REPO": "/home/max/.dotfiles"
+            }
+        },
+        "rime": {
+            "type": "local",
+            "command": [
+                "rime",
+                "stdio"
+            ],
+            "enabled": true
+        }
+    },
+    "permission": {
+        "bash": "allow",
+        "edit": "allow",
+        "read": "allow",
+        "write": "allow"
     }
-  }
 }
