@@ -1,0 +1,49 @@
+{
+    "theme": {
+        "active": "catppuccin",
+        "colors": {}
+    },
+    "niri": {
+        "mod_key": "Mod4"
+    },
+    "waybar": {
+        "enable": false,
+        "theme": "gruvbox"
+    },
+    "mako": {
+        "enable": true,
+        "theme": "catppuccin"
+    },
+    "swaylock": {
+        "enable": true,
+        "theme": "catppuccin"
+    },
+    "wezterm": {
+        "enable": true,
+        "theme": "gruvbox"
+    },
+    "yazi": {
+        "enable": true,
+        "theme": "tokyonight"
+    },
+    "fastfetch": {
+        "enable": false,
+        "theme": "gruvbox"
+    },
+    "fuzzel": {
+        "enable": true,
+        "theme": "catppuccin"
+    },
+    "swaybg": {
+        "enable": true,
+        "theme": "catppuccin"
+    },
+    "swayidle": {
+        "enable": true,
+        "theme": "catppuccin"
+    },
+    "wlogout": {
+        "enable": true,
+        "theme": "catppuccin"
+    }
+}

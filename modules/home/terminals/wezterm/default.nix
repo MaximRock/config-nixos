@@ -5,17 +5,24 @@ let
   cfg = config.modules.home.terminals.wezterm;
   weztermPkg = wezterm.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
+  themeName = cfg.themeName or appThemeNames.wezterm;
   themeToScheme = {
     catppuccin = "Catppuccin Mocha";
     gruvbox = "Gruvbox Dark (Gogh)";
     tokyonight = "Tokyo Night";
   };
-  colorScheme = themeToScheme.${appThemeNames.wezterm} or "Catppuccin Mocha";
+  colorScheme = themeToScheme.${themeName} or "Catppuccin Mocha";
 in
 
 {
   options.modules.home.terminals.wezterm =
-    terminalLib.mkTerminalOptions "WezTerm" weztermPkg;
+    terminalLib.mkTerminalOptions "WezTerm" weztermPkg // {
+      themeName = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        description = "Override theme name for WezTerm color scheme";
+      };
+    };
 
   config = lib.mkIf cfg.enable {
     programs.wezterm = {

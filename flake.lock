@@ -239,7 +239,7 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1785370696,
+"lastModified": 1785370696,
         "narHash": "sha256-F2tUBNjCwYBjTem23ldwCkPBmqBwOUBTAVTCz/6ZsUk=",
         "owner": "ogulcancelik",
         "repo": "herdr",

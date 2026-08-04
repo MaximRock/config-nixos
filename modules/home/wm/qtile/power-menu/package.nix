@@ -7,14 +7,28 @@ pkgs.stdenvNoCC.mkDerivation {
   version = "0.1.0";
   src = ../config;
 
+  presets = ../../../../../lib/theme/presets;
+
   nativeBuildInputs = [ pkgs.makeWrapper ];
 
   installPhase = ''
     mkdir -p $out/lib/qtile-config $out/bin
 
-    # Копируем всю qtile-конфигурацию, кроме settings/settings.json
-    # (читается из ~/.config/qtile/ через QtilePath fallback)
-    cp -r $src/config_qtile $out/lib/qtile-config/
+    # Сначала копируем пресеты из shared source (реальные файлы, не симлинки)
+    mkdir -p "$out/lib/qtile-config/config_qtile/theme/presets"
+    cp $presets/*.json "$out/lib/qtile-config/config_qtile/theme/presets/"
+
+    # Копируем config_qtile, исключая theme/presets
+    for d in "$src"/config_qtile/*/; do
+      b=$(basename "$d")
+      [ "$b" = "theme" ] && continue
+      cp -r "$d" "$out/lib/qtile-config/config_qtile/"
+    done
+    # Копируем theme (кроме presets)
+    for d in "$src"/config_qtile/theme/*/; do
+      [ "$(basename "$d")" = "presets" ] && continue
+      cp -r "$d" "$out/lib/qtile-config/config_qtile/theme/"
+    done
     cp -r $src/modules $out/lib/qtile-config/
     cp $src/constants.py $out/lib/qtile-config/
     mkdir -p $out/lib/qtile-config/settings

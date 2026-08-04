@@ -14,6 +14,7 @@
 
     # === Desktop (host-specific) ===
     ./modules/nixos/desktop/qtile.nix
+    ./modules/nixos/desktop/niri.nix
     ./modules/nixos/desktop/thunar.nix
     ./modules/nixos/networking/throne.nix
     ./modules/nixos/sops/sops.nix

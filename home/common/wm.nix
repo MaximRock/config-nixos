@@ -9,7 +9,9 @@ in
 {
   imports = [
     "${modulesHome}/wm/qtile"
+    "${modulesHome}/wm/niri"
   ];
 
   modules.home.wm.qtile.enable = true;
+  modules.home.wm.niri.enable = true;
 }

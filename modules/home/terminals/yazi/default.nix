@@ -12,6 +12,9 @@ let
   cfg = config.modules.home.terminals.yazi;
   editor = "nvim";
 
+  themeName = cfg.themeName or appThemeNames.yazi;
+  colors = cfg.colors or appColors.yazi;
+
   # ── Flavor sources ──────────────────────────────────────────
   flavorsSrc = {
     catppuccin-mocha = pkgs.fetchFromGitHub {
@@ -42,7 +45,7 @@ let
     tokyonight = "tokyo-night";
   };
 
-  activeFlavorName = themeFlavorMap.${appThemeNames.yazi} or "catppuccin-mocha";
+  activeFlavorName = themeFlavorMap.${themeName} or "catppuccin-mocha";
 
   # For single-repo flavors the source root IS the flavor dir.
   # For the yazi-rs/flavors monorepo we must extract the subdirectory.
@@ -56,7 +59,18 @@ let
 in
 
 {
-  options.modules.home.terminals.yazi = terminalLib.mkTerminalOptions "Yazi" pkgs.yazi;
+  options.modules.home.terminals.yazi = terminalLib.mkTerminalOptions "Yazi" pkgs.yazi // {
+    themeName = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = "Override theme name for Yazi flavor";
+    };
+    colors = lib.mkOption {
+      type = lib.types.nullOr (lib.types.attrsOf lib.types.str);
+      default = null;
+      description = "Override color palette for Yazi theme";
+    };
+  };
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
@@ -82,9 +96,9 @@ in
       theme = {
         flavor.dark = activeFlavorName;
         manager = {
-          cwd = { fg = "${appColors.yazi.primary}"; };
-          hovered = { fg = "${appColors.yazi.background}"; bg = "${appColors.yazi.error}"; };
-          preview_hovered = { fg = "${appColors.yazi.background}"; bg = "${appColors.yazi.success}"; };
+          cwd = { fg = "${colors.primary}"; };
+          hovered = { fg = "${colors.background}"; bg = "${colors.error}"; };
+          preview_hovered = { fg = "${colors.background}"; bg = "${colors.success}"; };
         };
       };
 
