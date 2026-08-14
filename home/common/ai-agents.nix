@@ -16,8 +16,8 @@ in
     "${modulesHome}/ai-agents/graft"
   ];
   modules.home = {
-    aider.enable = true;
-    koda.enable = true;
+    aider.enable = false;
+    koda.enable = false;
     opencode.enable = true;
     rime-mcp.enable = true;
     open-design.enable = true;

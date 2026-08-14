@@ -54,6 +54,11 @@
       url = "github:ogulcancelik/herdr";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    open-design = {
+      url = "github:nexu-io/open-design";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
