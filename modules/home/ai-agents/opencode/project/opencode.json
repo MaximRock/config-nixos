@@ -42,6 +42,14 @@
                 "stdio"
             ],
             "enabled": true
+        },
+        "graft": {
+            "type": "local",
+            "command": [
+                "graft",
+                "mcp"
+            ],
+            "enabled": true
         }
     },
     "permission": {
