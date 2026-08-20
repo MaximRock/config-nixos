@@ -12,6 +12,41 @@
         "baseURL": "https://openrouter.ai/api/v1",
       },
     },
+    "llama.cpp": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama-server (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:8080/v1"
+      },
+      "models": {
+        "qwen3-coder-30b": {
+          "name": "Qwen3-Coder-30B-A3B (local)",
+          "limit": {
+            "context": 24576,
+            "input": 24576,
+            "output": 8192
+          }
+        }
+      }
+    },
+    "llama-vl": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama-server VL (local, 8081)",
+      "options": {
+        "baseURL": "http://127.0.0.1:8081/v1"
+      },
+      "models": {
+        "lfm2.5-vl-1.6b": {
+          "name": "LFM2.5-VL-1.6B (vision)",
+          "attachment": true,
+          "limit": {
+            "context": 24576,
+            "input": 24576,
+            "output": 8192
+          }
+        }
+      }
+    },
   },
   "mcp": {
     "rime": {

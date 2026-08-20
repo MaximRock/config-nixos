@@ -21,6 +21,12 @@
             },
             {
                 "title": "tk"
+            },
+            {
+                "wm_class": "kruler"
+            },
+            {
+                "wm_class": "Kruler"
             }
         ],
         "default_float_rules": true,

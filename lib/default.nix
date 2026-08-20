@@ -14,7 +14,7 @@ let
   system = "x86_64-linux";
   username = "max";
 
-  pkgs = nixpkgs.legacyPackages.${system};
+  pkgs = (nixpkgs.legacyPackages.${system}).extend (nixpkgs.lib.composeManyExtensions overlays);
   unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
 
   overlays = import ./overlays.nix { inherit inputs; };

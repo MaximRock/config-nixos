@@ -36,3 +36,6 @@ opencode.json
 
 # graft's local graph cache — regenerable, not committed (run `graft build`).
 /graft/
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+graft/

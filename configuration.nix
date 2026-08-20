@@ -8,9 +8,7 @@
     ./hardware-configuration.nix
 
     # === Common modules ===
-    ./modules/nixos/common/base.nix
-    ./modules/nixos/common/packages.nix
-    ./modules/nixos/common/user.nix
+    ./modules/nixos/common/default.nix
 
     # === Desktop (host-specific) ===
     ./modules/nixos/desktop/qtile.nix
@@ -21,8 +19,6 @@
     # ./modules/nixos/desktop/xsfce.nix
 
     ./modules/nixos/devshell.nix
-
-    ./modules/nixos/llm/llama-server.nix
   ];
 
   programs.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];

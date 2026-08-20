@@ -1,6 +1,13 @@
-# modules/nixos/llm/llama-cpp.nix
+# modules/nixos/llm/default.nix
 # ROCm + llama.cpp для AMD RX 6600 (gfx1032 → gfx1030)
-{ config, pkgs, lib, inputs, ... }:
+# Включение/выключение: modules.nixos.llm.enable в modules/nixos/common/default.nix
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 let
   system = pkgs.stdenv.hostPlatform.system;
@@ -23,7 +30,7 @@ let
     ];
   };
 in
-{
+lib.mkIf config.modules.nixos.llm.enable {
   # Драйвер AMD
   services.xserver.videoDrivers = lib.mkDefault [ "amdgpu" ];
 
@@ -46,7 +53,10 @@ in
   ];
 
   # Доступ к GPU (/dev/kfd, /dev/dri)
-  users.users.max.extraGroups = lib.mkAfter [ "video" "render" ];
+  users.users.max.extraGroups = lib.mkAfter [
+    "video"
+    "render"
+  ];
 
   # Маскируем RX 6600 (gfx1032) под поддерживаемый gfx1030
   environment.variables = {

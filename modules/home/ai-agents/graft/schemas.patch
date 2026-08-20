@@ -1,0 +1,35 @@
+--- dist/ai/crux.js	2026-08-15 21:33:11.669343418 +0300
++++ dist/ai/crux.js	2026-08-15 21:18:34.733573431 +0300
+@@ -22,10 +22,12 @@
+                     crux_end: { type: "number" },
+                 },
+                 required: ["id", "summary", "crux_start", "crux_end"],
++                additionalProperties: false,
+             },
+         },
+     },
+     required: ["symbols"],
++    additionalProperties: false,
+ };
+ /** Cap the file text sent per request so one huge file can't blow the context. */
+ const MAX_CODE_CHARS = 18_000;
+--- dist/ai/synthesize.js	2026-08-15 21:33:11.729772283 +0300
++++ dist/ai/synthesize.js	2026-08-15 21:18:36.414593979 +0300
+@@ -38,14 +38,17 @@
+                                 description: { type: "string" },
+                             },
+                             required: ["to", "relation"],
++                            additionalProperties: false,
+                         },
+                     },
+                 },
+                 required: ["name", "type", "summary", "sources"],
++                additionalProperties: false,
+             },
+         },
+     },
+     required: ["nodes"],
++    additionalProperties: false,
+ };
+ /** Cap the total summary text sent in one call so it never blows the context. */
+ const MAX_INPUT_CHARS = 60_000;

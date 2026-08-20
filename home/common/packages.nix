@@ -38,6 +38,7 @@
     flameshot
 
     telegram-desktop
-
+    kdePackages.kruler
+    xcolor
   ];
 }

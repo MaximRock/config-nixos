@@ -55,6 +55,30 @@ def focus_terminal_group() -> None:
     qtile.groups_map["1"].toscreen()
 
 
+def _is_kruler(window) -> bool:
+    try:
+        wc = window.window.get_wm_class()
+    except Exception:
+        return False
+    return bool(wc) and any("kruler" in c.lower() for c in wc)
+
+
+@hook.subscribe.client_new
+def float_kruler(window) -> None:
+    if _is_kruler(window):
+        window.floating = True
+        window.can_steal_focus = False
+
+
+@hook.subscribe.setgroup
+def kruler_follows_workspace() -> None:
+    new_group = qtile.current_group
+    for win in qtile.windows_map.values():
+        if _is_kruler(win) and win.group is not None and win.group is not new_group:
+            win.can_steal_focus = False
+            win.togroup(new_group.name, switch_group=False)
+
+
 for vt in range(1, 8):
     keys.append(
         Key(

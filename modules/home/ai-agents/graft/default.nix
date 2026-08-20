@@ -18,6 +18,16 @@ in
       export PATH="${pkgs.nodejs_22}/bin:$HOME/.npm-global/bin:$PATH"
 
       ${pkgs.nodejs_22}/bin/npm install -g @nanonets/graft@latest
+
+      # Патч схем tool-call: современные провайдеры (OpenAI/Azure/Anthropic-роут)
+      # требуют additionalProperties: false в схемах graft (см. schemas.patch).
+      GRAFT_ROOT="$(${pkgs.nodejs_22}/bin/npm root -g)/@nanonets/graft"
+      if [ -f "$GRAFT_ROOT/dist/ai/crux.js" ]; then
+        patch -d "$GRAFT_ROOT" -p0 -N < "${./schemas.patch}" >/dev/null 2>&1 || true
+        rm -f "$GRAFT_ROOT"/dist/ai/*.rej
+      else
+        echo "⚠️ graft не установлен — патч схем пропущен" >&2
+      fi
     '';
 
     home.sessionPath = [ "$HOME/.npm-global/bin" ];
@@ -25,7 +35,7 @@ in
     home.sessionVariables = {
       GRAFT_PROVIDER = "openai";
       GRAFT_BASE_URL = "https://openrouter.ai/api/v1";
-      GRAFT_MODEL = "anthropic/claude-sonnet-4-20250514";
+      GRAFT_MODEL = "openai/gpt-4.1-mini";
     };
   };
 }
