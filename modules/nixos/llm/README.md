@@ -10,9 +10,8 @@ ROCm + llama.cpp для AMD RX 6600 (8GB VRAM, gfx1032 → gfx1030).
 
 ## Ручной запуск моделей
 
-Порт 8080 — провайдер `llama.cpp` (текст, 30B) в opencode
+Порт 8080 совпадает с провайдером `llama.cpp` в opencode
 (`modules/home/ai-agents/opencode/config/opencode.jsonc` и `project/opencode.json`).
-Порт 8081 — провайдер `llama-vl` (зрение, LFM2.5-VL-1.6B) в `opencode.jsonc`.
 Первый запуск каждой модели скачивает GGUF в `~/.cache/llama.cpp`.
 
 ### Qwen3-Coder-30B-A3B — основная (агентная, работает в opencode)
@@ -24,6 +23,19 @@ llama-server -hf unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF:IQ4_XS --alias qwen3-
 
 Полный CPU-offload (без `-ngl`): MoE A3B (~3.3B активных) на CPU i5-12600K ~8-12 tok/s,
 RAM ~21GB (веса 16.4GB IQ4_XS + KV 3.4GB) — влезает в 32GB. Контекст 24576 полный.
+
+### Qwen3.8-27B — плотная, качество кода (медленно на CPU)
+
+```bash
+llama-server -hf unsloth/Qwen3.8-27B-GGUF:UD-Q4_K_M --alias qwen3.8-27b \
+  --host 127.0.0.1 --port 8080 -c 24576 -np 1 --jinja
+```
+
+> UD-Q4_K_M (16.5GB, imatrix) — лучший баланс качества и размера. Плотная 27B на CPU
+> = **~1-2 tok/s** (в 6-8× медленнее 30B-A3B). RAM ~21.5GB — влезает, но
+> **одновременно с 30B не поместится** (~43GB > 32GB). Для агентной работы 30B-A3B
+> (8-12 tok/s) быстрее; эта модель — когда важнее качество кода, а не скорость.
+> Официальная квантизация Qwen3.8 (не RP-мерж) — tool calling должен работать.
 
 ### gpt-oss-20b — только чат (НЕ работает в opencode)
 
@@ -37,19 +49,6 @@ llama-server -hf ggml-org/gpt-oss-20b-GGUF --alias gpt-oss-20b \
 > content). Для обычного чата через `/v1/chat/completions` работает. Без `-ngl`:
 > 12.1GB MXFP4 не влезает в 8GB VRAM — выгрузка на CPU, ~5-8 tok/s.
 
-### LFM2.5-VL-1.6B — зрение (чат с картинками, НЕ для агента)
-
-Порт **8081** — провайдер `llama-vl` в `opencode.jsonc` (может работать одновременно с 30B на 8080).
-
-```bash
-llama-server -hf LiquidAI/LFM2.5-VL-1.6B-GGUF:Q8_0 --alias lfm2.5-vl-1.6b \
-  --host 127.0.0.1 --port 8081 -c 24576 -np 1 --jinja -ngl 99
-```
-
-> Q8_0 (~1.6GB) целиком в VRAM (`-ngl 99`). Мультимодальный проектор (mmproj) качается
-> автоматически с `-hf`. В opencode: `/models` → `llama-vl/lfm2.5-vl-1.6b`, вставить
-> скриншот в чат. Только для вопросов про изображения — не для агентных задач.
-
 > Примечание: Qwen3.5-9B убран — известный баг «infinite thinking loop» в llama.cpp
 > (зацикливается внутри `<thinking>`, см. ggml-org/llama.cpp#20837). Если новая модель
 > начнёт повторяться — добавить `--repeat-penalty 1.1 --mirostat 2` или
@@ -57,10 +56,8 @@ llama-server -hf LiquidAI/LFM2.5-VL-1.6B-GGUF:Q8_0 --alias lfm2.5-vl-1.6b \
 
 ## Переключение
 
-Серверы на 8080 (текст) и 8081 (зрение) могут работать **одновременно** — переключай
-модель в opencode через `/models`. Чтобы заменить модель на одном порту: `Ctrl+C` →
-запустить другую команду.
-Проверка: `curl http://127.0.0.1:8080/v1/models` и `curl http://127.0.0.1:8081/v1/models`.
+`Ctrl+C` → запустить команду другой модели (порт тот же).
+Проверка: `curl http://127.0.0.1:8080/v1/models`.
 
 ## Флаги для этого железа
 
@@ -70,11 +67,10 @@ llama-server -hf LiquidAI/LFM2.5-VL-1.6B-GGUF:Q8_0 --alias lfm2.5-vl-1.6b \
 
 ### О выгрузке в VRAM (`-ngl`)
 
-Обе модели НЕ влезают в 8GB VRAM частично: `-ngl 40` для 30B пытается выделить
-~10.4GB, `-ngl 50` для gpt-oss ~10.9GB → `cudaMalloc failed: out of memory`. Запускайте
-без `-ngl` (авто-подбор = выгрузка на CPU). `-fa 1` / `-ctk q8_0 -ctv q8_0` /
-`--n-cpu-moe` из старых команд больше не нужны. **LFM2.5-VL-1.6B (1.6GB) — исключение:**
-влезает целиком, запускайте с `-ngl 99`.
+Три большие модели НЕ влезают в 8GB VRAM частично: `-ngl 40` для 30B пытается выделить
+~10.4GB, `-ngl 50` для gpt-oss ~10.9GB, `-ngl` для 27B ~10GB → всё `cudaMalloc
+failed: out of memory`. Запускайте без `-ngl` (авто-подбор = выгрузка на CPU).
+`-fa 1` / `-ctk q8_0 -ctv q8_0` / `--n-cpu-moe` из старых команд больше не нужны.
 
 ### Лимиты opencode
 
@@ -86,5 +82,4 @@ llama-server -hf LiquidAI/LFM2.5-VL-1.6B-GGUF:Q8_0 --alias lfm2.5-vl-1.6b \
 
 Без явного `input` opencode считает бюджет входа как `context - output` (8192) — этого
 меньше системного промпта репозитория (8-12K токенов) → бесконечная компакция
-(`agent=compaction` в логах). `input: 24576` возвращает полный бюджет.
-Для VL-модели ещё нужен `attachment: true` — иначе opencode не отправит изображение.
+ (`agent=compaction` в логах). `input: 24576` возвращает полный бюджет.

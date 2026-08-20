@@ -14,6 +14,7 @@ in
     "${modulesHome}/ai-agents/rime-mcp"
     "${modulesHome}/ai-agents/open-design"
     "${modulesHome}/ai-agents/graft"
+    "${modulesHome}/ai-agents/dsh"
   ];
   modules.home = {
     aider.enable = false;
@@ -22,5 +23,6 @@ in
     rime-mcp.enable = true;
     open-design.enable = true;
     graft.enable = true;
+    dsh.enable = true;
   };
 }

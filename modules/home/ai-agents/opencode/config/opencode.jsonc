@@ -26,19 +26,9 @@
             "input": 24576,
             "output": 8192
           }
-        }
-      }
-    },
-    "llama-vl": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "llama-server VL (local, 8081)",
-      "options": {
-        "baseURL": "http://127.0.0.1:8081/v1"
-      },
-      "models": {
-        "lfm2.5-vl-1.6b": {
-          "name": "LFM2.5-VL-1.6B (vision)",
-          "attachment": true,
+        },
+        "qwen3.8-27b": {
+          "name": "Qwen3.8-27B (dense, slow)",
           "limit": {
             "context": 24576,
             "input": 24576,
