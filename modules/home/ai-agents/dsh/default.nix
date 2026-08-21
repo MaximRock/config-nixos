@@ -3,7 +3,7 @@
 # cordis-plugin-hmr требует --expose-internals в node execArgv (баг rc.7).
 # Обход: после npm install заменяем симлинк bin/dsh на wrapper с флагом.
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, variables, ... }:
 
 with lib;
 
@@ -13,6 +13,7 @@ let
     exec ${pkgs.nodejs_22}/bin/node --expose-internals \
       "$HOME/.npm-global/lib/node_modules/@deepseek-ai/dsh/lib/bin.js" "$@"
   '';
+  base = "${variables.basePathFilesDir}/modules/home/ai-agents/dsh";
 in
 
 {
@@ -27,6 +28,9 @@ in
       ${pkgs.nodejs_22}/bin/npm install -g @deepseek-ai/dsh@latest
       install -m 755 ${dshWrapper} "$HOME/.npm-global/bin/dsh"
     '';
+
+    home.file.".dsh/settings.yaml".source =
+      config.lib.file.mkOutOfStoreSymlink "${base}/settings.yaml";
 
     home.sessionPath = [ "$HOME/.npm-global/bin" ];
   };

@@ -4,7 +4,7 @@
 
 let
   modulesHome = toString ../../modules/home;
-in 
+in
 
 {
   imports = [
@@ -21,7 +21,7 @@ in
     koda.enable = false;
     opencode.enable = true;
     rime-mcp.enable = true;
-    open-design.enable = true;
+    open-design.enable = false;
     graft.enable = true;
     dsh.enable = true;
   };
