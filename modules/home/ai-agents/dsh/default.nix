@@ -25,7 +25,9 @@ in
     home.activation.installDsh = ''
       export NPM_CONFIG_PREFIX="$HOME/.npm-global"
       export PATH="${pkgs.nodejs_22}/bin:$HOME/.npm-global/bin:$PATH"
-      ${pkgs.nodejs_22}/bin/npm install -g @deepseek-ai/dsh@latest
+      if [ ! -x "$HOME/.npm-global/bin/dsh" ]; then
+        ${pkgs.nodejs_22}/bin/npm install -g --prefer-offline --no-audit --no-fund --loglevel=error @deepseek-ai/dsh@latest
+      fi
       install -m 755 ${dshWrapper} "$HOME/.npm-global/bin/dsh"
     '';
 

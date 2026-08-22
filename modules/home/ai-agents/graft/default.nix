@@ -17,7 +17,9 @@ in
       export NPM_CONFIG_PREFIX="$HOME/.npm-global"
       export PATH="${pkgs.nodejs_22}/bin:$HOME/.npm-global/bin:$PATH"
 
-      ${pkgs.nodejs_22}/bin/npm install -g @nanonets/graft@latest
+      if [ ! -x "$HOME/.npm-global/bin/graft" ]; then
+        ${pkgs.nodejs_22}/bin/npm install -g --prefer-offline --no-audit --no-fund --loglevel=error @nanonets/graft@latest
+      fi
 
       # Патч схем tool-call: современные провайдеры (OpenAI/Azure/Anthropic-роут)
       # требуют additionalProperties: false в схемах graft (см. schemas.patch).

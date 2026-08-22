@@ -15,6 +15,7 @@ in
     "${modulesHome}/ai-agents/open-design"
     "${modulesHome}/ai-agents/graft"
     "${modulesHome}/ai-agents/dsh"
+    "${modulesHome}/ai-agents/updates"
   ];
   modules.home = {
     aider.enable = false;
@@ -24,5 +25,6 @@ in
     open-design.enable = false;
     graft.enable = true;
     dsh.enable = true;
+    npmUpdate.enable = true;
   };
 }
