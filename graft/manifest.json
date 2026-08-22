@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "model": "openai:openai/gpt-4o-mini",
-  "repoDigest": "76f26d74ded422a0240d9cb09aeaa56e5cf3ab4a722f2a63e83e2e181896624c",
+  "model": "openai:openai/gpt-4.1-mini",
+  "repoDigest": "8d55070162b986e80705b8a28af615cbd0d4643f8a91c97487754bd1e9d3f238",
   "files": [
     {
       "path": "modules/home/ai-agents/nixos-helper/server.py",
@@ -45,7 +45,7 @@
     },
     {
       "path": "modules/home/wm/qtile/config/config.py",
-      "hash": "97ffe35d77ecf9a2f9c598ea25ce2be0b62e24ebe14d855618cdc00f14463585"
+      "hash": "bc8fb2baac2e09cdc3e2bb36e0eca3c5340f7f73a7e6e620db55b67e203a6c06"
     },
     {
       "path": "modules/home/wm/qtile/config/constants.py",
@@ -274,28 +274,6 @@
   ],
   "nodes": [
     {
-      "slug": "dynamic-configuration-management",
-      "name": "Dynamic Configuration Management",
-      "type": "concept",
-      "sources": [
-        "modules/home/wm/qtile/config/config.py",
-        "modules/home/wm/qtile/config/modules/power_menu/main.py",
-        "modules/home/wm/qtile/config/modules/qtile_help/controller.py"
-      ],
-      "sourcesDigest": "2c38f7c1b88aacda5e0a1c0002b9c96cf424fdddeccd8e24db37b13862f4c443"
-    },
-    {
-      "slug": "error-handling-strategy",
-      "name": "Error Handling Strategy",
-      "type": "concept",
-      "sources": [
-        "modules/home/wm/qtile/config/exceptions/__init__.py",
-        "modules/home/wm/qtile/config/exceptions/base_exceptions.py",
-        "modules/home/wm/qtile/config/exceptions/key_exceptions.py"
-      ],
-      "sourcesDigest": "86703f1f3b357ff544c2a1b63b6ae7739ae4af39d983fa90eae7340e975745ce"
-    },
-    {
       "slug": "file-watching",
       "name": "File Watching",
       "type": "system",
@@ -327,6 +305,15 @@
       "sourcesDigest": "b046c6e1336c76356f2ef4c823a9fe69ded055ac2a6950a611a4a04dafd0d397"
     },
     {
+      "slug": "keyboard-layout-display-script",
+      "name": "Keyboard Layout Display Script",
+      "type": "file",
+      "sources": [
+        "modules/home/wm/niri/config/scripts/layout.sh"
+      ],
+      "sourcesDigest": "98a6ccbe7cca3b3abf31180844e9e5197cfc1455b19b2adc43cda7c22d8ce77d"
+    },
+    {
       "slug": "layout-management",
       "name": "Layout Management",
       "type": "system",
@@ -334,16 +321,6 @@
         "modules/home/wm/qtile/config/settings/layouts.py"
       ],
       "sourcesDigest": "0b53ee26fba13d03cf761e531d4a45b1a5973b1eff57659ee7d0aec3cbf6f082"
-    },
-    {
-      "slug": "mcp-dotfiles-helper",
-      "name": "MCP Dotfiles Helper",
-      "type": "system",
-      "sources": [
-        "modules/home/ai-agents/nixos-helper/server.py",
-        "modules/home/ai-agents/nixos-helper/setup.py"
-      ],
-      "sourcesDigest": "037ce0b48402a1fe031bb53245e741bceeee742238e3137fedbf082188cc6cd5"
     },
     {
       "slug": "mouse-management",
@@ -355,28 +332,35 @@
       "sourcesDigest": "af255aa4182d1a4d614884c43923b08d6443616825f215e4da7d0722553185d8"
     },
     {
-      "slug": "power-menu-module",
-      "name": "Power Menu Module",
+      "slug": "nixos-dotfiles-helper-mcp-server",
+      "name": "NixOS Dotfiles Helper MCP Server",
       "type": "system",
       "sources": [
-        "modules/home/wm/qtile/config/modules/power_menu/__init__.py",
-        "modules/home/wm/qtile/config/modules/power_menu/app.py",
-        "modules/home/wm/qtile/config/modules/power_menu/config_pm/config_button.py"
+        "modules/home/ai-agents/nixos-helper/server.py",
+        "modules/home/ai-agents/nixos-helper/setup.py"
       ],
-      "sourcesDigest": "9552a1c7f14701b954102381d3946132db46c3e421b6ccaa945fb4b81b3e7db7"
+      "sourcesDigest": "037ce0b48402a1fe031bb53245e741bceeee742238e3137fedbf082188cc6cd5"
     },
     {
-      "slug": "qtile-configuration",
-      "name": "Qtile Configuration",
+      "slug": "qtile-configuration-exceptions",
+      "name": "Qtile Configuration Exceptions",
       "type": "system",
       "sources": [
-        "modules/home/wm/qtile/config/config_qtile/__init__.py",
-        "modules/home/wm/qtile/config/config_qtile/config_groups.py",
-        "modules/home/wm/qtile/config/config_qtile/key_definitions.py",
-        "modules/home/wm/qtile/config/config_qtile/theme/__init__.py",
-        "modules/home/wm/qtile/config/config.py"
+        "modules/home/wm/qtile/config/exceptions/__init__.py",
+        "modules/home/wm/qtile/config/exceptions/bar_exception.py",
+        "modules/home/wm/qtile/config/exceptions/base_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/config_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/factory_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/group_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/key_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/layout_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/mouse_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/path_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/screen_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/theme_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/widget_exceptions.py"
       ],
-      "sourcesDigest": "54cb74d2774ae6c6f2bfbc44ea38ac69aafd51a89620d0d1e444b00682a48b2b"
+      "sourcesDigest": "21d24fd6450ae3ad0a88ab44b244a19cf0ae0532b6bd6539aa92573dc39514a3"
     },
     {
       "slug": "qtile-configuration-management",
@@ -403,28 +387,72 @@
       "sourcesDigest": "adb7651991b74fdb865d2858545c5f672464d7643e9b933751b93db10adc0317"
     },
     {
-      "slug": "qtile-exception-handling",
-      "name": "Qtile Exception Handling",
+      "slug": "qtile-configuration-system",
+      "name": "Qtile Configuration System",
       "type": "system",
       "sources": [
+        "modules/home/wm/qtile/config/config_qtile/__init__.py",
+        "modules/home/wm/qtile/config/config_qtile/config_groups.py",
+        "modules/home/wm/qtile/config/config_qtile/custom_widgets.py",
+        "modules/home/wm/qtile/config/config_qtile/groups_settings.py",
+        "modules/home/wm/qtile/config/config_qtile/key_definitions.py",
+        "modules/home/wm/qtile/config/config_qtile/theme/__init__.py",
+        "modules/home/wm/qtile/config/config_qtile/theme/theme_model.py",
+        "modules/home/wm/qtile/config/config.py",
+        "modules/home/wm/qtile/config/constants.py",
         "modules/home/wm/qtile/config/exceptions/__init__.py",
+        "modules/home/wm/qtile/config/exceptions/bar_exception.py",
         "modules/home/wm/qtile/config/exceptions/base_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/config_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/factory_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/group_exceptions.py",
         "modules/home/wm/qtile/config/exceptions/key_exceptions.py",
         "modules/home/wm/qtile/config/exceptions/layout_exceptions.py",
-        "modules/home/wm/qtile/config/exceptions/theme_exceptions.py"
+        "modules/home/wm/qtile/config/exceptions/mouse_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/path_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/screen_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/theme_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/widget_exceptions.py",
+        "modules/home/wm/qtile/config/modules/__init__.py"
       ],
-      "sourcesDigest": "7848aa1fbb247daa33705e2029adefa7f36a735b25b5b4332b70e34a9ba647c4"
+      "sourcesDigest": "e7631ca094390039633fcdc8fcb93b59e93ed336744449d219b4573299845e64"
     },
     {
-      "slug": "qtile-help-module",
-      "name": "Qtile Help Module",
+      "slug": "qtile-hotkey-help-module",
+      "name": "Qtile Hotkey Help Module",
       "type": "system",
       "sources": [
         "modules/home/wm/qtile/config/modules/qtile_help/__init__.py",
         "modules/home/wm/qtile/config/modules/qtile_help/app.py",
-        "modules/home/wm/qtile/config/modules/qtile_help/controller.py"
+        "modules/home/wm/qtile/config/modules/qtile_help/constants.py",
+        "modules/home/wm/qtile/config/modules/qtile_help/controller.py",
+        "modules/home/wm/qtile/config/modules/qtile_help/main.py",
+        "modules/home/wm/qtile/config/modules/qtile_help/parser/__init__.py"
       ],
-      "sourcesDigest": "a70ca10b4716c7fd2ade2111d56f8c526224923075170df39fed05cc32d03fa5"
+      "sourcesDigest": "38e870c30621b2ea377e5b1aaa3239a76e3614d98d5d78a34fddd4e44e79df6c"
+    },
+    {
+      "slug": "qtile-power-menu-module",
+      "name": "Qtile Power Menu Module",
+      "type": "system",
+      "sources": [
+        "modules/home/wm/qtile/config/modules/power_menu/__init__.py",
+        "modules/home/wm/qtile/config/modules/power_menu/app.py",
+        "modules/home/wm/qtile/config/modules/power_menu/config_pm/config_button.py",
+        "modules/home/wm/qtile/config/modules/power_menu/config_pm/exceptions.py",
+        "modules/home/wm/qtile/config/modules/power_menu/config_pm/frame_config.py",
+        "modules/home/wm/qtile/config/modules/power_menu/config_pm/image_config.py",
+        "modules/home/wm/qtile/config/modules/power_menu/config_pm/label_config.py",
+        "modules/home/wm/qtile/config/modules/power_menu/config_pm/window_config.py",
+        "modules/home/wm/qtile/config/modules/power_menu/main.py",
+        "modules/home/wm/qtile/config/modules/power_menu/widgets/base_widget.py",
+        "modules/home/wm/qtile/config/modules/power_menu/widgets/button.py",
+        "modules/home/wm/qtile/config/modules/power_menu/widgets/frame.py",
+        "modules/home/wm/qtile/config/modules/power_menu/widgets/image.py",
+        "modules/home/wm/qtile/config/modules/power_menu/widgets/label.py",
+        "modules/home/wm/qtile/config/modules/power_menu/windows/base_window.py"
+      ],
+      "sourcesDigest": "84c3ac2ea44d5a31d91b6e2756ff0dfc3a720b70cd015052a09435f9cdd7b59b"
     },
     {
       "slug": "screen-management",
