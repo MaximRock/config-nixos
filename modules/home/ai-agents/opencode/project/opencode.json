@@ -3,7 +3,8 @@
     "model": "llama.cpp/qwen3-coder-30b",
     "instructions": [
         "promt-help.md",
-        "AGENTS.md"
+        "AGENTS.md",
+        "AI-MODULE-GUIDE.md"
     ],
     "lsp": true,
     "provider": {

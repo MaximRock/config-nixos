@@ -1,0 +1,448 @@
+{
+  "version": 1,
+  "model": "openai:openai/gpt-4o-mini",
+  "repoDigest": "76f26d74ded422a0240d9cb09aeaa56e5cf3ab4a722f2a63e83e2e181896624c",
+  "files": [
+    {
+      "path": "modules/home/ai-agents/nixos-helper/server.py",
+      "hash": "6a38edb14e2ff621c033888e3eade031b167183744cd3326611eb36069913c75"
+    },
+    {
+      "path": "modules/home/ai-agents/nixos-helper/setup.py",
+      "hash": "851a134c13b2b8467dd8f05b14a5f8fac5d605cb5d7a1166fcb459ad4f942f9d"
+    },
+    {
+      "path": "modules/home/wm/niri/config/scripts/layout.sh",
+      "hash": "5a8b170959de45ee41183967a28c735910049f4f27ab8fedf870e38955126d14"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/config_qtile/__init__.py",
+      "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/config_qtile/config_groups.py",
+      "hash": "4d185c05eb63fe491787896612626b3c7504da3013454b0c18e8499f400adde0"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/config_qtile/custom_widgets.py",
+      "hash": "cbd757e4e1af166dde36ca3a569b6d0a89cf4b4505c554058f820758e25866ea"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/config_qtile/groups_settings.py",
+      "hash": "c58e4abb7f25d33a3985dc0aee54ceee662fa9804509ba717d27a010e6413630"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/config_qtile/key_definitions.py",
+      "hash": "790971fad3adbc34ae7680cb5f2f8b2e8d726dfc6453e3046b8b2557dd05928d"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/config_qtile/theme/__init__.py",
+      "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/config_qtile/theme/theme_model.py",
+      "hash": "2ee935937c4cb65088f209888d0ce8ac84bfcd91b4876c389511f2cbcbfc7b17"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/config.py",
+      "hash": "97ffe35d77ecf9a2f9c598ea25ce2be0b62e24ebe14d855618cdc00f14463585"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/constants.py",
+      "hash": "0934fe6084c4f14a5d3a40c36b0a11b8d8838a43d0a2de14cec50552903f3bc0"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/exceptions/__init__.py",
+      "hash": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/exceptions/bar_exception.py",
+      "hash": "2fd2ef22b7d198e30a70e606a442bcd65d86668c32f3449e7fb22d700e38d8f6"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/exceptions/base_exceptions.py",
+      "hash": "0f2293c837d51a6a16b874de73ebf1fd2fd071b89a9f2d4ed6269521c28c0b14"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/exceptions/config_exceptions.py",
+      "hash": "4800ca5d71efaaa219fc55c3e464e4c93c466834f83dc7cc7e29e1df66560dfb"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/exceptions/factory_exceptions.py",
+      "hash": "95c5f5f9a81d54ad8b47a3d145cf312a99e554d18c67a356cbceb1a071b67b87"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/exceptions/group_exceptions.py",
+      "hash": "b35369f2cef16f8d1f9dee05ed2957b8392caf004fe940bcc694ebd11715f117"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/exceptions/key_exceptions.py",
+      "hash": "7001669cf3cde7501ccd53d5a762d10ed9c2177121bed3c7c05b299ac1d6507e"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/exceptions/layout_exceptions.py",
+      "hash": "c0801163c027aea5c61681fc5d875beab7ce59a3c0fe841cceaa0641c4dc9b20"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/exceptions/mouse_exceptions.py",
+      "hash": "59ed8dbf0c55cb8e867cbfa82a724800b674e948a14438fe541559000a08a9aa"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/exceptions/path_exceptions.py",
+      "hash": "384f777eb933400bea61dd47e47733f59e8209ffbee2c2dae800feaea46a8578"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/exceptions/screen_exceptions.py",
+      "hash": "46ea6a14cb374cfdb26fe22002bb6ebc9ea8f9093b300e6b6b77c631a38571e3"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/exceptions/theme_exceptions.py",
+      "hash": "72764df3a5ba6f50d7cfdf5648d23e85c8699edb8385533038997fe862ff7435"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/exceptions/widget_exceptions.py",
+      "hash": "8128d67a8444a1c9ca0db4db5ddc4c39e6f02a304aab973d375a5dcc134b71f7"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/__init__.py",
+      "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/__init__.py",
+      "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/app.py",
+      "hash": "7a650ccd543fe79c104bd8120cbb3ee7c2d9be1047dd1f413c7e502d8458e052"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/config_pm/config_button.py",
+      "hash": "f58c5c7f8dbbad1fb9380bd1625ed7020461989165fbc35f0b60c71116f365d5"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/config_pm/exceptions.py",
+      "hash": "54e9c9904e01568750a4e4b0be4fb8b7217efb129b77cef765a1028da0fab28a"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/config_pm/frame_config.py",
+      "hash": "a461474d1ee9dfa36eb596dbf23a809987382fc6d4f8637d62ebfc24d8a5e4a5"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/config_pm/image_config.py",
+      "hash": "87ae04620c3502aa308c2df83180fd62f920daa9fdf78cc34b7791db7f92a835"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/config_pm/label_config.py",
+      "hash": "3107f78e67335f4979958a6f6c49d9ee71b622700e8af8001dc29e4a4d578893"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/config_pm/window_config.py",
+      "hash": "fe2bab10d286d668e487cf7ca100d73f8ef18bbfa1874d95cbc6b3d8afa0679b"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/main.py",
+      "hash": "191cadb5ba3cebafdce131c06e65a27c2307853af333c9eb24dd49a9c3a94fbc"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/widgets/base_widget.py",
+      "hash": "fd5717ebd6d84c9fa103161693088c087e5769a19fb4393a6832229bd5057bb6"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/widgets/button.py",
+      "hash": "7dfe93708a0c8da5f0e417116f7d4060929433a447e51e282ef1f5769ac03826"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/widgets/frame.py",
+      "hash": "9f3bae51c6cca802e4f69a2e6cfa5d541a2b307519ce43a0e6e94d366790240a"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/widgets/image.py",
+      "hash": "c5e2f759d010401a7017afa8d6c96011d37b6381c2fb7bbab0867e5aeb6d5188"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/widgets/label.py",
+      "hash": "39ccc76ae934aa591a451ce8c470a6a4853c8272dfd92a47dad0a9fa765fa350"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/power_menu/windows/base_window.py",
+      "hash": "70a4b708b33d7cede63eaba99e60e8a6e213c89e3d2193f3182664ec1994979f"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/qtile_help/__init__.py",
+      "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/qtile_help/app.py",
+      "hash": "46f65bdff4ab76144f7e81bee2646acdc48155ce766b9faba03c9002a071857a"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/qtile_help/constants.py",
+      "hash": "8587bfdc6530d1780f8de068fca1eabd8232698667fc7a6d1dbe748e6fce2003"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/qtile_help/controller.py",
+      "hash": "828c3262fbcde70bb6a8a4639b56e74ab1a2a4cfd0be1cf94a1f30d38397d193"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/qtile_help/main.py",
+      "hash": "e2fd1dedea859d9886a0a45d9dd280bfcf1fee44a778f634c94a1bf929cf6d10"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/qtile_help/parser/__init__.py",
+      "hash": "7c4a7e244441d083392750535ccf59e4829dd7cddbb392208fa987806ab7f536"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/qtile_help/parser/hotkey_parser.py",
+      "hash": "7be771153534d6c586386b7fef4600eea3e75c2f3c3693256aebae4d795f37ee"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/qtile_help/parser/hotkey_repository.py",
+      "hash": "9dd0f15e6935b10cf563ccd743f2fb9853c1e91446f024ad0c98e14131570427"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/qtile_help/watcher/__init__.py",
+      "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/modules/qtile_help/watcher/file_watcher.py",
+      "hash": "2ab9cd28f85233f57af3afdbb864f4f3703ad90489371a065a362f8397467fa4"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/__init__.py",
+      "hash": "efb00e33da294f9d05c0e764e465fc43156a149a371feca158f09be03ecff9f3"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/autostart.py",
+      "hash": "1aacb550f2d67fb71322529db8cf93c8d301a088ebfc143b7c0dbe9dd1cc8a4c"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/bar.py",
+      "hash": "4c50cc1dac54e539cc46459e40bd7e62383758d61e69365c83177a5f91dd6f71"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/base_factory.py",
+      "hash": "3baa94819bf9e79dcf784257cd40955e5c6fb42602d156c742693260f6a72e47"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/behavior.py",
+      "hash": "220ce785cfd65e0ed0213d711b31ae23054a413472a44cfd7f8a59295991759a"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/floating.py",
+      "hash": "684154c44cb74178e9e2552f1059a6b53fc3036b14aa57323cc8af9d4a719e9e"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/groups.py",
+      "hash": "5ed5ce31d393f0d623f4c30716c712d1538fb6153fdf2c10105fec3642707a63"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/key_manager.py",
+      "hash": "279bffbdd1ca62c5d2bd33d564b7db65a4d8209ea94c632373a7dcac6f3c856c"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/layouts.py",
+      "hash": "25b520f255c2fe51ea5de4a4ce548d8aaf971b83d44710ab1cad618fe4f86c51"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/logger.py",
+      "hash": "357119eb9922232e0b4167c2f11f6718c55add4bc718a94ae5eba10d50a575b5"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/mouse.py",
+      "hash": "c5c1d940408602b889aa172f2be11c7d09d1c53a4edf8b009d8c9b0d82ab3473"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/path.py",
+      "hash": "95060a44f7fceb7f3698bb23ec0c56103469ec59a4873183bdaec35a166611de"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/screens.py",
+      "hash": "ec76e119e8cfc2152fdfdd4833c27f509831ef2ec62abfc57554e1cd27466982"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/settings_loader.py",
+      "hash": "b90ef4cd021c58ff62403a135f5804be123024ed7533744f743169e13e0a1019"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/theme_controller.py",
+      "hash": "e46c8c1f88317f6c5f9ad1f7e7a525338df5a9ed9f40c74e8e2d6e49fcf436b0"
+    },
+    {
+      "path": "modules/home/wm/qtile/config/settings/widgets.py",
+      "hash": "5323482208b2442fe2b464d256c0300d188539e1aff70ad40ad9e8cb8e532e59"
+    }
+  ],
+  "nodes": [
+    {
+      "slug": "dynamic-configuration-management",
+      "name": "Dynamic Configuration Management",
+      "type": "concept",
+      "sources": [
+        "modules/home/wm/qtile/config/config.py",
+        "modules/home/wm/qtile/config/modules/power_menu/main.py",
+        "modules/home/wm/qtile/config/modules/qtile_help/controller.py"
+      ],
+      "sourcesDigest": "2c38f7c1b88aacda5e0a1c0002b9c96cf424fdddeccd8e24db37b13862f4c443"
+    },
+    {
+      "slug": "error-handling-strategy",
+      "name": "Error Handling Strategy",
+      "type": "concept",
+      "sources": [
+        "modules/home/wm/qtile/config/exceptions/__init__.py",
+        "modules/home/wm/qtile/config/exceptions/base_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/key_exceptions.py"
+      ],
+      "sourcesDigest": "86703f1f3b357ff544c2a1b63b6ae7739ae4af39d983fa90eae7340e975745ce"
+    },
+    {
+      "slug": "file-watching",
+      "name": "File Watching",
+      "type": "system",
+      "sources": [
+        "modules/home/wm/qtile/config/modules/qtile_help/watcher/__init__.py",
+        "modules/home/wm/qtile/config/modules/qtile_help/watcher/file_watcher.py"
+      ],
+      "sourcesDigest": "59ec8830fe48792f5ab3dc9483c39536c783b23da4d70c96f7ee1fc83a77f00d"
+    },
+    {
+      "slug": "hotkey-parsing",
+      "name": "Hotkey Parsing",
+      "type": "system",
+      "sources": [
+        "modules/home/wm/qtile/config/modules/qtile_help/parser/hotkey_parser.py",
+        "modules/home/wm/qtile/config/modules/qtile_help/parser/hotkey_repository.py"
+      ],
+      "sourcesDigest": "6a4f9e7f600c53d801792b1887e2f8d22bb35771262ed32c4c70dee3daf96d25"
+    },
+    {
+      "slug": "key-binding-management",
+      "name": "Key Binding Management",
+      "type": "system",
+      "sources": [
+        "modules/home/wm/qtile/config/settings/groups.py",
+        "modules/home/wm/qtile/config/settings/key_manager.py",
+        "modules/home/wm/qtile/config/settings/layouts.py"
+      ],
+      "sourcesDigest": "b046c6e1336c76356f2ef4c823a9fe69ded055ac2a6950a611a4a04dafd0d397"
+    },
+    {
+      "slug": "layout-management",
+      "name": "Layout Management",
+      "type": "system",
+      "sources": [
+        "modules/home/wm/qtile/config/settings/layouts.py"
+      ],
+      "sourcesDigest": "0b53ee26fba13d03cf761e531d4a45b1a5973b1eff57659ee7d0aec3cbf6f082"
+    },
+    {
+      "slug": "mcp-dotfiles-helper",
+      "name": "MCP Dotfiles Helper",
+      "type": "system",
+      "sources": [
+        "modules/home/ai-agents/nixos-helper/server.py",
+        "modules/home/ai-agents/nixos-helper/setup.py"
+      ],
+      "sourcesDigest": "037ce0b48402a1fe031bb53245e741bceeee742238e3137fedbf082188cc6cd5"
+    },
+    {
+      "slug": "mouse-management",
+      "name": "Mouse Management",
+      "type": "system",
+      "sources": [
+        "modules/home/wm/qtile/config/settings/mouse.py"
+      ],
+      "sourcesDigest": "af255aa4182d1a4d614884c43923b08d6443616825f215e4da7d0722553185d8"
+    },
+    {
+      "slug": "power-menu-module",
+      "name": "Power Menu Module",
+      "type": "system",
+      "sources": [
+        "modules/home/wm/qtile/config/modules/power_menu/__init__.py",
+        "modules/home/wm/qtile/config/modules/power_menu/app.py",
+        "modules/home/wm/qtile/config/modules/power_menu/config_pm/config_button.py"
+      ],
+      "sourcesDigest": "9552a1c7f14701b954102381d3946132db46c3e421b6ccaa945fb4b81b3e7db7"
+    },
+    {
+      "slug": "qtile-configuration",
+      "name": "Qtile Configuration",
+      "type": "system",
+      "sources": [
+        "modules/home/wm/qtile/config/config_qtile/__init__.py",
+        "modules/home/wm/qtile/config/config_qtile/config_groups.py",
+        "modules/home/wm/qtile/config/config_qtile/key_definitions.py",
+        "modules/home/wm/qtile/config/config_qtile/theme/__init__.py",
+        "modules/home/wm/qtile/config/config.py"
+      ],
+      "sourcesDigest": "54cb74d2774ae6c6f2bfbc44ea38ac69aafd51a89620d0d1e444b00682a48b2b"
+    },
+    {
+      "slug": "qtile-configuration-management",
+      "name": "Qtile Configuration Management",
+      "type": "system",
+      "sources": [
+        "modules/home/wm/qtile/config/settings/__init__.py",
+        "modules/home/wm/qtile/config/settings/autostart.py",
+        "modules/home/wm/qtile/config/settings/bar.py",
+        "modules/home/wm/qtile/config/settings/base_factory.py",
+        "modules/home/wm/qtile/config/settings/behavior.py",
+        "modules/home/wm/qtile/config/settings/floating.py",
+        "modules/home/wm/qtile/config/settings/groups.py",
+        "modules/home/wm/qtile/config/settings/key_manager.py",
+        "modules/home/wm/qtile/config/settings/layouts.py",
+        "modules/home/wm/qtile/config/settings/logger.py",
+        "modules/home/wm/qtile/config/settings/mouse.py",
+        "modules/home/wm/qtile/config/settings/path.py",
+        "modules/home/wm/qtile/config/settings/screens.py",
+        "modules/home/wm/qtile/config/settings/settings_loader.py",
+        "modules/home/wm/qtile/config/settings/theme_controller.py",
+        "modules/home/wm/qtile/config/settings/widgets.py"
+      ],
+      "sourcesDigest": "adb7651991b74fdb865d2858545c5f672464d7643e9b933751b93db10adc0317"
+    },
+    {
+      "slug": "qtile-exception-handling",
+      "name": "Qtile Exception Handling",
+      "type": "system",
+      "sources": [
+        "modules/home/wm/qtile/config/exceptions/__init__.py",
+        "modules/home/wm/qtile/config/exceptions/base_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/key_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/layout_exceptions.py",
+        "modules/home/wm/qtile/config/exceptions/theme_exceptions.py"
+      ],
+      "sourcesDigest": "7848aa1fbb247daa33705e2029adefa7f36a735b25b5b4332b70e34a9ba647c4"
+    },
+    {
+      "slug": "qtile-help-module",
+      "name": "Qtile Help Module",
+      "type": "system",
+      "sources": [
+        "modules/home/wm/qtile/config/modules/qtile_help/__init__.py",
+        "modules/home/wm/qtile/config/modules/qtile_help/app.py",
+        "modules/home/wm/qtile/config/modules/qtile_help/controller.py"
+      ],
+      "sourcesDigest": "a70ca10b4716c7fd2ade2111d56f8c526224923075170df39fed05cc32d03fa5"
+    },
+    {
+      "slug": "screen-management",
+      "name": "Screen Management",
+      "type": "system",
+      "sources": [
+        "modules/home/wm/qtile/config/settings/screens.py"
+      ],
+      "sourcesDigest": "594830543d436abbf692fb911880fed6e655ab5757b45af157716b0eee8b6ca3"
+    },
+    {
+      "slug": "theme-management",
+      "name": "Theme Management",
+      "type": "system",
+      "sources": [
+        "modules/home/wm/qtile/config/settings/theme_controller.py"
+      ],
+      "sourcesDigest": "1b5f80b72ecdc49b73845cc69457975f085a1b1f1c5f05ee243e9f76eed7de45"
+    }
+  ]
+}

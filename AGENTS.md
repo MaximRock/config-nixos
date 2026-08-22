@@ -42,6 +42,10 @@ Alias: `nrs` (defined in `modules/home/shell/zsh.nix`). Others: `nrd` (dry-build
 
 - `nixos-rules` — автоматически загружать при написании или ревью Nix-кода (NixOS-модули, flakes, nixpkgs-пакеты, общие Nix-выражения).
 
+## Module Guide
+
+См. `AI-MODULE-GUIDE.md` в корне — полный reference по паттернам модулей, шаблоны для 5 типов, карта всех модулей и конвенции. Использовать при создании или ревью home-модулей.
+
 ## Git Commit Workflow
 
 Перед коммитом всегда показывать пользователю:
