@@ -16,6 +16,7 @@ in
     "${modulesHome}/ai-agents/graft"
     "${modulesHome}/ai-agents/dsh"
     "${modulesHome}/ai-agents/updates"
+    "${modulesHome}/ai-agents/ponytail"
   ];
   modules.home = {
     aider.enable = false;
@@ -26,5 +27,6 @@ in
     graft.enable = true;
     dsh.enable = true;
     npmUpdate.enable = true;
+    ponytail.enable = true;
   };
 }

@@ -37,6 +37,18 @@ llama-server -hf unsloth/Qwen3.8-27B-GGUF:UD-Q4_K_M --alias qwen3.8-27b \
 > (8-12 tok/s) быстрее; эта модель — когда важнее качество кода, а не скорость.
 > Официальная квантизация Qwen3.8 (не RP-мерж) — tool calling должен работать.
 
+### DeepSeek-R1-Distill-Qwen-14B — рассуждения (медленно, tool calling ненадёжен)
+
+```bash
+llama-server -hf unsloth/DeepSeek-R1-Distill-Qwen-14B-GGUF:Q4_K_M --alias deepseek-r1-14b \
+  --host 127.0.0.1 --port 8080 -c 24576 -np 1 --jinja
+```
+
+> Q4_K_M (9.0GB) — компактная reasoning-модель на Qwen2.5-14B. На CPU ~2-4 tok/s.
+> **Важно**: модель для рассуждений, НЕ для агента — tool calling ненадёжен (R1-дистилляция
+> деградирует вызовы инструментов). Использовать для «подумай над задачей» в чате.
+> Output 16384 (а не 8192) — чтобы длинные `<think:6124c78e>` не обрезались посреди мысли.
+
 ### gpt-oss-20b — только чат (НЕ работает в opencode)
 
 ```bash
@@ -67,10 +79,8 @@ llama-server -hf ggml-org/gpt-oss-20b-GGUF --alias gpt-oss-20b \
 
 ### О выгрузке в VRAM (`-ngl`)
 
-Три большие модели НЕ влезают в 8GB VRAM частично: `-ngl 40` для 30B пытается выделить
-~10.4GB, `-ngl 50` для gpt-oss ~10.9GB, `-ngl` для 27B ~10GB → всё `cudaMalloc
-failed: out of memory`. Запускайте без `-ngl` (авто-подбор = выгрузка на CPU).
-`-fa 1` / `-ctk q8_0 -ctv q8_0` / `--n-cpu-moe` из старых команд больше не нужны.
+Четыре тяжёлые модели НЕ влезают частично в 8GB VRAM → `cudaMalloc failed: out of
+memory`. Запускайте без `-ngl` (авто-подбор = выгрузка на CPU).
 
 ### Лимиты opencode
 

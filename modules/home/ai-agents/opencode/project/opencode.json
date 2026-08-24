@@ -54,6 +54,7 @@
             "enabled": true
         }
     },
+    "plugin": ["@dietrichgebert/ponytail"],
     "permission": {
         "bash": "allow",
         "edit": "allow",
