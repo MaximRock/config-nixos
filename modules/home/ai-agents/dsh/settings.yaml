@@ -8,6 +8,22 @@ llm-pi-ai:
       apiKeyEnv: OPENROUTER_API_KEY
     llm-router:
       apiKeyEnv: LLM_ROUTER_API_KEY
+      displayName: LLM Router
+      api: openai-completions
+      baseURL: https://llm-router.org/v1
+      models:
+        - id: claude-sonnet-4.6
+          name: Claude Sonnet 4.6
+        - id: claude-opus-4.8
+          name: Claude Opus 4.8
+        - id: gpt-5.5
+          name: GPT 5.5
+        - id: gemini-3.5-pro
+          name: Gemini 3.5 Pro
+        - id: gemini-3-flash
+          name: Gemini 3 Flash
+        - id: gemini-3.7-flash
+          name: Gemini 3.7 Flash
 agent-default-model:
   provider: openrouter
   model: deepseek/deepseek-v4-flash

@@ -13,10 +13,20 @@
       },
     },
     "llm-router": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "LLM Router",
       "options": {
         "apiKey": "{env:LLM_ROUTER_API_KEY}",
         "baseURL": "https://llm-router.org/v1"
       },
+      "models": {
+        "claude-sonnet-4.6": { "name": "Claude Sonnet 4.6" },
+        "claude-opus-4.8": { "name": "Claude Opus 4.8" },
+        "gpt-5.5": { "name": "GPT 5.5" },
+        "gemini-3.5-pro": { "name": "Gemini 3.5 Pro" },
+        "gemini-3-flash": { "name": "Gemini 3 Flash" },
+        "gemini-3.7-flash": { "name": "Gemini 3.7 Flash" }
+      }
     },
     "llama.cpp": {
       "npm": "@ai-sdk/openai-compatible",
