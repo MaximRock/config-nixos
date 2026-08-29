@@ -31,8 +31,12 @@ in
       install -m 755 ${dshWrapper} "$HOME/.npm-global/bin/dsh"
     '';
 
-    home.file.".dsh/settings.yaml".source =
-      config.lib.file.mkOutOfStoreSymlink "${base}/settings.yaml";
+    home.file.".dsh/settings.yaml" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${base}/settings.yaml";
+      force = true;
+    };
+
+    home.sessionVariables.LLM_ROUTER_API_KEY = "$(cat /run/secrets/LLM_ROUTER_API_KEY)";
 
     home.sessionPath = [ "$HOME/.npm-global/bin" ];
   };

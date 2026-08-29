@@ -17,6 +17,7 @@ in
     "${modulesHome}/ai-agents/dsh"
     "${modulesHome}/ai-agents/updates"
     "${modulesHome}/ai-agents/ponytail"
+    "${modulesHome}/ai-agents/comfyui"
   ];
   modules.home = {
     aider.enable = false;
@@ -28,5 +29,6 @@ in
     dsh.enable = true;
     npmUpdate.enable = true;
     ponytail.enable = true;
+    comfyui.enable = true;
   };
 }

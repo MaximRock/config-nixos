@@ -59,6 +59,8 @@
       url = "github:nexu-io/open-design";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    comfyui-nix.url = "github:utensils/comfyui-nix/main";
   };
 
   outputs =

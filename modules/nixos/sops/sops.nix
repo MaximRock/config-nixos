@@ -11,6 +11,12 @@
       owner = "root";
       group = "keys"; # sops-nix автоматически создаёт эту группу
     };
+
+    secrets.LLM_ROUTER_API_KEY = {
+      mode = "0440";
+      owner = "root";
+      group = "keys";
+    };
   };
 
   # ✅ Безопасно добавляем пользователя в группу keys
