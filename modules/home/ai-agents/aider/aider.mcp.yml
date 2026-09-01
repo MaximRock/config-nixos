@@ -1,0 +1,20 @@
+# ~/.aider/mcp.yml
+servers:
+  - name: nix-repo-navigator
+    command: nix-repo-navigator start --root /home/max/.dotfiles
+    transport: stdio
+    permissions:
+      observe: auto
+      hop: auto
+      path: auto
+      blast_radius: auto
+      find_symbol: auto
+      summarize_module: auto
+      introspect_option: auto
+      eval_expression: auto
+      impact_analysis: auto
+      status: auto
+      refresh: auto
+      list_flake_inputs: auto
+      list_packages: auto
+      get_package: auto

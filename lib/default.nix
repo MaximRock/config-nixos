@@ -9,6 +9,7 @@ let
     wezterm
     llm-agents
     herdr
+    nix-repo-navigator
     ;
 
   system = "x86_64-linux";
@@ -44,6 +45,7 @@ let
       wezterm
       llm-agents
       herdr
+      nix-repo-navigator
       overlays
       unstable
       themeName

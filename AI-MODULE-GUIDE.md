@@ -299,7 +299,6 @@ options.modules.home.<category>.<name> = {
 | `ai-agents/koda` | Activation | npm install -g |
 | `ai-agents/nixos-helper` | — | nixpkgs package (buildPythonApplication) |
 | `ai-agents/opencode` | Activation + Config-symlink | config + project + agents + skills dirs |
-| `ai-agents/open-design` | Simple | services.open-design.enable |
 | `ai-agents/rime-mcp` | Simple | home.packages = [ pkgs.rime ] |
 | `browsers/firefox/default.nix` | Submodule | импорты ./base, ./nighttab, ./chrome-css |
 | `browsers/firefox/base.nix` | Complex | programs.firefox + policies |

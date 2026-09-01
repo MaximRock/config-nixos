@@ -40,5 +40,6 @@ in
       config.lib.file.mkOutOfStoreSymlink "${root}/aider.model-settings.yml";
     home.file.".aider.model.metadata.json".source =
       config.lib.file.mkOutOfStoreSymlink "${root}/aider.model.metadata.json";
+    home.file.".aider/mcp.yml".source = config.lib.file.mkOutOfStoreSymlink "${root}/aider.mcp.yml";
   };
 }

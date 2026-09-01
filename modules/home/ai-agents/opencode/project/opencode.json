@@ -52,6 +52,16 @@
                 "mcp"
             ],
             "enabled": true
+        },
+        "nix-repo-navigator": {
+            "type": "local",
+            "command": [
+                "nix-repo-navigator",
+                "start",
+                "--root",
+                "/home/max/.dotfiles"
+            ],
+            "enabled": true
         }
     },
     "plugin": ["@dietrichgebert/ponytail"],

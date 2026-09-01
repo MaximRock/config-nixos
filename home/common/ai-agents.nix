@@ -12,23 +12,23 @@ in
     "${modulesHome}/ai-agents/koda"
     "${modulesHome}/ai-agents/opencode"
     "${modulesHome}/ai-agents/rime-mcp"
-    "${modulesHome}/ai-agents/open-design"
     "${modulesHome}/ai-agents/graft"
     "${modulesHome}/ai-agents/dsh"
     "${modulesHome}/ai-agents/updates"
     "${modulesHome}/ai-agents/ponytail"
     "${modulesHome}/ai-agents/comfyui"
+    "${modulesHome}/ai-agents/nix-repo-navigator"
   ];
   modules.home = {
     aider.enable = false;
     koda.enable = false;
     opencode.enable = true;
     rime-mcp.enable = true;
-    open-design.enable = false;
     graft.enable = true;
     dsh.enable = true;
     npmUpdate.enable = true;
     ponytail.enable = true;
     comfyui.enable = true;
+    nix-repo-navigator.enable = true;
   };
 }

@@ -55,8 +55,8 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    open-design = {
-      url = "github:nexu-io/open-design";
+    nix-repo-navigator = {
+      url = "github:MaximRock/nix-repo-navigator";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
