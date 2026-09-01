@@ -416,11 +416,11 @@
         "pyproject-nix": "pyproject-nix"
       },
       "locked": {
-        "lastModified": 1788202242,
-        "narHash": "sha256-VV0ifWWmpeb3SY7C/8uhlyWz3E71ZpcJSFKg8gEpy1w=",
+        "lastModified": 1788288206,
+        "narHash": "sha256-mW21rIKpxo+0EGL7d3a7qWyAETAqXqa/GFD8ldK5dKM=",
         "owner": "MaximRock",
         "repo": "nix-repo-navigator",
-        "rev": "3549977fbcc25cecdcc65a6ac88a5fb0328d1cc1",
+        "rev": "5e5399a410022bfe633dbde61f5a1cbd6fd3a1d4",
         "type": "github"
       },
       "original": {
