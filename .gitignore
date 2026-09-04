@@ -40,7 +40,5 @@ opencode.json
 # graft's local graph cache — regenerable, not committed (run `graft build`).
 graft/
 
-# repo-navigator runtime DB (SQLite WAL) — regenerable, not committed.
-.repo-navigator.db
-.repo-navigator.db-wal
-.repo-navigator.db-shm
+# repo-navigator runtime (SQLite DB, WAL/logs) — regenerable, not committed.
+.repo-navigator/
