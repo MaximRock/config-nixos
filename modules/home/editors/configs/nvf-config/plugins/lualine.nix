@@ -9,39 +9,11 @@ in
 {
   enable = true;
   theme = theme.luaLineTheme; # "material";
-  activeSection.z = [
-    ''
-      {
-        "datetime",
-        style = "%Y-%m-%d | %H:%M"
-      }
-    ''
-    ''
-      {
-        "",
-        draw_empty = true,
-        separator = { left = '', right = '' }
-      }
-    ''
-    ''
-      {
-        "progress",
-        separator = {left = ''}
-      }
-    ''
-    ''
-      {"location"}
-    ''
-    ''
-      {
-        "fileformat",
-        color = {fg='black'},
-        symbols = {
-          unix = '', -- e712
-          dos = '',  -- e70f
-          mac = '',  -- e711
-        }
-      }
-    ''
+  setupOpts.sections.lualine_z = [
+    { "@1" = "datetime"; style = "%Y-%m-%d | %H:%M"; }
+    { "@1" = ""; draw_empty = true; separator = { left = ''; right = ''; }; }
+    { "@1" = "progress"; separator = { left = ''; }; }
+    ["location"]
+    { "@1" = "fileformat"; color = { fg = "black"; }; symbols = { unix = ''; dos = ''; mac = ''; }; }
   ];
 }
