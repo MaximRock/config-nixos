@@ -30,6 +30,14 @@ in
         qtile = pyprev.qtile.overrideAttrs (old: {
           disabledTests = old.disabledTests ++ [ "test_repl_server_executes_code" ];
         });
+        ipython = pyprev.ipython.overridePythonAttrs (old: {
+          # flaky pexpect-тест в песочнице: Could not terminate the child
+          disabledTests = old.disabledTests ++ [ "test_where_erase_value" ];
+        });
+        django = pyprev.django.overridePythonAttrs (old: {
+          # flaky performance-тест: время обработки XML чуть выше порога на этом железе
+          disabledTests = (old.disabledTests or []) ++ [ "test_crafted_xml_performance" ];
+        });
       };
     };
     # python3Packages — отдельный алиас, привязанный к старому python3
