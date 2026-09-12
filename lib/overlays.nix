@@ -6,7 +6,6 @@ let
     yandex-browser
     nur
     rime
-    yazi
     ;
 
   system = "x86_64-linux";
@@ -52,5 +51,4 @@ in
   # Внешние overlays
   nur.overlays.default
   rime.overlays.default
-  yazi.overlays.default
 ]

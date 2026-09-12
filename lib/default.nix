@@ -6,9 +6,7 @@ let
     home-manager
     sops-nix
     nvf
-    wezterm
     llm-agents
-    herdr
     nix-repo-navigator
     ;
 
@@ -42,9 +40,7 @@ let
       variables
       nvfConfig
       nvf
-      wezterm
       llm-agents
-      herdr
       nix-repo-navigator
       overlays
       unstable

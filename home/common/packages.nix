@@ -40,5 +40,7 @@
     telegram-desktop
     kdePackages.kruler
     xcolor
+
+    gh
   ];
 }

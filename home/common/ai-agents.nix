@@ -28,7 +28,7 @@ in
     dsh.enable = true;
     npmUpdate.enable = true;
     ponytail.enable = true;
-    comfyui.enable = true;
+    comfyui.enable = false;
     nix-repo-navigator.enable = true;
   };
 }

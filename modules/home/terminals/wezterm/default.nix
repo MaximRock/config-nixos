@@ -1,9 +1,9 @@
-{ config, pkgs, lib, appThemeNames, wezterm, ... }:
+{ config, pkgs, lib, appThemeNames, ... }:
 
 let
   terminalLib = import ../lib.nix { inherit pkgs lib; };
   cfg = config.modules.home.terminals.wezterm;
-  weztermPkg = wezterm.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  weztermPkg = pkgs.wezterm;
 
   themeName = cfg.themeName or appThemeNames.wezterm;
   themeToScheme = {

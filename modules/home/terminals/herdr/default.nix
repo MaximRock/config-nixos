@@ -1,4 +1,4 @@
-{ config, lib, pkgs, herdr, ... }:
+{ config, lib, pkgs, unstable, ... }:
 
 with lib;
 
@@ -12,6 +12,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ herdr.packages.${pkgs.stdenv.hostPlatform.system}.herdr ];
+    home.packages = [ unstable.herdr ];
   };
 }
