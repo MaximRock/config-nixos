@@ -14,15 +14,21 @@ ROCm + llama.cpp для AMD RX 6600 (8GB VRAM, gfx1032 → gfx1030).
 (`modules/home/ai-agents/opencode/config/opencode.jsonc` и `project/opencode.json`).
 Первый запуск каждой модели скачивает GGUF в `~/.cache/llama.cpp`.
 
-### Qwen3-Coder-30B-A3B — основная (агентная, работает в opencode)
+### Ornith-1.5-9B — dense 9B (лицензия MIT, reasoning + tool calling)
 
 ```bash
-llama-server -hf unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF:IQ4_XS --alias qwen3-coder-30b \
-  --host 127.0.0.1 --port 8080 -c 24576 -np 1 --jinja
+llama-server -hf ornith-ai/Ornith-1.5-9B-GGUF:Q4_K_M --alias ornith-9b \
+  --host 127.0.0.1 --port 8080 -c 32768 -np 1 --jinja
 ```
 
-Полный CPU-offload (без `-ngl`): MoE A3B (~3.3B активных) на CPU i5-12600K ~8-12 tok/s,
-RAM ~21GB (веса 16.4GB IQ4_XS + KV 3.4GB) — влезает в 32GB. Контекст 24576 полный.
+Q4_K_M (5.78GB) — целиком влезает в 8GB VRAM (остаётся ~2GB на KV) → быстрее CPU-only MoE.
+Dense 9B, MIT, надёжный tool calling (в отличие от 14B-R1). Хорош как лёгкая локальная модель
+для opencode. Qwen3.5-9B-подобные gotchas по «infinite thinking» применяются.
+
+> `-c 32768` — НЕ 24576: системный промпт dotfiles-репозитория ~10K токенов (AGENTS.md +
+> AI-MODULE-GUIDE.md + skills), на 24576 запрос упирается в лимит → бесконечная компакция
+> (`agent=compaction` в логах, `request (...) exceeds the available context size`). 32K
+> умещается в 32GB RAM (KV ~5GB).
 
 ### Qwen3.8-27B — плотная, качество кода (медленно на CPU)
 
@@ -32,10 +38,10 @@ llama-server -hf unsloth/Qwen3.8-27B-GGUF:UD-Q4_K_M --alias qwen3.8-27b \
 ```
 
 > UD-Q4_K_M (16.5GB, imatrix) — лучший баланс качества и размера. Плотная 27B на CPU
-> = **~1-2 tok/s** (в 6-8× медленнее 30B-A3B). RAM ~21.5GB — влезает, но
-> **одновременно с 30B не поместится** (~43GB > 32GB). Для агентной работы 30B-A3B
-> (8-12 tok/s) быстрее; эта модель — когда важнее качество кода, а не скорость.
-> Официальная квантизация Qwen3.8 (не RP-мерж) — tool calling должен работать.
+> = **~1-2 tok/s** (в 6-8× медленнее Ornith-9B, который влезает в VRAM). RAM ~21.5GB —
+> влезает, но **одновременно с другой RAM-тяжёлой моделью не поместится** (>32GB).
+> Для агентной работы Ornith-9B (GPU) быстрее; эта модель — когда важнее качество кода,
+> а не скорость. Официальная квантизация Qwen3.8 (не RP-мерж) — tool calling должен работать.
 
 ### DeepSeek-R1-Distill-Qwen-14B — рассуждения (медленно, tool calling ненадёжен)
 
@@ -79,8 +85,9 @@ llama-server -hf ggml-org/gpt-oss-20b-GGUF --alias gpt-oss-20b \
 
 ### О выгрузке в VRAM (`-ngl`)
 
-Четыре тяжёлые модели НЕ влезают частично в 8GB VRAM → `cudaMalloc failed: out of
-memory`. Запускайте без `-ngl` (авто-подбор = выгрузка на CPU).
+Четыре модели НЕ влезают частично в 8GB VRAM → `cudaMalloc failed: out of
+memory`. Запускайте их без `-ngl` (авто-подбор = выгрузка на CPU). Исключение —
+Ornith-1.5-9B (5.78GB Q4) влезает в VRAM целиком.
 
 ### Лимиты opencode
 

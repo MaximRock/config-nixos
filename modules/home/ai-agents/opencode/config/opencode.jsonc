@@ -35,11 +35,11 @@
         "baseURL": "http://127.0.0.1:8080/v1"
       },
       "models": {
-        "qwen3-coder-30b": {
-          "name": "Qwen3-Coder-30B-A3B (local)",
+        "ornith-9b": {
+          "name": "Ornith-1.5-9B (local)",
           "limit": {
-            "context": 24576,
-            "input": 24576,
+            "context": 65536,
+            "input": 65536,
             "output": 8192
           }
         },

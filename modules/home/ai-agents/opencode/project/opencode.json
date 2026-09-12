@@ -1,12 +1,15 @@
 {
     "$schema": "https://opencode.ai/config.json",
-    "model": "llama.cpp/qwen3-coder-30b",
+    "model": "llama.cpp/ornith-9b",
     "instructions": [
-        "promt-help.md",
-        "AGENTS.md",
-        "AI-MODULE-GUIDE.md"
+        "AGENTS.md"
     ],
     "lsp": true,
+    "tools": {
+        "dotfiles-helper_*": false,
+        "graft_*": false,
+        "rime_*": false
+    },
     "provider": {
         "llama.cpp": {
             "npm": "@ai-sdk/openai-compatible",
@@ -15,15 +18,38 @@
                 "baseURL": "http://127.0.0.1:8080/v1"
             },
             "models": {
-                "qwen3-coder-30b": {
-                    "name": "Qwen3-Coder-30B-A3B (local)",
+                "ornith-9b": {
+                    "name": "Ornith-1.5-9B (local)",
                     "supportsToolCalls": true,
                     "limit": {
-                        "context": 24576,
-                        "input": 24576,
+                        "context": 65536,
+                        "input": 65536,
                         "output": 8192
                     }
                 }
+            }
+        }
+    },
+    "default_agent": "local",
+    "agent": {
+        "local": {
+            "description": "Локальная модель llama.cpp/ornith-9b, урезанный MCP",
+            "mode": "primary",
+            "model": "llama.cpp/ornith-9b",
+            "prompt": "{file:modules/home/ai-agents/opencode/project/prompts/local.md}"
+        },
+        "build": {
+            "tools": {
+                "dotfiles-helper_*": true,
+                "graft_*": true,
+                "rime_*": true
+            }
+        },
+        "plan": {
+            "tools": {
+                "dotfiles-helper_*": true,
+                "graft_*": true,
+                "rime_*": true
             }
         }
     },
