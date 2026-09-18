@@ -10,6 +10,7 @@ in
   imports = [
     "${modulesHome}/ai-agents/aider"
     "${modulesHome}/ai-agents/koda"
+    "${modulesHome}/ai-agents/dyad"
     "${modulesHome}/ai-agents/opencode"
     "${modulesHome}/ai-agents/rime-mcp"
     "${modulesHome}/ai-agents/graft"
@@ -22,6 +23,7 @@ in
   modules.home = {
     aider.enable = false;
     koda.enable = false;
+    dyad.enable = true;
     opencode.enable = true;
     rime-mcp.enable = true;
     graft.enable = true;

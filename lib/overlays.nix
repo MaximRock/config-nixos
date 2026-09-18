@@ -48,6 +48,11 @@ in
     yandex-browser = yandex-browser.packages.${system};
   })
 
+  # pkgs.dyad — обёртка над официальным .deb релиза dyad-sh/dyad
+  (final: prev: {
+    dyad = final.callPackage ../pkgs/dyad { };
+  })
+
   # Внешние overlays
   nur.overlays.default
   rime.overlays.default
