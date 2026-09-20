@@ -11,10 +11,12 @@ let
   system = "x86_64-linux";
 
   # Точечные фиксы flaky-тестов python-пакетов.
-  # Применяется к обоим сетам 3.13 (python3Packages и python313Packages),
-  # иначе потребители versioned-сета фиксы не увидят.
-  # Сам интерпретатор python3 НЕ трогаем: его override меняет хеш
-  # и тянет пересборку всего python-экосистемы из исходников.
+  # Покрываем все три набора 3.13: python3Packages, python313Packages
+  # и python3.pkgs (оттуда берёт qtile системный сервис:
+  # mkPackageOption pkgs [ "python3" "pkgs" "qtile" ]).
+  # Scope-override через packageOverrides НЕ меняет drv интерпретатора
+  # (проверено: drvPath до/после одинаковый) — пересобираются только
+  # чиненые пакеты и их reverse-зависимости, остальное из кэша.
   pyTestFixes = pyfinal: pyprev: {
     # qtile: флейки-тест REPL-сервера в песочнице (ConnectionResetError).
     # Upstream отключил его в 0.37.0 ("Client disconnect prematurely")
@@ -44,13 +46,14 @@ in
     };
   })
 
-  # Точечные python-фиксы (см. pyTestFixes выше) — пересобираются
-  # только чиненые пакеты и их reverse-зависимости, остальное из кэша.
+  # Точечные python-фиксы (см. pyTestFixes выше).
   (final: prev: {
     python3Packages = prev.python3Packages.override { overrides = pyTestFixes; };
     python313Packages = prev.python313Packages.override {
       overrides = pyTestFixes;
     };
+    # Набор интерпретатора для системного сервиса qtile.
+    python3 = prev.python3.override { packageOverrides = pyTestFixes; };
   })
 
   # pkgs.yandex-browser.* — пакеты из флейка
