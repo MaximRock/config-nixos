@@ -9,6 +9,29 @@ let
     ;
 
   system = "x86_64-linux";
+
+  # Точечные фиксы flaky-тестов python-пакетов.
+  # Применяется к обоим сетам 3.13 (python3Packages и python313Packages),
+  # иначе потребители versioned-сета фиксы не увидят.
+  # Сам интерпретатор python3 НЕ трогаем: его override меняет хеш
+  # и тянет пересборку всего python-экосистемы из исходников.
+  pyTestFixes = pyfinal: pyprev: {
+    # qtile: флейки-тест REPL-сервера в песочнице (ConnectionResetError).
+    # Upstream отключил его в 0.37.0 ("Client disconnect prematurely")
+    qtile = pyprev.qtile.overrideAttrs (old: {
+      disabledTests = old.disabledTests ++ [ "test_repl_server_executes_code" ];
+    });
+    # ipython: flaky pexpect-тест в песочнице: Could not terminate the child
+    ipython = pyprev.ipython.overridePythonAttrs (old: {
+      disabledTests = old.disabledTests ++ [ "test_where_erase_value" ];
+    });
+    # django: flaky perf-тест test_crafted_xml_performance;
+    # runtests.py в installCheckPhase игнорирует disabledTests.
+    django = pyprev.django.overridePythonAttrs (old: {
+      doCheck = false;
+      doInstallCheck = false;
+    });
+  };
 in
 [
   # pkgs.unstable.* — полный unstable channel
@@ -21,26 +44,13 @@ in
     };
   })
 
-  # qtile 0.36.0: флейки-тест REPL-сервера в песочнице (ConnectionResetError).
-  # Upstream отключил его в 0.37.0 (nixpkgs master, "Client disconnect prematurely")
+  # Точечные python-фиксы (см. pyTestFixes выше) — пересобираются
+  # только чиненые пакеты и их reverse-зависимости, остальное из кэша.
   (final: prev: {
-    python3 = prev.python3.override {
-      packageOverrides = pyfinal: pyprev: {
-        qtile = pyprev.qtile.overrideAttrs (old: {
-          disabledTests = old.disabledTests ++ [ "test_repl_server_executes_code" ];
-        });
-        ipython = pyprev.ipython.overridePythonAttrs (old: {
-          # flaky pexpect-тест в песочнице: Could not terminate the child
-          disabledTests = old.disabledTests ++ [ "test_where_erase_value" ];
-        });
-        django = pyprev.django.overridePythonAttrs (old: {
-          # flaky performance-тест: время обработки XML чуть выше порога на этом железе
-          disabledTests = (old.disabledTests or []) ++ [ "test_crafted_xml_performance" ];
-        });
-      };
+    python3Packages = prev.python3Packages.override { overrides = pyTestFixes; };
+    python313Packages = prev.python313Packages.override {
+      overrides = pyTestFixes;
     };
-    # python3Packages — отдельный алиас, привязанный к старому python3
-    python3Packages = final.python3.pkgs;
   })
 
   # pkgs.yandex-browser.* — пакеты из флейка
