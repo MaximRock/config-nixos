@@ -13,7 +13,7 @@
 
   options.modules.nixos.llm.enable = lib.mkOption {
     type = lib.types.bool;
-    default = true;
+    default = false;
     description = "Включить LLM-модуль (llama.cpp с ROCm)";
   };
 }
