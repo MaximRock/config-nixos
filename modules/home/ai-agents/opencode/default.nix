@@ -44,6 +44,8 @@ in
         config.lib.file.mkOutOfStoreSymlink "${base}/agents/git-commit.md";
       "opencode/skills/nixos-rules/SKILL.md".source =
         config.lib.file.mkOutOfStoreSymlink "${base}/skills/nixos-rules/SKILL.md";
+      "opencode/skills/simple-explainer/SKILL.md".source =
+        config.lib.file.mkOutOfStoreSymlink "${base}/skills/simple-explainer/SKILL.md";
     };
 
     # === Проектные конфиги (project/) → корень репозитория ===
