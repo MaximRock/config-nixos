@@ -17,10 +17,15 @@ let
   # Scope-override через packageOverrides НЕ меняет drv интерпретатора
   # (проверено: drvPath до/после одинаковый) — пересобираются только
   # чиненые пакеты и их reverse-зависимости, остальное из кэша.
-  pyTestFixes = pyfinal: pyprev: {
+  pyTestFixes = top: pyfinal: pyprev: {
+    # qtile: nixpkgs nixos-26.05 пинит qtile 0.37.1 к wlroots_0_19, хотя код уже
+    # требует API wlroots 0.20 (wlr_xcursor_image_get_buffer). Повторяем
+    # апстрим-фикс из unstable. Убрать override wlroots, когда 26.05 заберёт фикс.
+    # Касается всех потребителей pkgs.python3Packages.qtile (системный сервис,
+    # VSCodium settings, nvf LSP), поэтому чинится здесь, а не точечно.
     # qtile: флейки-тест REPL-сервера в песочнице (ConnectionResetError).
     # Upstream отключил его в 0.37.0 ("Client disconnect prematurely")
-    qtile = pyprev.qtile.overrideAttrs (old: {
+    qtile = (pyprev.qtile.override { wlroots = top.wlroots_0_20; }).overrideAttrs (old: {
       disabledTests = old.disabledTests ++ [ "test_repl_server_executes_code" ];
     });
     # ipython: flaky pexpect-тест в песочнице: Could not terminate the child
@@ -48,12 +53,12 @@ in
 
   # Точечные python-фиксы (см. pyTestFixes выше).
   (final: prev: {
-    python3Packages = prev.python3Packages.override { overrides = pyTestFixes; };
+    python3Packages = prev.python3Packages.override { overrides = pyTestFixes final; };
     python313Packages = prev.python313Packages.override {
-      overrides = pyTestFixes;
+      overrides = pyTestFixes final;
     };
     # Набор интерпретатора для системного сервиса qtile.
-    python3 = prev.python3.override { packageOverrides = pyTestFixes; };
+    python3 = prev.python3.override { packageOverrides = pyTestFixes final; };
   })
 
   # pkgs.yandex-browser.* — пакеты из флейка
