@@ -6,10 +6,20 @@ binds {
     Mod+B       { spawn "yandex-browser-stable"; } // Открыть Яндекс Браузер
     Mod+C       { spawn "codium"; }              // Открыть редактор VS Codium
     Mod+P       { spawn "deadbeef"; }            // Открыть плеер DeaDBeeF
+    Mod+Shift+Slash { show-hotkey-overlay; }    // Шпаргалка по хоткеям
+
+    // ─── Noctalia (десктоп-шелл) ───
+    // NB: Mod+S (скриншот), Mod+Comma (пред. стол), Mod+Period (след. стол) заняты ниже,
+    //     поэтому Панель управления Noctalia — на Mod+A, настройки — на Mod+Shift+Comma.
+    Mod+Space       { spawn-sh "noctalia msg panel-toggle launcher"; }        // Лаунчер Noctalia
+    Mod+A           { spawn-sh "noctalia msg panel-toggle control-center"; }  // Панель управления (звук/сеть/батарея)
+    Mod+Shift+Comma { spawn-sh "noctalia msg settings-toggle"; }              // Настройки Noctalia
+    Alt+Tab         { spawn-sh "noctalia msg window-switcher hold"; }         // Переключатель окон
 
     // ─── Управление окнами ───
     Mod+Q       { close-window; }                // Закрыть текущее окно
     Mod+Shift+Q { quit; }                        // Выйти из niri
+    Mod+O { toggle-overview; }                  // Обзор: все окна/столы (зум-аут)
 
     // ─── Навигация (фокус) ───
     Mod+H { focus-column-left; }                 // Фокус на колонку слева

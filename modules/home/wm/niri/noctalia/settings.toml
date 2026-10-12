@@ -1,0 +1,29 @@
+# Noctalia v5 — конфиг десктоп-шелла.
+# ~/.config/noctalia/settings.toml — симлинк на этот файл (см. modules/home/wm/niri/default.nix).
+# Правки через GUI Noctalia сохраняются сюда же. settings.toml загружается последним.
+
+[wallpaper]
+enabled = true
+fill_mode = "crop"
+
+[wallpaper.default]
+path = "/home/max/.dotfiles/modules/home/wm/niri/wallpapers/golden-domes.png"
+
+# Размытая подложка обоев для overview niri (нужен layer-rule в config.kdl)
+[backdrop]
+enabled = true
+
+# Заставка «матрица» (neo) при простое; выход по клавише/движению мыши, без пароля
+[idle]
+behavior_order = ["matrix"]
+pre_action_fade_seconds = 0
+
+[idle.behavior.matrix]
+timeout = 120
+action = "command"
+command = "setsid -f foot -a matrix-saver -f -e neo"
+resume_command = "pkill -x neo"
+
+# Экранная блокировка паролем выключена полностью (в т.ч. при засыпании/крышке)
+[lockscreen]
+enabled = false

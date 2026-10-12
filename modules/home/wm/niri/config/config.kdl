@@ -18,8 +18,24 @@ window-rule {
     open-floating true
 }
 
-spawn-at-startup "swaybg" "-i" "/run/current-system/sw/share/backgrounds/nixos/nix-wallpaper-nineish-dark-gray.png" "-m" "fill"
-spawn-at-startup "mako"
-spawn-at-startup "waybar"
+// Окно настроек Noctalia — плавающее, фиксированного размера
+window-rule {
+    match app-id="dev.noctalia.Noctalia"
+    open-floating true
+    default-column-width { fixed 1080; }
+    default-window-height { fixed 920; }
+}
+
+// Разрешает действия уведомлений и активацию окон из Noctalia
+debug {
+    honor-xdg-activation-with-invalid-serial
+}
+
+// Подложка Noctalia (blurred backdrop) видна в overview
+layer-rule {
+    match namespace="^noctalia-backdrop"
+    place-within-backdrop true
+}
+
+spawn-at-startup "noctalia"
 spawn-at-startup "lxqt-policykit-agent"
-spawn-at-startup "swayidle" "-w" "timeout" "300" "swaylock -f -c 1e1e2e" "timeout" "600" "swaylock -f -c 1e1e2e"

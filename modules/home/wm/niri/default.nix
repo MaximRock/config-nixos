@@ -6,6 +6,8 @@ let
   cfg = config.modules.home.wm.niri;
   colors = cfg.theme.colors;
   niriConfigDir = "${variables.basePathFilesDir}/modules/home/wm/niri/config";
+  # Конфиг десктоп-шелла Noctalia (обои, бар и т.п.); правится через GUI → пишется в репо
+  noctaliaConfigDir = "${variables.basePathFilesDir}/modules/home/wm/niri/noctalia";
 in
 
 {
@@ -23,21 +25,9 @@ in
       desktop.wayland = {
         common.enable = true;
         fuzzel.enable = true;
-        mako = {
-          enable = true;
-          colors = cfg.theme.appColors.mako;
-        };
-        swaybg.enable = true;
-        swaylock = {
-          enable = true;
-          colors = cfg.theme.appColors.swaylock;
-        };
-        swayidle.enable = true;
         wlogout.enable = true;
-        waybar = {
-          enable = true;
-          colors = cfg.theme.appColors.waybar;
-        };
+        # Noctalia v5 (модуль programs.noctalia в modules/nixos/desktop/niri.nix)
+        # заменяет waybar, mako, swaybg, swaylock и swayidle — они здесь выключены.
       };
 
       terminals = {
@@ -81,5 +71,9 @@ in
           backdrop-color "${colors.surface}"
       }
     '';
+
+    # Конфиг Noctalia (обои, бар) — симлинк в репо, чтобы GUI-изменения сохранялись
+    xdg.configFile."noctalia/settings.toml".source =
+      config.lib.file.mkOutOfStoreSymlink "${noctaliaConfigDir}/settings.toml";
   };
 }
