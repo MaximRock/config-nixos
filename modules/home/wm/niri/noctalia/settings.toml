@@ -27,3 +27,15 @@ resume_command = "pkill -x neo"
 # Экранная блокировка паролем выключена полностью (в т.ч. при засыпании/крышке)
 [lockscreen]
 enabled = false
+
+# Индикатор раскладки клавиатуры (us/ru); клик по виджету переключает раскладку
+[bar.default]
+end = ["keyboard_layout", "media", "tray", "notifications", "clipboard",
+       "network", "bluetooth", "volume", "brightness", "battery",
+       "control-center", "session"]
+
+[widget.keyboard_layout]
+display = "short"
+show_glyph = true
+show_label = true
+hide_when_single_layout = false
