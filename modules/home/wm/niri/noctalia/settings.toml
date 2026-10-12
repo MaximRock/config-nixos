@@ -21,7 +21,7 @@ pre_action_fade_seconds = 0
 [idle.behavior.matrix]
 timeout = 120
 action = "command"
-command = "setsid -f foot -a matrix-saver -f -e neo"
+command = "setsid -f foot -a matrix-saver -F -e neo"
 resume_command = "pkill -x neo"
 
 # Экранная блокировка паролем выключена полностью (в т.ч. при засыпании/крышке)
