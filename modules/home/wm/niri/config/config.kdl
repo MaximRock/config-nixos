@@ -9,6 +9,11 @@ layout {
     }
 }
 
+// Именованные столы — фиксируем нумерацию: niri ставит именованные в начало
+workspace "1"
+workspace "2"
+workspace "3"
+
 window-rule {
     match app-id="pavucontrol"
     open-floating true
@@ -26,6 +31,12 @@ window-rule {
     default-window-height { fixed 920; }
 }
 
+// Авто-инстанс Throne (запускается при старте niri) — на рабочем столе 2
+window-rule {
+    match at-startup=true app-id=r#"^Throne$"#
+    open-on-workspace "2"
+}
+
 // Разрешает действия уведомлений и активацию окон из Noctalia
 debug {
     honor-xdg-activation-with-invalid-serial
@@ -37,5 +48,19 @@ layer-rule {
     place-within-backdrop true
 }
 
+// «Матовое стекло» позади дашборда-«райдера» (eww, namespace eww-dashboard).
+// Слой полноэкранный → размывается весь фон стола 3 (карточки полупрозрачны).
+layer-rule {
+    match namespace="^eww-dashboard$"
+    background-effect {
+        blur true
+    }
+}
+
 spawn-at-startup "noctalia"
 spawn-at-startup "lxqt-policykit-agent"
+spawn-at-startup "Throne"
+
+// Дашборд-«райдер» на столе 3 (eww): демон + вотчер видимости по столу
+spawn-at-startup "eww" "daemon"
+spawn-at-startup "niri-dash-watch"
