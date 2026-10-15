@@ -22,10 +22,15 @@ let
     title      = dashColor "title"      colors.inactive;
     text       = dashColor "text"       colors.foreground;
     muted      = dashColor "muted"      colors.inactive;
+    grid       = dashColor "grid"       colors.inactive;
     accent     = dashColor "accent"     colors.primary;
-    barTrack   = dashColor "barTrack"   colors.border_normal;
+    cpu        = dashColor "cpu"        colors.error;
+    ram        = dashColor "ram"        colors.success;
+    disk       = dashColor "disk"       colors.warning;
+    net        = dashColor "net"        colors.info;
+    sys        = dashColor "sys"        colors.primary;
   };
-  # "#RRGGBB" → "rgba(r, g, b, alpha)" для прозрачного фона карточек
+  # "#RRGGBB" → "rgba(r, g, b, alpha)" (hex без альфы)
   hexToRgba = hex: alpha:
     let
       v = fromHexString (substring 0 6 (removePrefix "#" hex));
@@ -33,26 +38,78 @@ let
       g = (v / 256) - r * 256;
       b = v - r * 65536 - g * 256;
     in "rgba(${toString r}, ${toString g}, ${toString b}, ${toString alpha})";
-  cardBg = hexToRgba dc.background dash.opacity;
+  cardBg     = hexToRgba dc.background dash.opacity;
+  tileBorder = hexToRgba dc.border dash.tile.borderAlpha;
+  chartBg    = hexToRgba dc.background dash.chart.bgAlpha;
+  gridLine   = hexToRgba dc.grid dash.chart.gridAlpha;
+  fillOf     = col: hexToRgba col dash.chart.fillAlpha;
+
+  # ── Шрифт: базовый size масштабирует размеры, null-ключи берут производное ─
+  f = dash.font;
+  fsz = key: ref: if f.${key} == null then builtins.floor (f.size * ref / 13) else f.${key};
+  font = {
+    title     = fsz "title" 12;
+    num       = fsz "num" 22;
+    dim       = fsz "dim" 16;
+    clockDate = fsz "clockDate" 20;
+    clockDay  = fsz "clockDay" 15;
+    clockTime = fsz "clockTime" 30;
+  };
+  # family = null → оставляем системный шрифт GTK (строку не эмитим)
+  fontFamilyCss = optionalString (f.family != null) ''font-family: "${f.family}"; '';
+
+  # ── Формат чисел ─────────────────────────────────────────────────────────
+  gbDiv = dash.format.gbBase;
+  gbFactor = gbDiv * gbDiv * gbDiv; # байты → ГБ/GiB
+  dec   = dash.format.decimals;
+  boolStr = b: if b then "true" else "false";
+  # Эмитит ":prop true|false" или пусто, когда значение null (→ дефолт eww).
+  optBool = name: v: if v == null then "" else " :${name} ${boolStr v}";
 
   lang = {
-    en = { cpu = "CPU"; ram = "RAM"; disk = "Disk"; net = "Net"; locale = "C"; };
-    ru = { cpu = "ЦП"; ram = "ОЗУ"; disk = "Диск"; net = "Сеть"; locale = "ru_RU.utf8"; };
+    en = { cpu = "CPU"; ram = "RAM"; disk = "Disk"; net = "Net"; sys = "System"; locale = "C"; };
+    ru = { cpu = "ЦП"; ram = "ОЗУ"; disk = "Диск"; net = "Сеть"; sys = "Система"; locale = "ru_RU.utf8"; };
   }.${dash.language};
 
   netIf = dash.network.interface;
-  netDiv = if dash.network.unit == "MB/s" then 1048576 else 1024;
-  # выражение eww: байт/сек → выбранные единицы, 1 знак после точки
-  netVal = dir: ''round(EWW_NET["${netIf}"].NET_${dir}/${toString netDiv}, 1)'';
+  diskMount = dash.disk.mount;
 
-  # Содержимое окна — выбранные плитки по порядку из конфига
-  body = concatMapStringsSep "\n      " (name: {
-    cpu = ''(metric :title "${lang.cpu}" :value "''${floor(EWW_CPU.avg)}" :unit "%")'';
-    ram = ''(metric :title "${lang.ram}" :value "''${floor(EWW_RAM.used_mem_perc)}" :unit "%")'';
-    disk = ''(metric :title "${lang.disk}" :value "''${floor(EWW_DISK["/"].used_perc)}" :unit "%")'';
-    net = ''(net :title "${lang.net}" :down "''${${netVal "DOWN"}}" :up "''${${netVal "UP"}}" :unit "${dash.network.unit}")'';
-    clock = ''(clock :day clock-day :date clock-date)'';
-  }.${name}) dash.tiles;
+  # Процент диска на плитке: свободно или занято (dash.format.diskPercent)
+  diskPct = if dash.format.diskPercent == "used"
+    then "floor(EWW_DISK[\"${diskMount}\"].used_perc)"
+    else "floor(100 - EWW_DISK[\"${diskMount}\"].used_perc)";
+
+  # Поле трафика для графика сети (dash.tiles.net.mode)
+  netField = if dash.tiles.net.mode == "up" then "NET_UP" else "NET_DOWN";
+
+  # Строки часов — только включённые в dash.clock.*
+  clockLines = concatMapStringsSep "\n        "
+    (l: "(label :class \"${l.cls}\" :text ${l.var})")
+    (optional dash.clock.showDate  { cls = "clock-l1"; var = "clockdate"; }
+      ++ optional dash.clock.showDay  { cls = "clock-l2"; var = "clockday"; }
+      ++ optional dash.clock.showTime { cls = "clock-l3"; var = "clocktime"; });
+
+  # CSS-сетка графика: слои по gridDir (both|x|y), толщина gridThickness
+  gridGrad = to: "repeating-linear-gradient(to ${to}, ${gridLine} 0, ${gridLine} ${toString dash.chart.gridThickness}px, transparent ${toString dash.chart.gridThickness}px, transparent ${toString dash.chart.gridStep}px)";
+  gridLayers = (optional (dash.chart.gridDir == "both" || dash.chart.gridDir == "x") (gridGrad "right"))
+    ++ (optional (dash.chart.gridDir == "both" || dash.chart.gridDir == "y") (gridGrad "bottom"));
+  gridCss = if gridLayers == [ ] then "none" else concatStringsSep ",\n        " gridLayers;
+
+  # Плитка по имени → виджет
+  tileWidget = name: {
+    cpu   = "(stat-cpu)";
+    ram   = "(stat-ram)";
+    disk  = "(stat-disk)";
+    net   = "(stat-net)";
+    clock = "(stat-clock)";
+    sys   = "(stat-sys)";
+  }.${name};
+
+  # Ряды плиток: каждый ряд — горизонтальный box с центрированием
+  body = concatMapStringsSep "\n      " (row:
+    "(box :class \"row\" :orientation \"h\" :spacing ${toString dash.spacing} :halign \"center\" :valign \"center\"\n        "
+    + concatMapStringsSep "\n        " tileWidget row + ")"
+  ) dash.rows;
 
   pos = {
     center = [ "center" "center" ];
@@ -65,91 +122,160 @@ let
     bottom-left = [ "start" "end" ];
     bottom-right = [ "end" "end" ];
   }.${dash.position} or [ "center" "center" ];
-  orient = if dash.orientation == "column" then "v" else "h";
   halign = elemAt pos 0;
   valign = elemAt pos 1;
 
   ewwYuck = ''
-    (defpoll clock-day  :interval "30s"  :initial ""  `LC_TIME=${lang.locale} date '+%A'`)
-    (defpoll clock-date :interval "120s" :initial ""  `LC_TIME=${lang.locale} date '+%d %B'`)
+    (defpoll focused_wsp :interval "300ms" :initial "" "niri-dash-stat wsp")
+    (defpoll clockdate :interval "${dash.intervals.clockDate}" :initial "" "LC_TIME=${lang.locale} date '${dash.clock.dateFormat}'")
+    (defpoll clockday  :interval "${dash.intervals.clockDay}"  :initial "" "LC_TIME=${lang.locale} date '${dash.clock.dayFormat}'")
+    (defpoll clocktime :interval "${dash.intervals.clockTime}" :initial "" "LC_TIME=${lang.locale} date '${dash.clock.timeFormat}'")
+    (defpoll cputemp   :interval "${dash.intervals.cpuTemp}" :initial "0" "niri-dash-stat cputemp")
+    (defpoll diskio    :interval "${dash.intervals.diskIo}"  :initial "0" "niri-dash-stat diskio ${dash.disk.device} ${dash.tiles.disk.mode}")
+    (defpoll uptime    :interval "${dash.intervals.uptime}"  :initial "" "niri-dash-stat uptime")
+    (defpoll load1     :interval "${dash.intervals.load}"    :initial "0" "niri-dash-stat load ${toString dash.format.loadWindow}")
 
-    (defwidget metric [title value unit]
-      (box :class "tile" :orientation "v" :spacing 6
-        (label :class "tile-title" :text title)
-        (box :class "tile-row" :orientation "h" :spacing 4
-          (label :class "tile-value" :text value)
-          (label :class "tile-unit" :text unit))
-        (progress :class "tile-bar" :value value)))
+    (defwidget chart [cls value min max dyn]
+      (box :class "chart ''${cls}" :vexpand true :hexpand true
+        (graph :value value :min min :max max :dynamic dyn
+               :time-range "${dash.chart.timeRange}"
+               :thickness ${toString dash.chart.thickness}
+               :line-style "${dash.chart.lineStyle}"${optBool "flip-x" dash.chart.flipX}${optBool "flip-y" dash.chart.flipY}${optBool "vertical" dash.chart.vertical}
+               :vexpand true :hexpand true)))
 
-    (defwidget net [title down up unit]
-      (box :class "tile" :orientation "v" :spacing 6
-        (label :class "tile-title" :text title)
-        (box :class "net-rows" :orientation "v" :spacing 2
-          (box :class "net-row" :orientation "h" :spacing 6
-            (label :class "net-arrow" :text "↓")
-            (label :class "tile-value" :text down)
-            (label :class "tile-unit" :text unit))
-          (box :class "net-row" :orientation "h" :spacing 6
-            (label :class "net-arrow" :text "↑")
-            (label :class "tile-value" :text up)
-            (label :class "tile-unit" :text unit)))))
+    (defwidget stat-cpu []
+      (box :class "tile" :orientation "v" :spacing 8
+        (label :class "tile-title" :text "${lang.cpu}")
+        (box :class "nums" :orientation "h" :spacing 12
+          (label :class "num" :text "''${floor(EWW_CPU.avg)}%")
+          (label :class "num dim" :text "''${cputemp}°C"))
+        (chart :cls "cpu" :value "''${EWW_CPU.avg}" :min 0 :max ${toString dash.tiles.cpu.max} :dyn ${boolStr dash.tiles.cpu.dynamic})))
 
-    (defwidget clock [day date]
-      (box :class "tile clock" :orientation "v" :spacing 4
-        (label :class "clock-day" :text day)
-        (label :class "clock-date" :text date)))
+    (defwidget stat-ram []
+      (box :class "tile" :orientation "v" :spacing 8
+        (label :class "tile-title" :text "${lang.ram}")
+        (box :class "nums" :orientation "h" :spacing 12
+          (label :class "num" :text "''${round(EWW_RAM.used_mem/${toString gbFactor},${toString dec})}/''${round(EWW_RAM.total_mem/${toString gbFactor},${toString dec})} GB")
+          (label :class "num dim" :text "''${floor(EWW_RAM.used_mem_perc)}%"))
+        (chart :cls "ram" :value "''${EWW_RAM.used_mem_perc}" :min 0 :max ${toString dash.tiles.ram.max} :dyn ${boolStr dash.tiles.ram.dynamic})))
+
+    (defwidget stat-disk []
+      (box :class "tile" :orientation "v" :spacing 8
+        (label :class "tile-title" :text "${lang.disk}")
+        (box :class "nums" :orientation "h" :spacing 12
+          (label :class "num" :text "''${round(EWW_DISK["${diskMount}"].free/${toString gbFactor},${toString dec})}/''${round(EWW_DISK["${diskMount}"].total/${toString gbFactor},${toString dec})} GB")
+          (label :class "num dim" :text "''${${diskPct}}%"))
+        (chart :cls "disk" :value "''${diskio}" :min 0 :max ${toString dash.tiles.disk.max} :dyn ${boolStr dash.tiles.disk.dynamic})))
+
+    (defwidget stat-net []
+      (box :class "tile" :orientation "v" :spacing 8
+        (label :class "tile-title" :text "${lang.net}")
+        (chart :cls "net" :value "''${EWW_NET["${netIf}"].${netField}}" :min 0 :max ${toString dash.tiles.net.max} :dyn ${boolStr dash.tiles.net.dynamic})))
+
+    (defwidget stat-clock []
+      (box :class "tile clock" :orientation "v" :spacing 2
+        ${clockLines}))
+
+    (defwidget stat-sys []
+      (box :class "tile" :orientation "v" :spacing 8
+        (label :class "tile-title" :text "${lang.sys}")
+        (box :class "nums" :orientation "h" :spacing 12
+          (label :class "num" :text "''${load1}")
+          (label :class "num dim" :text "''${uptime}"))
+        (chart :cls "load" :value "''${load1}" :min 0 :max ${toString dash.tiles.load.max} :dyn ${boolStr dash.tiles.load.dynamic})))
 
     (defwindow dashboard
       :monitor "${dash.output}"
       :geometry (geometry :x "0%" :y "0%" :width "100%" :height "100%" :anchor "top left")
-      :stacking "bottom"
-      :focusable "none"
-      :namespace "eww-dashboard"
-      (box :class "root" :orientation "${orient}" :spacing ${toString dash.spacing}
+      :stacking "${dash.window.stacking}"
+      :focusable "${dash.window.focusable}"
+      :namespace "${dash.window.namespace}"
+      (box :class "root" :orientation "v" :spacing ${toString dash.spacing}
+           :visible {focused_wsp == "${dash.workspace}"}
            :halign "${halign}" :valign "${valign}"
         ${body}))
   '';
 
   ewwScss = ''
     window, .root { background: transparent; }
+    window { ${fontFamilyCss}font-size: ${toString f.size}px; }
+
+    .root { margin: ${toString dash.window.margin}px; }
 
     .tile {
       background: ${cardBg};
-      border: 1px solid ${dc.border};
-      border-radius: 14px;
-      padding: 14px 18px;
+      border: ${toString dash.tile.borderWidth}px solid ${tileBorder};
+      border-radius: ${toString dash.tile.radius}px;
+      padding: ${toString dash.tile.paddingY}px ${toString dash.tile.paddingX}px;
       min-width: ${toString dash.tileWidth}px;
     }
 
-    .tile-title { color: ${dc.title}; font-size: 12px; font-weight: bold; }
-    .tile-value { color: ${dc.text}; font-size: 30px; font-weight: bold; }
-    .tile-unit  { color: ${dc.muted}; font-size: 13px; }
-    .net-row .tile-value { font-size: 20px; }
-    .net-arrow  { color: ${dc.accent}; font-size: 18px; }
+    .tile-title { color: ${dc.title}; font-size: ${toString font.title}px; font-weight: bold; letter-spacing: ${toString f.titleTracking}px; }
+    .num { color: ${dc.text}; font-size: ${toString font.num}px; font-weight: bold; }
+    .num.dim { color: ${dc.muted}; font-size: ${toString font.dim}px; font-weight: normal; }
 
-    .tile-bar trough   { background: ${dc.barTrack}; border-radius: 5px; min-height: 6px; }
-    .tile-bar progress { background: ${dc.accent};   border-radius: 5px; min-height: 6px; }
+    .chart {
+      min-height: ${toString dash.chart.height}px;
+      border-radius: ${toString dash.chart.radius}px;
+      background-color: ${chartBg};
+      background-image: ${gridCss};
+    }
 
-    .clock .clock-day  { color: ${dc.accent}; font-size: 26px; font-weight: bold; }
-    .clock .clock-date { color: ${dc.text};   font-size: 16px; }
+    .chart.cpu  graph { color: ${dc.cpu};  background-color: ${fillOf dc.cpu}; }
+    .chart.ram  graph { color: ${dc.ram};  background-color: ${fillOf dc.ram}; }
+    .chart.disk graph { color: ${dc.disk}; background-color: ${fillOf dc.disk}; }
+    .chart.net  graph { color: ${dc.net};  background-color: ${fillOf dc.net}; }
+    .chart.load graph { color: ${dc.sys};  background-color: ${fillOf dc.sys}; }
+
+    .clock label { font-weight: normal; }
+    .clock .clock-l1 { color: ${dc.text};   font-size: ${toString font.clockDate}px; }
+    .clock .clock-l2 { color: ${dc.accent}; font-size: ${toString font.clockDay}px; }
+    .clock .clock-l3 { color: ${dc.text};   font-size: ${toString font.clockTime}px; }
   '';
 
-  # Показывает дашборд только на нужном столе: следит за фокусом niri и дёргает eww.
-  dashWatch = pkgs.writeShellScriptBin "niri-dash-watch" ''
-    target="${dash.workspace}"
-    last=""
-    until eww ping >/dev/null 2>&1; do sleep 0.2; done
-    while sleep 0.3; do
-      cur=$(niri msg --json workspaces 2>/dev/null | jq -r '.[] | select(.is_focused) | .name')
-      [ "$cur" = "$last" ] && continue
-      last="$cur"
-      if [ "$cur" = "$target" ]; then
-        eww open dashboard >/dev/null 2>&1
-      else
-        eww close dashboard >/dev/null 2>&1
-      fi
-    done
-    # ponytail: poll 0.3s (дёшево); апгрейд → niri msg --json event-stream
+  # Poll-хелперы дашборда: темп CPU (sysfs hwmon), скорость I/O диска (/proc/diskstats),
+  # аптайм (/proc/uptime) и загрузка (/proc/loadavg).
+  dashStat = pkgs.writeShellScriptBin "niri-dash-stat" ''
+    set -u
+    sensors="${concatStringsSep " " dash.temperature.sensors}"
+    case "''${1:-}" in
+      cputemp)
+        for n in $sensors; do
+          for h in /sys/class/hwmon/hwmon*; do
+            [ "$(cat "$h/name" 2>/dev/null || true)" = "$n" ] || continue
+            awk '{printf "%.0f\n", $1/1000}' "$h/temp1_input" 2>/dev/null && exit 0
+          done
+        done
+        echo 0
+        ;;
+      diskio)
+        dev="''${2:-sdb}"; mode="''${3:-write}"
+        field=$([ "$mode" = read ] && echo 6 || echo 10)
+        st="''${XDG_RUNTIME_DIR:-/tmp}/niri-dash-diskio-$dev-$mode"
+        now=$(date +%s)
+        sec=$(awk -v d="$dev" -v f="$field" '$3==d{print $f; exit}' /proc/diskstats)
+        [ -n "''${sec:-}" ] || { echo 0; exit 0; }
+        pt=$now; ps=$sec
+        [ -r "$st" ] && read -r pt ps < "$st" 2>/dev/null || true
+        dt=$(( now - pt )); [ "$dt" -gt 0 ] || dt=1
+        ds=$(( sec - ps )); [ "$ds" -ge 0 ] || ds=0
+        printf '%d\n' $(( ds * 512 / dt ))
+        printf '%s %s\n' "$now" "$sec" > "$st"
+        ;;
+      uptime)
+        awk '{ s=int($1); d=int(s/86400); h=int((s%86400)/3600); m=int((s%3600)/60);
+               if (d>0) printf "%dd %dh %dm\n", d, h, m; else printf "%dh %dm\n", h, m }' /proc/uptime
+        ;;
+      load)
+        case "''${2:-1}" in 5) f=2 ;; 15) f=3 ;; *) f=1 ;; esac
+        awk -v f="$f" '{ print $f }' /proc/loadavg
+        ;;
+      wsp)
+        ${pkgs.niri}/bin/niri msg --json workspaces 2>/dev/null \
+          | ${pkgs.jq}/bin/jq -r '.[] | select(.is_focused) | .name'
+        ;;
+      *) echo 0 ;;
+    esac
   '';
 in
 
@@ -219,8 +345,9 @@ in
     xdg.configFile."noctalia/settings.toml".source =
       config.lib.file.mkOutOfStoreSymlink "${noctaliaConfigDir}/settings.toml";
 
-    # Дашборд-«райдер» (eww): пакет, вотчер и сгенерированный из config.nix конфиг
-    home.packages = [ pkgs.eww dashWatch ];
+    # Дашборд-«райдер» (eww): пакет и сгенерированный из config.nix конфиг.
+    # Видимость по столу реализована внутри eww (poll focused_wsp), отдельного вотчера нет.
+    home.packages = [ pkgs.eww dashStat ];
     xdg.configFile."eww/eww.yuck".text = ewwYuck;
     xdg.configFile."eww/eww.scss".text = ewwScss;
   };

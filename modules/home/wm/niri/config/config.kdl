@@ -53,7 +53,7 @@ layer-rule {
 layer-rule {
     match namespace="^eww-dashboard$"
     background-effect {
-        blur true
+        blur false 
     }
 }
 
@@ -61,6 +61,8 @@ spawn-at-startup "noctalia"
 spawn-at-startup "lxqt-policykit-agent"
 spawn-at-startup "Throne"
 
-// Дашборд-«райдер» на столе 3 (eww): демон + вотчер видимости по столу
+// Дашборд-«райдер» на столе 3 (eww). Демон + разовое открытие окна: дальше окно
+// висит всегда (история графиков не сбрасывается), а видимость по столу eww
+// решает сам через poll focused_wsp и :visible.
 spawn-at-startup "eww" "daemon"
-spawn-at-startup "niri-dash-watch"
+spawn-at-startup "sh" "-c" "until eww ping >/dev/null 2>&1; do sleep 0.2; done; eww open dashboard"
