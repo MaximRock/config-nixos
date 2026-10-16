@@ -11,11 +11,10 @@ let
   presetsDir = ../theme/presets;
   readPreset = name: fromJSON (readFile "${presetsDir}/${name}.json");
 
-  themePresets = {
-    catppuccin = readPreset "catppuccin";
-    gruvbox = readPreset "gruvbox";
-    tokyonight = readPreset "tokyonight";
-  };
+  # Пресеты обнаруживаются автоматически: каждый *.json в presetsDir.
+  presetNames = map (removeSuffix ".json")
+    (filter (hasSuffix ".json") (attrNames (builtins.readDir presetsDir)));
+  themePresets = genAttrs presetNames readPreset;
 
   basePresetColors = (builtins.head (themePresets.${themeName} or [{}])).config or {};
   colors = basePresetColors // (settings.theme.colors or {});

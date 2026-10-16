@@ -5,6 +5,9 @@ with lib;
 let
   cfg = config.modules.home.wm.niri;
   colors = cfg.theme.colors;
+  # Палитра дашборда: отдельный блок "dashboard" в lib/niri/settings.json
+  # (см. appBlocks в lib/niri/theme.nix). Фолбэк — активная тема niri.
+  dashColors = cfg.theme.appColors.dashboard or colors;
   niriConfigDir = "${variables.basePathFilesDir}/modules/home/wm/niri/config";
   # Конфиг десктоп-шелла Noctalia (обои, бар и т.п.); правится через GUI → пишется в репо
   noctaliaConfigDir = "${variables.basePathFilesDir}/modules/home/wm/niri/noctalia";
@@ -17,32 +20,51 @@ let
   # ── Палитра дашборда: override из dash.colors, иначе цвет активной темы ─
   dashColor = key: fallback: if dash.colors.${key} == null then fallback else dash.colors.${key};
   dc = {
-    background = dashColor "background" colors.surface_variant;
-    border     = dashColor "border"     colors.border_normal;
-    title      = dashColor "title"      colors.inactive;
-    text       = dashColor "text"       colors.foreground;
-    muted      = dashColor "muted"      colors.inactive;
-    grid       = dashColor "grid"       colors.inactive;
-    accent     = dashColor "accent"     colors.primary;
-    cpu        = dashColor "cpu"        colors.error;
-    ram        = dashColor "ram"        colors.success;
-    disk       = dashColor "disk"       colors.warning;
-    net        = dashColor "net"        colors.info;
-    sys        = dashColor "sys"        colors.primary;
+    background = dashColor "background" dashColors.surface_variant;
+    border     = dashColor "border"     dashColors.border_normal;
+    title      = dashColor "title"      dashColors.inactive;
+    text       = dashColor "text"       dashColors.foreground;
+    muted      = dashColor "muted"      dashColors.inactive;
+    grid       = dashColor "grid"       dashColors.inactive;
+    accent     = dashColor "accent"     dashColors.primary;
+    cpu        = dashColor "cpu"        dashColors.error;
+    ram        = dashColor "ram"        dashColors.success;
+    disk       = dashColor "disk"       dashColors.warning;
+    net        = dashColor "net"        dashColors.info;
+    sys        = dashColor "sys"        dashColors.primary;
+    clock      = dashColor "clock"      dashColors.secondary;
   };
-  # "#RRGGBB" → "rgba(r, g, b, alpha)" (hex без альфы)
-  hexToRgba = hex: alpha:
+  # "#RRGGBB" → { r, g, b } (компоненты 0..255)
+  rgbOf = hex:
     let
       v = fromHexString (substring 0 6 (removePrefix "#" hex));
       r = v / 65536;
-      g = (v / 256) - r * 256;
+      g = (v - r * 65536) / 256;
       b = v - r * 65536 - g * 256;
-    in "rgba(${toString r}, ${toString g}, ${toString b}, ${toString alpha})";
+    in { inherit r g b; };
+  # Смешать цвета a и b в доле `ratio` (0..1) второго
+  mixCol = a: b: ratio:
+    let
+      ca = rgbOf a;
+      cb = rgbOf b;
+      mix = x: y: builtins.floor (x + (y - x) * ratio);
+    in { r = mix ca.r cb.r; g = mix ca.g cb.g; b = mix ca.b cb.b; };
+  rgbaOf = { r, g, b }: alpha: "rgba(${toString r}, ${toString g}, ${toString b}, ${toString alpha})";
+  hexToRgba = hex: alpha: rgbaOf (rgbOf hex) alpha;
+
   cardBg     = hexToRgba dc.background dash.opacity;
   tileBorder = hexToRgba dc.border dash.tile.borderAlpha;
   chartBg    = hexToRgba dc.background dash.chart.bgAlpha;
   gridLine   = hexToRgba dc.grid dash.chart.gridAlpha;
   fillOf     = col: hexToRgba col dash.chart.fillAlpha;
+
+  # Цветная карточка: акцент подмешан в плотный фон (tint), рамка — акцент
+  cardBgOf     = col: rgbaOf (mixCol dc.background col dash.tile.tint) dash.opacity;
+  cardBorderOf = col: hexToRgba col dash.tile.borderAlpha;
+  cardNames    = [ "cpu" "ram" "disk" "net" "sys" "clock" ];
+  cardRules = concatMapStringsSep "\n    " (t:
+    ".tile.${t} { background: ${cardBgOf dc.${t}}; border-color: ${cardBorderOf dc.${t}}; }"
+  ) cardNames;
 
   # ── Шрифт: базовый size масштабирует размеры, null-ключи берут производное ─
   f = dash.font;
@@ -81,6 +103,12 @@ let
 
   # Поле трафика для графика сети (dash.tiles.net.mode)
   netField = if dash.tiles.net.mode == "up" then "NET_UP" else "NET_DOWN";
+
+  # Скорости сети цифрами (dash.tiles.net.rates): ↓ приём / ↑ отдача, SI-единицы
+  netRates = optionalString dash.tiles.net.rates ''
+        (box :class "nums" :orientation "h" :spacing 12
+              (label :class "num dim" :text "↓ ''${formatbytes(floor(EWW_NET["${netIf}"].NET_DOWN), false, "si")}/s")
+              (label :class "num dim" :text "↑ ''${formatbytes(floor(EWW_NET["${netIf}"].NET_UP), false, "si")}/s"))'';
 
   # Строки часов — только включённые в dash.clock.*
   clockLines = concatMapStringsSep "\n        "
@@ -144,7 +172,7 @@ let
                :vexpand true :hexpand true)))
 
     (defwidget stat-cpu []
-      (box :class "tile" :orientation "v" :spacing 8
+      (box :class "tile cpu" :orientation "v" :spacing 8
         (label :class "tile-title" :text "${lang.cpu}")
         (box :class "nums" :orientation "h" :spacing 12
           (label :class "num" :text "''${floor(EWW_CPU.avg)}%")
@@ -152,7 +180,7 @@ let
         (chart :cls "cpu" :value "''${EWW_CPU.avg}" :min 0 :max ${toString dash.tiles.cpu.max} :dyn ${boolStr dash.tiles.cpu.dynamic})))
 
     (defwidget stat-ram []
-      (box :class "tile" :orientation "v" :spacing 8
+      (box :class "tile ram" :orientation "v" :spacing 8
         (label :class "tile-title" :text "${lang.ram}")
         (box :class "nums" :orientation "h" :spacing 12
           (label :class "num" :text "''${round(EWW_RAM.used_mem/${toString gbFactor},${toString dec})}/''${round(EWW_RAM.total_mem/${toString gbFactor},${toString dec})} GB")
@@ -160,7 +188,7 @@ let
         (chart :cls "ram" :value "''${EWW_RAM.used_mem_perc}" :min 0 :max ${toString dash.tiles.ram.max} :dyn ${boolStr dash.tiles.ram.dynamic})))
 
     (defwidget stat-disk []
-      (box :class "tile" :orientation "v" :spacing 8
+      (box :class "tile disk" :orientation "v" :spacing 8
         (label :class "tile-title" :text "${lang.disk}")
         (box :class "nums" :orientation "h" :spacing 12
           (label :class "num" :text "''${round(EWW_DISK["${diskMount}"].free/${toString gbFactor},${toString dec})}/''${round(EWW_DISK["${diskMount}"].total/${toString gbFactor},${toString dec})} GB")
@@ -168,8 +196,9 @@ let
         (chart :cls "disk" :value "''${diskio}" :min 0 :max ${toString dash.tiles.disk.max} :dyn ${boolStr dash.tiles.disk.dynamic})))
 
     (defwidget stat-net []
-      (box :class "tile" :orientation "v" :spacing 8
+      (box :class "tile net" :orientation "v" :spacing 8
         (label :class "tile-title" :text "${lang.net}")
+        ${netRates}
         (chart :cls "net" :value "''${EWW_NET["${netIf}"].${netField}}" :min 0 :max ${toString dash.tiles.net.max} :dyn ${boolStr dash.tiles.net.dynamic})))
 
     (defwidget stat-clock []
@@ -177,7 +206,7 @@ let
         ${clockLines}))
 
     (defwidget stat-sys []
-      (box :class "tile" :orientation "v" :spacing 8
+      (box :class "tile sys" :orientation "v" :spacing 8
         (label :class "tile-title" :text "${lang.sys}")
         (box :class "nums" :orientation "h" :spacing 12
           (label :class "num" :text "''${load1}")
@@ -209,6 +238,9 @@ let
       padding: ${toString dash.tile.paddingY}px ${toString dash.tile.paddingX}px;
       min-width: ${toString dash.tileWidth}px;
     }
+
+    /* Per-card color: background tint + border */
+    ${cardRules}
 
     .tile-title { color: ${dc.title}; font-size: ${toString font.title}px; font-weight: bold; letter-spacing: ${toString f.titleTracking}px; }
     .num { color: ${dc.text}; font-size: ${toString font.num}px; font-weight: bold; }

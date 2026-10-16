@@ -6,6 +6,10 @@
     "niri": {
         "mod_key": "Mod4"
     },
+    "dashboard": {
+        "enable": true,
+        "theme": "github"
+    },
     "waybar": {
         "enable": false,
         "theme": "gruvbox"
