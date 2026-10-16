@@ -1,9 +1,16 @@
-{ config, pkgs, lib, appThemeNames, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  appThemeNames,
+  unstable,
+  ...
+}:
 
 let
   terminalLib = import ../lib.nix { inherit pkgs lib; };
   cfg = config.modules.home.terminals.wezterm;
-  weztermPkg = pkgs.wezterm;
+  weztermPkg = unstable.wezterm;
 
   themeName = cfg.themeName or appThemeNames.wezterm;
   themeToScheme = {
@@ -15,14 +22,13 @@ let
 in
 
 {
-  options.modules.home.terminals.wezterm =
-    terminalLib.mkTerminalOptions "WezTerm" weztermPkg // {
-      themeName = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        description = "Override theme name for WezTerm color scheme";
-      };
+  options.modules.home.terminals.wezterm = terminalLib.mkTerminalOptions "WezTerm" weztermPkg // {
+    themeName = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = "Override theme name for WezTerm color scheme";
     };
+  };
 
   config = lib.mkIf cfg.enable {
     programs.wezterm = {
@@ -36,7 +42,11 @@ in
           wezterm.font('JetBrainsMono Nerd Font Mono')
         '';
         font_size = 14.0;
-        harfbuzz_features = [ "calt=1" "clig=1" "liga=1" ];
+        harfbuzz_features = [
+          "calt=1"
+          "clig=1"
+          "liga=1"
+        ];
 
         window_decorations = "NONE";
         hide_tab_bar_if_only_one_tab = true;
@@ -54,7 +64,9 @@ in
 
         selection_word_boundary = " \t\n{}[]()\"\"'`.,:;!?|<>=@";
         audible_bell = "Disabled";
-        visual_bell = { target = "CursorColor"; };
+        visual_bell = {
+          target = "CursorColor";
+        };
 
         hyperlink_rules = lib.generators.mkLuaInline ''
           wezterm.default_hyperlink_rules()
