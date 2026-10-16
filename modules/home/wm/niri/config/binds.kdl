@@ -1,6 +1,7 @@
 binds {
     // ─── Запуск приложений ───
     Mod+T       { spawn "foot"; }                // Открыть терминал foot
+    Mod+E       { spawn "Thunar"; }
     Mod+D       { spawn "fuzzel"; }              // Открыть лаунчер fuzzel
     Mod+Return  { spawn "wezterm"; }             // Открыть терминал wezterm
     Mod+B       { spawn "yandex-browser-stable"; } // Открыть Яндекс Браузер
