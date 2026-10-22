@@ -57,6 +57,11 @@ layer-rule {
     }
 }
 
+// Оверлей хоткеев не показывать при старте (открывается вручную: Mod+Shift+Slash)
+hotkey-overlay {
+    skip-at-startup
+}
+
 spawn-at-startup "noctalia"
 spawn-at-startup "lxqt-policykit-agent"
 spawn-at-startup "Throne"
