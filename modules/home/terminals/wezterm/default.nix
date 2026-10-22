@@ -59,7 +59,7 @@ in
           bottom = 12;
         };
 
-        default_cursor_style = "BlinkingUnderline";
+        default_cursor_style = "BlinkingBar"; # каретка в тексте — как macOS
         cursor_thickness = 2.0;
 
         selection_word_boundary = " \t\n{}[]()\"\"'`.,:;!?|<>=@";
