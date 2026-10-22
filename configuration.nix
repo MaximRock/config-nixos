@@ -10,6 +10,9 @@
     # === Common modules ===
     ./modules/nixos/common/default.nix
 
+    # === Local services ===
+    ./modules/nixos/services/searx.nix
+
     # === Desktop (host-specific) ===
     ./modules/nixos/desktop/qtile.nix
     ./modules/nixos/desktop/niri.nix
@@ -20,6 +23,8 @@
 
     ./modules/nixos/devshell.nix
   ];
+
+  modules.nixos.services.searx.enable = true;
 
   programs.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];
 

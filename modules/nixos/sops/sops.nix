@@ -17,6 +17,12 @@
       owner = "root";
       group = "keys";
     };
+
+    secrets.SEARXNG_SECRET = {
+      mode = "0400";
+      owner = "root";
+      group = "root";
+    };
   };
 
   # ✅ Безопасно добавляем пользователя в группу keys
