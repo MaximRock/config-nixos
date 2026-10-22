@@ -11,13 +11,7 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      grim
-      slurp
       wl-clipboard
-      brightnessctl
-      playerctl
-      pamixer
-      polkit_gnome
       jq
     ];
   };

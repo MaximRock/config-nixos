@@ -1,16 +1,5 @@
-{ config, lib, ... }:
-
-with lib;
-
-{
-  imports = [
+{ imports = [
     ./common.nix
     ./fuzzel
-    ./mako
-    ./swaybg
-    ./swaylock
-    ./swayidle
-    ./wlogout
-    ./waybar
   ];
 }

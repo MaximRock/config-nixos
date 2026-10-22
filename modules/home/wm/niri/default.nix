@@ -326,9 +326,8 @@ in
       desktop.wayland = {
         common.enable = true;
         fuzzel.enable = true;
-        wlogout.enable = true;
         # Noctalia v5 (модуль programs.noctalia в modules/nixos/desktop/niri.nix)
-        # заменяет waybar, mako, swaybg, swaylock и swayidle — они здесь выключены.
+        # заменяет waybar/mako/swaybg/swaylock/swayidle/wlogout — их модули удалены.
       };
 
       terminals = {
