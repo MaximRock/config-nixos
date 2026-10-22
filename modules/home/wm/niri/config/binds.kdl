@@ -7,6 +7,7 @@ binds {
     Mod+B       { spawn "yandex-browser-stable"; } // Открыть Яндекс Браузер
     Mod+C       { spawn "codium"; }              // Открыть редактор VS Codium
     Mod+P       { spawn "deadbeef"; }            // Открыть плеер DeaDBeeF
+    Mod+Z       { spawn "wezterm" "start" "--" "yazi"; } // Открыть Yazi в wezterm
     Mod+Shift+Slash { show-hotkey-overlay; }    // Шпаргалка по хоткеям
 
     // ─── Noctalia (десктоп-шелл) ───
@@ -78,10 +79,8 @@ binds {
     Mod+Period { focus-workspace-down; }          // Следующий рабочий стол
     Mod+Comma  { focus-workspace-up; }            // Предыдущий рабочий стол
 
-    // ─── Медиа-клавиши ───
-    XF86AudioRaiseVolume  { spawn "pamixer" "-i" "5"; }   // Громкость +
-    XF86AudioLowerVolume  { spawn "pamixer" "-d" "5"; }   // Громкость -
-    XF86AudioMute         { spawn "pamixer" "-t"; }       // Выключить звук
-    Mod+Equal      { spawn "brightnessctl" "s" "+5%"; }   // = Яркость +
-    Mod+Minus      { spawn "brightnessctl" "s" "5%-"; }    // - Яркость -
+    // ─── Медиа-клавиши (звук/яркость) ───
+    XF86AudioRaiseVolume  { spawn "noctalia" "msg" "volume-up" "5"; }   // Громкость + (OSD)
+    XF86AudioLowerVolume  { spawn "noctalia" "msg" "volume-down" "5"; } // Громкость - (OSD)
+    XF86AudioMute         { spawn "noctalia" "msg" "volume-mute"; }     // Звук вкл/выкл (OSD)
 }
