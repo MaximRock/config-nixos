@@ -16,7 +16,13 @@
   };
 
   # foot — терминал для заставки-«матрицы» (и для бинда Mod+T); neo — эффект digital rain
-  environment.systemPackages = [ pkgs.xwayland-satellite pkgs.foot pkgs.neo ];
+  environment.systemPackages = [ pkgs.xwayland-satellite pkgs.foot pkgs.neo pkgs.bibata-cursors ];
+
+  # Тема курсора мыши (пакет → /run/current-system/sw/share/icons; env — для xwayland и GTK до запуска niri)
+  environment.variables = {
+    XCURSOR_THEME = "Bibata-Modern-Ice";
+    XCURSOR_SIZE = "24";
+  };
 
   security.polkit.enable = true;
 
