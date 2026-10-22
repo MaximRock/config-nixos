@@ -42,5 +42,7 @@
     xcolor
 
     gh
+    unstable.v2rayn
+    unstable.bashInteractive
   ];
 }
