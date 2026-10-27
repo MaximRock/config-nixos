@@ -9,9 +9,10 @@ fill_mode = "crop"
 [wallpaper.default]
 path = "/home/max/.dotfiles/modules/home/wm/niri/wallpapers/golden-domes.png"
 
-# Размытая подложка обоев для overview niri (нужен layer-rule в config.kdl)
+# Размытая подложка обоев выключена: прозрачный wezterm должен показывать
+# резкие обои, а не синеватый blur-фон (overview остаётся без backdrop).
 [backdrop]
-enabled = true
+enabled = false
 
 # Заставка «матрица» (neo) при простое; выход по клавише/движению мыши, без пароля
 [idle]

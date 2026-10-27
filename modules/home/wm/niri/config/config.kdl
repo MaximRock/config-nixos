@@ -42,12 +42,6 @@ debug {
     honor-xdg-activation-with-invalid-serial
 }
 
-// Подложка Noctalia (blurred backdrop) видна в overview
-layer-rule {
-    match namespace="^noctalia-backdrop"
-    place-within-backdrop true
-}
-
 // «Матовое стекло» позади дашборда-«райдера» (eww, namespace eww-dashboard).
 // Слой полноэкранный → размывается весь фон стола 3 (карточки полупрозрачны).
 layer-rule {
