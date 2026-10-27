@@ -83,4 +83,6 @@ binds {
     XF86AudioRaiseVolume  { spawn "noctalia" "msg" "volume-up" "5"; }   // Громкость + (OSD)
     XF86AudioLowerVolume  { spawn "noctalia" "msg" "volume-down" "5"; } // Громкость - (OSD)
     XF86AudioMute         { spawn "noctalia" "msg" "volume-mute"; }     // Звук вкл/выкл (OSD)
+    Mod+Equal             { spawn "noctalia" "msg" "brightness-up" "5"; }   // Яркость + (OSD)
+    Mod+Minus             { spawn "noctalia" "msg" "brightness-down" "5"; } // Яркость - (OSD)
 }

@@ -16,7 +16,11 @@
   };
 
   # foot — терминал для заставки-«матрицы» (и для бинда Mod+T); neo — эффект digital rain
-  environment.systemPackages = [ pkgs.xwayland-satellite pkgs.foot pkgs.neo pkgs.bibata-cursors ];
+  # ddcutil — яркость внешнего монитора по DDC/CI (использует Noctalia)
+  environment.systemPackages = [ pkgs.xwayland-satellite pkgs.foot pkgs.neo pkgs.bibata-cursors pkgs.ddcutil ];
+
+  # i2c-dev → /dev/i2c-* для DDC/CI; доступ по ACL пользователю локальной сессии
+  hardware.i2c.enable = true;
 
   # Тема курсора мыши (пакет → /run/current-system/sw/share/icons; env — для xwayland и GTK до запуска niri)
   environment.variables = {

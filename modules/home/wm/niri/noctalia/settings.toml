@@ -28,6 +28,10 @@ resume_command = "pkill -x neo"
 [lockscreen]
 enabled = false
 
+# Яркость внешнего монитора по DDC/CI (ddcutil из systemPackages; нужен hardware.i2c.enable)
+[brightness]
+enable_ddcutil = true
+
 # Индикатор раскладки клавиатуры (us/ru); клик по виджету переключает раскладку
 [bar.default]
 end = ["keyboard_layout", "media", "tray", "notifications", "clipboard",
