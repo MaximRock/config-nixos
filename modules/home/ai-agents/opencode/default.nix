@@ -16,6 +16,16 @@ let
   base = "${variables.basePathFilesDir}/modules/home/ai-agents/opencode";
   configRoot = "${base}/config";
   projectRoot = "${base}/project";
+  uupm = "${variables.homeDirectory}/projects/ui-ux-pro-max-skill";
+  uupmSkills = [
+    "ui-ux-pro-max"
+    "banner-design"
+    "brand"
+    "design-system"
+    "design"
+    "slides"
+    "ui-styling"
+  ];
 in
 
 {
@@ -48,7 +58,10 @@ in
         config.lib.file.mkOutOfStoreSymlink "${base}/skills/nixos-rules/SKILL.md";
       "opencode/skills/simple-explainer/SKILL.md".source =
         config.lib.file.mkOutOfStoreSymlink "${base}/skills/simple-explainer/SKILL.md";
-    };
+    } // listToAttrs (map (name: {
+      name = "opencode/skills/${name}";
+      value.source = config.lib.file.mkOutOfStoreSymlink "${uupm}/.claude/skills/${name}";
+    }) uupmSkills);
 
     # === Проектные конфиги (project/) → корень репозитория ===
     home.file.".dotfiles/opencode.json".source =

@@ -41,6 +41,7 @@ Alias: `nrs` (defined in `modules/home/shell/zsh.nix`). Others: `nrd` (dry-build
 ## Skills
 
 - `nixos-rules` — автоматически загружать при написании или ревью Nix-кода (NixOS-модули, flakes, nixpkgs-пакеты, общие Nix-выражения).
+- UUPM skills (`ui-ux-pro-max`, `banner-design`, `brand`, `design-system`, `design`, `slides`, `ui-styling`) — clone at `~/projects/ui-ux-pro-max-skill`, pinned to commit `28b3b8dee8c976df4fa3e94aed4e092ad43fcb03`; symlinked into `~/.config/opencode/skills/` by `modules/home/ai-agents/opencode/default.nix`. The clone must exist before applying the home-manager config.
 
 ## Module Guide
 
