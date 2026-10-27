@@ -1,0 +1,11 @@
+onboarding = false
+
+[ui]
+agent_panel_sort = "spaces"
+
+[theme]
+name = "catppuccin"
+auto_switch = false
+
+[keys]
+new_worktree = "prefix+shift+o"

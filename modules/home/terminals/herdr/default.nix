@@ -1,4 +1,10 @@
-{ config, lib, pkgs, unstable, ... }:
+{
+  config,
+  lib,
+  unstable,
+  variables,
+  ...
+}:
 
 with lib;
 
@@ -13,5 +19,8 @@ in
 
   config = mkIf cfg.enable {
     home.packages = [ unstable.herdr ];
+
+    xdg.configFile."herdr/config.toml".source =
+      config.lib.file.mkOutOfStoreSymlink "${variables.basePathFilesDir}/modules/home/terminals/herdr/config.toml";
   };
 }
