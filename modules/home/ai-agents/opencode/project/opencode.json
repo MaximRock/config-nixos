@@ -69,7 +69,9 @@
                 "/home/max/.dotfiles",
                 "--plugins",
                 "python",
-                "--parse-unreferenced"
+                "--parse-unreferenced",
+                "--exclude",
+                "11"
             ],
             "enabled": true
         }
