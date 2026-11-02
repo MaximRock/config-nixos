@@ -63,7 +63,6 @@ hotkey-overlay {
 }
 
 spawn-at-startup "noctalia"
-spawn-at-startup "lxqt-policykit-agent"
 spawn-at-startup "Throne"
 
 // Дашборд-«райдер» на столе 3 (eww). Демон + разовое открытие окна: дальше окно

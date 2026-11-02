@@ -26,6 +26,24 @@ let
     "slides"
     "ui-styling"
   ];
+  skillsInit = pkgs.writeShellScriptBin "opencode-skills-init" ''
+    export PATH="${
+      lib.makeBinPath [
+        pkgs.bash
+        pkgs.coreutils
+        pkgs.git
+        pkgs.gnugrep
+        pkgs.gnused
+        pkgs.jq
+        pkgs.nodejs
+        pkgs.nix
+        pkgs.python3
+        llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode
+      ]
+    }:''${PATH:-}"
+    export OPENCODE_SKILLS_SETUP_DIR="${base}/setup"
+    exec ${pkgs.bash}/bin/bash "${base}/setup/init.sh" "$@"
+  '';
 in
 
 {
@@ -34,7 +52,10 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode ];
+    home.packages = [
+      llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode
+      skillsInit
+    ];
 
     # === sops-секреты ===
     sops = {

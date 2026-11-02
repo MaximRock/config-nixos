@@ -14,6 +14,7 @@
     ./modules/nixos/services/searx.nix
 
     # === Desktop (host-specific) ===
+    ./modules/nixos/desktop/polkit-agent.nix
     ./modules/nixos/desktop/qtile.nix
     ./modules/nixos/desktop/niri.nix
     ./modules/nixos/desktop/thunar.nix

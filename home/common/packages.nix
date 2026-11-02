@@ -13,7 +13,7 @@
 
     # LLm
     nodejs_22
-    python313Packages.huggingface-hub
+    # python313Packages.huggingface-hub
     # unstable.mcp-nixos
 
     # Browser (из внешнего флока)
@@ -23,11 +23,9 @@
     # yazi
     tmux
 
-    xwallpaper
+    # xwallpaper
 
-    lxqt.lxqt-policykit
-
-    xss-lock
+    # xss-lock
     # slock
     xlockmore
 
@@ -35,14 +33,12 @@
 
     # Изображения
     upscayl
-    flameshot
 
     telegram-desktop
-    kdePackages.kruler
-    xcolor
+    # kdePackages.kruler
+    # xcolor
 
     gh
-    unstable.v2rayn
-    unstable.bashInteractive
+
   ];
 }
