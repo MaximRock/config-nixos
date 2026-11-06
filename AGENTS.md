@@ -52,11 +52,13 @@ Alias: `nrs` (defined in `modules/home/shell/zsh.nix`). Others: `nrd` (dry-build
 
 Локальный граф NixOS/home-manager: модули, опции, импорты, пакеты, влияние изменений. База — `.repo-navigator/` (gitignored).
 
-- Вопросы «где объявлено / кто импортирует / что сломается» — сначала `repo_navigator_find_symbol`, затем `observe` / `summarize_module` / `impact_analysis`; grep — только если узла нет.
-- Роли: навигатор — Nix-семантика; `graft` — произвольный код и полный контекст.
-- Свежесть: `repo_navigator_status`. После крупных правок:
+- MCP-поверхность: `find` → `module` / `option` / `neighbors` / `impact`; `status` для свежести. Остальные команды (`hop`, `path`, `blast`, `dependencies`, `dependents`, `eval`, flake/packages) — только CLI.
+- Вопросы «где объявлено / кто импортирует / что сломается» — сначала `find`, затем `impact` (принимает путь модуля) / `module` / `option`; grep — только если узла нет.
+- Роли: навигатор — Nix-семантика, provenance опций и impact; `graft` — произвольный код и полный контекст.
+- Свежесть: `status`. После крупных правок:
   `nix-repo-navigator refresh --root . --plugins python --parse-unreferenced --exclude 11`
   (флаги обязательны: без них refresh выкинет Python-узлы; `11/` — корзина, не индексируется).
+- Запуск: Python-MCP в `opencode.json` обёрнуты в `env -u PYTHONPATH` — direnv из корневого `.envrc` подмешивает старый `typing_extensions` и роняет серверы.
 
 ## Git Commit Workflow
 

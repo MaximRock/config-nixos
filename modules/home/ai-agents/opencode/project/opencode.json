@@ -29,6 +29,9 @@
         "dotfiles-helper": {
             "type": "local",
             "command": [
+                "env",
+                "-u",
+                "PYTHONPATH",
                 "mcp-dotfiles-helper"
             ],
             "environment": {
@@ -63,6 +66,9 @@
         "nix-repo-navigator": {
             "type": "local",
             "command": [
+                "env",
+                "-u",
+                "PYTHONPATH",
                 "nix-repo-navigator",
                 "start",
                 "--root",
