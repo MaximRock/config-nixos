@@ -1,0 +1,7 @@
+---
+- name: Настроить VPN-сервер (3x-ui, Reality+xhttp)
+  hosts: vpn_servers
+  become: true
+  gather_facts: true
+  roles:
+    - vpn-server

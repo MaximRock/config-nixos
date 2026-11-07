@@ -1,0 +1,9 @@
+# Managed by ansible (vpn-server role)
+[sshd]
+enabled = true
+backend = systemd
+{% if ssh_keep_old_port %}port = 22,{{ ssh_port }}
+{% else %}port = {{ ssh_port }}
+{% endif %}maxretry = {{ fail2ban_maxretry }}
+bantime = {{ fail2ban_bantime }}
+findtime = {{ fail2ban_findtime }}

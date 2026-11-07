@@ -1,0 +1,29 @@
+---
+# Публичные значения. Секреты — ansible/group_vars/all/secrets.sops.yml
+# fp=firefox: chrome заблокирован ТСПУ (замечание пользователя, 05.11.2026)
+
+ssh_port: 57777
+ssh_keep_old_port: false           # host-переменная: true только для первого прогона нового VPS
+allow_tcp_ports: [443]
+
+fail2ban_maxretry: 4
+fail2ban_bantime: 3600
+fail2ban_findtime: 600
+
+panel_port: 42182
+panel_user: admin
+
+sni_target: www.samsung.com
+reality_fingerprint: firefox
+reality_public_key: YO-C5xz1ohqTl6ymUB0M79eUVWo0f4XSahs7YhBteGE
+reality_short_ids: ['08f28bae', '975324cf3d18', 'c26fadf4ede4fd5d', '61fe']
+spider_x: /O76wWj_CVSj0Nm3f
+xhttp_path: /0P3nYK97gg6ANuIC
+
+inbound_remark: reality-xhttp-443
+inbound_port: 443
+
+links_local_dir: /home/max/Documents/proxy
+
+xui_version: v3.11.0
+xui_install_script: https://raw.githubusercontent.com/MHSanaei/3x-ui/{{ xui_version }}/install.sh

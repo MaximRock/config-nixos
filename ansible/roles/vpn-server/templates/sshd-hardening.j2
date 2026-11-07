@@ -1,0 +1,9 @@
+# Managed by ansible (vpn-server role)
+{% if ssh_keep_old_port %}Port 22
+{% endif %}Port {{ ssh_port }}
+PermitRootLogin prohibit-password
+PasswordAuthentication no
+PubkeyAuthentication yes
+KbdInteractiveAuthentication no
+X11Forwarding no
+PermitEmptyPasswords no

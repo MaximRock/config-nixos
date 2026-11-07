@@ -10,6 +10,11 @@ creation_rules:
       - age:
           - *host
           - *max
+  - path_regex: ansible/.*secrets\.sops\.ya?ml$
+    key_groups:
+      - age:
+          - *host
+          - *max
 
 # creation_rules:
 #   # Шифровать все файлы, заканчивающиеся на secrets.yaml

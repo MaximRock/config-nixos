@@ -1,0 +1,19 @@
+---
+# VPN-серверы. Новый VPS добавляется как новый host-блок.
+# Свежий сервер: ansible_port: 22 и ssh_keep_old_port: true,
+# после первого прогона сменить ansible_port на ssh_port и ssh_keep_old_port: false.
+
+all:
+  children:
+    vpn_servers:
+      hosts:
+#        vpn1:
+#          ansible_host: 45.15.128.162
+#          ansible_port: 39089
+#          ansible_user: root
+#          ssh_keep_old_port: false
+        vpn2:
+          ansible_host: 138.124.84.121
+          ansible_port: 57777
+          ansible_user: root
+          ssh_keep_old_port: false
