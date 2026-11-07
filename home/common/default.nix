@@ -40,10 +40,10 @@ in
     "${modulesHome}/browsers/firefox/default.nix"
 
     # AI and agents
-#    "${modulesHome}/aider"
-#    "${modulesHome}/opencode"
-#    "${modulesHome}/rime-mcp"
-#    "${modulesHome}/koda"
+    #    "${modulesHome}/aider"
+    #    "${modulesHome}/opencode"
+    #    "${modulesHome}/rime-mcp"
+    #    "${modulesHome}/koda"
   ];
 
   modules.home = {
@@ -51,7 +51,7 @@ in
     # Browsers
     browsers.firefox = {
       nighttab = true;
-      chromeCss = true;
+      chromeCss = false;
     };
     git.enable = true;
 
@@ -59,10 +59,10 @@ in
     dunst.enable = true;
 
     # AI and Agents
-#    koda.enable = true;
-#    aider.enable = true;
-#    opencode.enable = true;
-#    rime-mcp.enable = true;
+    #    koda.enable = true;
+    #    aider.enable = true;
+    #    opencode.enable = true;
+    #    rime-mcp.enable = true;
 
     # Desktop
     gtk.enable = true;
