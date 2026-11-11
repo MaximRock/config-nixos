@@ -1,6 +1,7 @@
 # Noctalia v5 — конфиг десктоп-шелла.
 # ~/.config/noctalia/settings.toml — симлинк на этот файл (см. modules/home/wm/niri/default.nix).
-# Правки через GUI Noctalia сохраняются сюда же. settings.toml загружается последним.
+# ВАЖНО: этот файл — базовый слой; GUI-правки падают в ~/.local/state/noctalia/settings.toml,
+# который грузится последним и побеждает этот. Удалять через Settings → GUI, не через правку здесь.
 
 [wallpaper]
 enabled = true
@@ -38,6 +39,14 @@ enable_ddcutil = true
 end = ["keyboard_layout", "media", "tray", "notifications", "clipboard",
        "network", "bluetooth", "volume", "brightness", "battery",
        "control-center", "session"]
+
+# Уведомления: Noctalia владеет D-Bus-именем org.freedesktop.Notifications.
+# dunst выключен (home/common/default.nix), иначе DunstService перехватит имя первым.
+[notification]
+enable_daemon = true
+position = "top_right"
+max_visible = 4
+history_retention_hours = 168 # не хранить историю старше недели
 
 [widget.keyboard_layout]
 display = "short"

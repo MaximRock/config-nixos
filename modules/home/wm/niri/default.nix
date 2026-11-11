@@ -57,14 +57,28 @@ let
   chartBg    = hexToRgba dc.background dash.chart.bgAlpha;
   gridLine   = hexToRgba dc.grid dash.chart.gridAlpha;
   fillOf     = col: hexToRgba col dash.chart.fillAlpha;
+  panelBorder = hexToRgba dc.border dash.panel.borderAlpha;
+  sepLine     = hexToRgba dc.text dash.panel.sepAlpha;
+  panelShadow = hexToRgba dc.text dash.panel.shadowAlpha;
 
   # Цветная карточка: акцент подмешан в плотный фон (tint), рамка — акцент
   cardBgOf     = col: rgbaOf (mixCol dc.background col dash.tile.tint) dash.opacity;
   cardBorderOf = col: hexToRgba col dash.tile.borderAlpha;
   cardNames    = [ "cpu" "ram" "disk" "net" "sys" "clock" ];
-  cardRules = concatMapStringsSep "\n    " (t:
+  cardRules = optionalString (dash.tile.tint > 0) (concatMapStringsSep "\n    " (t:
     ".tile.${t} { background: ${cardBgOf dc.${t}}; border-color: ${cardBorderOf dc.${t}}; }"
-  ) cardNames;
+  ) cardNames);
+
+  # Показывать ли график на плитке (tiles.<имя>.chart, по умолчанию true)
+  chartOn = name: attrByPath [ name "chart" ] true dash.tiles;
+
+  # Ширина плитки в колонках (tiles.<имя>.span, по умолчанию 1)
+  spanOf = name: attrByPath [ name "span" ] 1 dash.tiles;
+  spanWidth = s: s * dash.tileWidth + (s - 1) * dash.spacing;
+  maxSpan = foldl' (a: b: if b > a then b else a) 1 (concatMap (row: map spanOf row) dash.rows);
+  spanRules = concatMapStringsSep "\n    "
+    (s: ".tile.span${toString s} { min-width: ${toString (spanWidth s)}px; }")
+    (range 1 maxSpan);
 
   # ── Шрифт: базовый size масштабирует размеры, null-ключи берут производное ─
   f = dash.font;
@@ -79,6 +93,7 @@ let
   };
   # family = null → оставляем системный шрифт GTK (строку не эмитим)
   fontFamilyCss = optionalString (f.family != null) ''font-family: "${f.family}"; '';
+  numFamilyCss  = optionalString (f.numFamily != null) ''font-family: "${f.numFamily}"; '';
 
   # ── Формат чисел ─────────────────────────────────────────────────────────
   gbDiv = dash.format.gbBase;
@@ -89,8 +104,8 @@ let
   optBool = name: v: if v == null then "" else " :${name} ${boolStr v}";
 
   lang = {
-    en = { cpu = "CPU"; ram = "RAM"; disk = "Disk"; net = "Net"; sys = "System"; locale = "C"; };
-    ru = { cpu = "ЦП"; ram = "ОЗУ"; disk = "Диск"; net = "Сеть"; sys = "Система"; locale = "ru_RU.utf8"; };
+    en = { cpu = "CPU"; ram = "RAM"; disk = "DISK"; net = "NET"; sys = "SYSTEM"; locale = "C"; };
+    ru = { cpu = "ЦП"; ram = "ОЗУ"; disk = "ДИСК"; net = "СЕТЬ"; sys = "СИСТЕМА"; locale = "ru_RU.utf8"; };
   }.${dash.language};
 
   netIf = dash.network.interface;
@@ -104,18 +119,25 @@ let
   # Поле трафика для графика сети (dash.tiles.net.mode)
   netField = if dash.tiles.net.mode == "up" then "NET_UP" else "NET_DOWN";
 
-  # Скорости сети цифрами (dash.tiles.net.rates): ↓ приём / ↑ отдача, SI-единицы
-  netRates = optionalString dash.tiles.net.rates ''
-        (box :class "nums" :orientation "h" :spacing 12
-              (label :class "num dim" :text "↓ ''${formatbytes(floor(EWW_NET["${netIf}"].NET_DOWN), false, "si")}/s")
-              (label :class "num dim" :text "↑ ''${formatbytes(floor(EWW_NET["${netIf}"].NET_UP), false, "si")}/s"))'';
+  # Скорости сети (SI-единицы): ↓ приём крупно, ↑ отдача мелко
+  netRate = field: "\${formatbytes(floor(EWW_NET[\"${netIf}\"].${field}), false, \"si\")}/s";
+  netDown = netRate "NET_DOWN";
+  netUp   = netRate "NET_UP";
 
-  # Строки часов — только включённые в dash.clock.*
-  clockLines = concatMapStringsSep "\n        "
-    (l: "(label :class \"${l.cls}\" :text ${l.var})")
-    (optional dash.clock.showDate  { cls = "clock-l1"; var = "clockdate"; }
-      ++ optional dash.clock.showDay  { cls = "clock-l2"; var = "clockday"; }
-      ++ optional dash.clock.showTime { cls = "clock-l3"; var = "clocktime"; });
+  # Часы: крупное время, строка «день · дата», нагрузки/аптайм
+  clockTimeLine = optionalString dash.clock.showTime
+    ''(label :class "clock-time" :xalign 0 :text "''${clocktime}")'';
+  clockSubLine = optionalString (dash.clock.showDay || dash.clock.showDate) (
+    "(box :class \"clock-subrow\" :orientation \"h\" :spacing 8 :space-evenly false\n          "
+    + optionalString dash.clock.showDay ''(label :class "clock-sub day" :text "''${clockday}")''
+    + optionalString (dash.clock.showDay && dash.clock.showDate) ''(label :class "clock-sub dot" :text "·")''
+    + optionalString dash.clock.showDate ''(label :class "clock-sub date" :text "''${clockdate}")''
+    + ")"
+  );
+  clockMetaLine = ''
+    (box :class "clock-metarow" :orientation "h" :spacing 8 :space-evenly false :hexpand true
+          (label :class "clock-meta" :hexpand true :xalign 0 :text "load ''${load1}")
+          (label :class "clock-meta" :xalign 1 :text "up ''${uptime}"))'';
 
   # CSS-сетка графика: слои по gridDir (both|x|y), толщина gridThickness
   gridGrad = to: "repeating-linear-gradient(to ${to}, ${gridLine} 0, ${gridLine} ${toString dash.chart.gridThickness}px, transparent ${toString dash.chart.gridThickness}px, transparent ${toString dash.chart.gridStep}px)";
@@ -135,9 +157,14 @@ let
 
   # Ряды плиток: каждый ряд — горизонтальный box с центрированием
   body = concatMapStringsSep "\n      " (row:
-    "(box :class \"row\" :orientation \"h\" :spacing ${toString dash.spacing} :halign \"center\" :valign \"center\"\n        "
+    "(box :class \"row\" :orientation \"h\" :spacing ${toString dash.spacing} :halign \"center\" :valign \"start\"\n        "
     + concatMapStringsSep "\n        " tileWidget row + ")"
   ) dash.rows;
+
+  # Оборачиваем плитки в общую панель (panel.enable)
+  bodyBlock = optionalString dash.panel.enable
+    "(box :class \"panel\" :orientation \"v\" :spacing ${toString dash.spacing} :space-evenly false :halign \"${halign}\" :valign \"${valign}\"\n        "
+    + body + optionalString dash.panel.enable ")";
 
   pos = {
     center = [ "center" "center" ];
@@ -172,46 +199,45 @@ let
                :vexpand true :hexpand true)))
 
     (defwidget stat-cpu []
-      (box :class "tile cpu" :orientation "v" :spacing 8
-        (label :class "tile-title" :text "${lang.cpu}")
-        (box :class "nums" :orientation "h" :spacing 12
-          (label :class "num" :text "''${floor(EWW_CPU.avg)}%")
-          (label :class "num dim" :text "''${cputemp}°C"))
-        (chart :cls "cpu" :value "''${EWW_CPU.avg}" :min 0 :max ${toString dash.tiles.cpu.max} :dyn ${boolStr dash.tiles.cpu.dynamic})))
+      (box :class "tile cpu span${toString (spanOf "cpu")}" :orientation "v" :spacing 6 :space-evenly false
+        (label :class "tile-title" :xalign 0 :text "${lang.cpu}")
+        (label :class "num" :xalign 0 :text "''${floor(EWW_CPU.avg)}%")
+        (label :class "num dim" :xalign 0 :text "''${cputemp}°C")
+        ${optionalString (chartOn "cpu") ''(chart :cls "cpu" :value "''${EWW_CPU.avg}" :min 0 :max ${toString dash.tiles.cpu.max} :dyn ${boolStr dash.tiles.cpu.dynamic})''}))
 
     (defwidget stat-ram []
-      (box :class "tile ram" :orientation "v" :spacing 8
-        (label :class "tile-title" :text "${lang.ram}")
-        (box :class "nums" :orientation "h" :spacing 12
-          (label :class "num" :text "''${round(EWW_RAM.used_mem/${toString gbFactor},${toString dec})}/''${round(EWW_RAM.total_mem/${toString gbFactor},${toString dec})} GB")
-          (label :class "num dim" :text "''${floor(EWW_RAM.used_mem_perc)}%"))
-        (chart :cls "ram" :value "''${EWW_RAM.used_mem_perc}" :min 0 :max ${toString dash.tiles.ram.max} :dyn ${boolStr dash.tiles.ram.dynamic})))
+      (box :class "tile ram span${toString (spanOf "ram")}" :orientation "v" :spacing 6 :space-evenly false
+        (label :class "tile-title" :xalign 0 :text "${lang.ram}")
+        (label :class "num" :xalign 0 :text "''${floor(EWW_RAM.used_mem_perc)}%")
+        (label :class "num dim" :xalign 0 :text "''${round(EWW_RAM.used_mem/${toString gbFactor},${toString dec})}/''${round(EWW_RAM.total_mem/${toString gbFactor},${toString dec})} GB")
+        ${optionalString (chartOn "ram") ''(chart :cls "ram" :value "''${EWW_RAM.used_mem_perc}" :min 0 :max ${toString dash.tiles.ram.max} :dyn ${boolStr dash.tiles.ram.dynamic})''}))
 
     (defwidget stat-disk []
-      (box :class "tile disk" :orientation "v" :spacing 8
-        (label :class "tile-title" :text "${lang.disk}")
-        (box :class "nums" :orientation "h" :spacing 12
-          (label :class "num" :text "''${round(EWW_DISK["${diskMount}"].free/${toString gbFactor},${toString dec})}/''${round(EWW_DISK["${diskMount}"].total/${toString gbFactor},${toString dec})} GB")
-          (label :class "num dim" :text "''${${diskPct}}%"))
-        (chart :cls "disk" :value "''${diskio}" :min 0 :max ${toString dash.tiles.disk.max} :dyn ${boolStr dash.tiles.disk.dynamic})))
+      (box :class "tile disk span${toString (spanOf "disk")}" :orientation "v" :spacing 6 :space-evenly false
+        (label :class "tile-title" :xalign 0 :text "${lang.disk}")
+        (label :class "num" :xalign 0 :text "''${${diskPct}}%")
+        (label :class "num dim" :xalign 0 :text "''${round(EWW_DISK["${diskMount}"].free/${toString gbFactor},${toString dec})}/''${round(EWW_DISK["${diskMount}"].total/${toString gbFactor},${toString dec})} GB")
+        ${optionalString (chartOn "disk") ''(chart :cls "disk" :value "''${diskio}" :min 0 :max ${toString dash.tiles.disk.max} :dyn ${boolStr dash.tiles.disk.dynamic})''}))
 
     (defwidget stat-net []
-      (box :class "tile net" :orientation "v" :spacing 8
-        (label :class "tile-title" :text "${lang.net}")
-        ${netRates}
-        (chart :cls "net" :value "''${EWW_NET["${netIf}"].${netField}}" :min 0 :max ${toString dash.tiles.net.max} :dyn ${boolStr dash.tiles.net.dynamic})))
+      (box :class "tile net span${toString (spanOf "net")}" :orientation "v" :spacing 6 :space-evenly false
+        (label :class "tile-title" :xalign 0 :text "${lang.net}")
+        (label :class "num" :xalign 0 :text "↓ ${netDown}")
+        (label :class "num dim" :xalign 0 :text "↑ ${netUp}")
+        ${optionalString (chartOn "net") ''(chart :cls "net" :value "''${EWW_NET["${netIf}"].${netField}}" :min 0 :max ${toString dash.tiles.net.max} :dyn ${boolStr dash.tiles.net.dynamic})''}))
 
     (defwidget stat-clock []
-      (box :class "tile clock" :orientation "v" :spacing 2
-        ${clockLines}))
+      (box :class "tile clock span${toString (spanOf "clock")}" :orientation "v" :spacing 6 :space-evenly false :hexpand true
+        ${clockTimeLine}
+        ${clockSubLine}
+        ${clockMetaLine}))
 
     (defwidget stat-sys []
-      (box :class "tile sys" :orientation "v" :spacing 8
-        (label :class "tile-title" :text "${lang.sys}")
-        (box :class "nums" :orientation "h" :spacing 12
-          (label :class "num" :text "''${load1}")
-          (label :class "num dim" :text "''${uptime}"))
-        (chart :cls "load" :value "''${load1}" :min 0 :max ${toString dash.tiles.load.max} :dyn ${boolStr dash.tiles.load.dynamic})))
+      (box :class "tile sys span${toString (spanOf "sys")}" :orientation "v" :spacing 6 :space-evenly false
+        (label :class "tile-title" :xalign 0 :text "${lang.sys}")
+        (label :class "num" :xalign 0 :text "''${load1}")
+        (label :class "num dim" :xalign 0 :text "''${uptime}")
+        ${optionalString (chartOn "sys") ''(chart :cls "load" :value "''${load1}" :min 0 :max ${toString dash.tiles.load.max} :dyn ${boolStr dash.tiles.load.dynamic})''}))
 
     (defwindow dashboard
       :monitor "${dash.output}"
@@ -219,10 +245,10 @@ let
       :stacking "${dash.window.stacking}"
       :focusable "${dash.window.focusable}"
       :namespace "${dash.window.namespace}"
-      (box :class "root" :orientation "v" :spacing ${toString dash.spacing}
+      (box :class "root" :orientation "v" :spacing ${toString dash.spacing} :space-evenly false
            :visible {focused_wsp == "${dash.workspace}"}
            :halign "${halign}" :valign "${valign}"
-        ${body}))
+        ${bodyBlock}))
   '';
 
   ewwScss = ''
@@ -231,20 +257,32 @@ let
 
     .root { margin: ${toString dash.window.margin}px; }
 
+    .panel {
+      background: ${hexToRgba dc.background dash.opacity};
+      border: 1px solid ${panelBorder};
+      border-radius: ${toString dash.panel.radius}px;
+      padding: ${toString dash.panel.padding}px;
+      box-shadow: 0 10px 40px ${panelShadow};
+    }
+
     .tile {
-      background: ${cardBg};
+      background: ${if dash.tile.tint > 0 then cardBg else "transparent"};
       border: ${toString dash.tile.borderWidth}px solid ${tileBorder};
       border-radius: ${toString dash.tile.radius}px;
       padding: ${toString dash.tile.paddingY}px ${toString dash.tile.paddingX}px;
       min-width: ${toString dash.tileWidth}px;
     }
 
+    ${spanRules}
+
+    .tile.clock { border-bottom: 1px solid ${sepLine}; padding-bottom: ${toString dash.spacing}px; }
+
     /* Per-card color: background tint + border */
     ${cardRules}
 
-    .tile-title { color: ${dc.title}; font-size: ${toString font.title}px; font-weight: bold; letter-spacing: ${toString f.titleTracking}px; }
-    .num { color: ${dc.text}; font-size: ${toString font.num}px; font-weight: bold; }
-    .num.dim { color: ${dc.muted}; font-size: ${toString font.dim}px; font-weight: normal; }
+    .tile-title { color: ${dc.title}; font-size: ${toString font.title}px; font-weight: 600; letter-spacing: ${toString f.titleTracking}px; }
+    .num { ${numFamilyCss}color: ${dc.text}; font-size: ${toString font.num}px; font-weight: 500; }
+    .num.dim { color: ${dc.muted}; font-size: ${toString font.dim}px; font-weight: 400; }
 
     .chart {
       min-height: ${toString dash.chart.height}px;
@@ -259,10 +297,11 @@ let
     .chart.net  graph { color: ${dc.net};  background-color: ${fillOf dc.net}; }
     .chart.load graph { color: ${dc.sys};  background-color: ${fillOf dc.sys}; }
 
-    .clock label { font-weight: normal; }
-    .clock .clock-l1 { color: ${dc.text};   font-size: ${toString font.clockDate}px; }
-    .clock .clock-l2 { color: ${dc.accent}; font-size: ${toString font.clockDay}px; }
-    .clock .clock-l3 { color: ${dc.text};   font-size: ${toString font.clockTime}px; }
+    .clock-time { ${numFamilyCss}color: ${dc.text}; font-size: ${toString font.clockTime}px; font-weight: ${toString f.clockWeight}; letter-spacing: -1px; }
+    .clock-sub.day  { color: ${dc.muted}; font-size: ${toString font.clockDay}px; letter-spacing: 1.5px; }
+    .clock-sub.date { color: ${dc.muted}; font-size: ${toString font.clockDate}px; letter-spacing: 1.5px; }
+    .clock-sub.dot  { color: ${dc.accent}; font-size: ${toString font.clockDate}px; }
+    .clock-meta { ${numFamilyCss}color: ${dc.muted}; font-size: 11px; }
   '';
 
   # Poll-хелперы дашборда: темп CPU (sysfs hwmon), скорость I/O диска (/proc/diskstats),

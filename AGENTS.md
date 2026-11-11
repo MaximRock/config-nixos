@@ -25,7 +25,7 @@ Alias: `nrs` (defined in `modules/home/shell/zsh.nix`). Others: `nrd` (dry-build
 | Editors | VSCodium + nvf (Neovim). Workspace-nix module shares Nix workspace config |
 | GPU/LLM | ROCm + llama.cpp (AMD RX 6600, gfx1032→gfx1030 via `HSA_OVERRIDE_GFX_VERSION=10.3.0`) |
 | WM | Qtile + SDDM (sddm), lxqt-policykit agent |
-| Notifications | dunst (Catppuccin Mocha colors) |
+| Notifications | Noctalia (niri; daemon `[notification]`); dunst disabled (`home/common/default.nix`) |
 | Browser | yandex-browser (external flake) + Firefox (custom chrome/css) |
 | LLM Agents | `llm-agents.opencode`, `llm-agents.qwen-code` |
 

@@ -1,0 +1,20 @@
+---
+# Публичные значения релея. Секретов нет: TLS не терминируется.
+
+ssh_port: 57777
+ssh_old_port: 22                   # старый порт на время ротации (ssh_keep_old_port=true)
+ssh_keep_old_port: false           # host-переменная: true только для первого прогона
+
+relay_listen_port: 443
+relay_backends: []                 # host-переменная: [{name, host, port}]
+relay_maxconn: 2000
+relay_connect_timeout: 10s
+relay_client_timeout: 1h
+relay_server_timeout: 1h
+
+fail2ban_maxretry: 4
+fail2ban_bantime: 3600
+fail2ban_findtime: 600
+fail2ban_ignore_ips: []
+
+sni_target: www.samsung.com        # для проверки маски через релей

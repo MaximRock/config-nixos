@@ -3,12 +3,14 @@
 # fp=firefox: chrome заблокирован ТСПУ (замечание пользователя, 05.11.2026)
 
 ssh_port: 57777
+ssh_old_port: 22                   # старый порт на время ротации (ssh_keep_old_port=true)
 ssh_keep_old_port: false           # host-переменная: true только для первого прогона нового VPS
 allow_tcp_ports: [443]
 
 fail2ban_maxretry: 4
 fail2ban_bantime: 3600
 fail2ban_findtime: 600
+fail2ban_ignore_ips: []            # host-переменная: IP релея, чтобы fail2ban его не банил
 
 panel_port: 42182
 panel_user: admin
@@ -24,6 +26,8 @@ inbound_remark: reality-xhttp-443
 inbound_port: 443
 
 links_local_dir: /home/max/Documents/proxy
+links_file_name: "{{ inventory_hostname }}-links.txt"
+country_code: ""
 
 xui_version: v3.11.0
 xui_install_script: https://raw.githubusercontent.com/MHSanaei/3x-ui/{{ xui_version }}/install.sh

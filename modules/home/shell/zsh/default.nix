@@ -18,7 +18,12 @@ in
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
       initContent = ''
-        fastfetch
+        # fastfetch только в первом шелле сессии; маркер живёт в /run/user и чистится logind'ом
+        ff_once="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/fastfetch-session-shown"
+        if [[ ! -e "$ff_once" ]]; then
+          fastfetch
+          touch "$ff_once" 2>/dev/null
+        fi
         eval "$(direnv hook zsh)"
       '';
       shellAliases = {

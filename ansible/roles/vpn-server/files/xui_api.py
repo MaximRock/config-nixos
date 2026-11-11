@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """3x-ui provisioning helper for the vpn-server ansible role.
 
-Usage: xui_api.py <configure|inbound|links>  ; config at /tmp/xui_vars.json
+Usage: xui_api.py <configure|inbound|recreate|remark|links>  ; config at /tmp/xui_vars.json
 
 configure: panel port/basepath/listen/subEnable + admin creds (idempotent).
 inbound:   create inbound if missing, fix clients table uuids, set share
            address, restart, end-to-end link asserts.
-links:     canonical panel links per client -> /tmp/xui_links.txt.
+recreate:  delete inbound with same remark, then create it with current
+           clients (use after adding/removing clients in secrets).
+remark:    sync inbound remark by port (country prefix in panel QR).
+links:     canonical panel links per client -> /tmp/xui_links.txt,
+           rewriting host/port to link_host/link_port and replacing the
+           server country prefix with country_code (relay).
 """
 import http.cookiejar
 import json
@@ -185,30 +190,30 @@ def configure(cfg):
     print("configure: changed: " + ", ".join(sorted(set(changed))))
 
 
+def client_obj(c):
+    return {
+        "id": c["uuid"],
+        "email": c["email"],
+        "security": "",
+        "subId": c["subId"],
+        "limitIp": 0,
+        "totalGB": 0,
+        "expiryTime": 0,
+        "enable": True,
+        "tgId": 0,
+        "reset": 0,
+        "resetDay": 0,
+        "resetMax": 0,
+        "resetWeekday": 0,
+        "trafficReset": "never",
+        "trafficResetDay": 1,
+        "keepAlive": 0,
+        "comment": "",
+    }
+
+
 def build_inbound(cfg):
-    clients = []
-    for c in cfg["clients"]:
-        clients.append(
-            {
-                "id": c["uuid"],
-                "email": c["email"],
-                "security": "",
-                "subId": c["subId"],
-                "limitIp": 0,
-                "totalGB": 0,
-                "expiryTime": 0,
-                "enable": True,
-                "tgId": 0,
-                "reset": 0,
-                "resetDay": 0,
-                "resetMax": 0,
-                "resetWeekday": 0,
-                "trafficReset": "never",
-                "trafficResetDay": 1,
-                "keepAlive": 0,
-                "comment": "",
-            }
-        )
+    clients = [client_obj(c) for c in cfg["clients"]]
     stream = {
         "network": "xhttp",
         "xhttpSettings": {
@@ -304,15 +309,83 @@ def fix_share_addr(cfg, con, inbound_id):
     return True
 
 
-def inbound(cfg):
+def remark(cfg):
+    con = sqlite3.connect(DB)
+    rows = con.execute(
+        "SELECT id, remark FROM inbounds WHERE port=?", (cfg["inbound_port"],)
+    ).fetchall()
+    if not rows:
+        con.close()
+        print("remark: no inbound on port {0} (will be created)".format(cfg["inbound_port"]))
+        return
+    if len(rows) > 1:
+        con.close()
+        fail(
+            "multiple inbounds on port {0}: {1}".format(
+                cfg["inbound_port"], [r[0] for r in rows]
+            )
+        )
+    inbound_id, current = rows[0]
+    if current == cfg["inbound_remark"]:
+        con.close()
+        print("remark: ok (unchanged)")
+        return
+    con.execute(
+        "UPDATE inbounds SET remark=? WHERE id=?", (cfg["inbound_remark"], inbound_id)
+    )
+    con.commit()
+    con.close()
+    subprocess.run(["systemctl", "restart", "x-ui"], check=True)
+    time.sleep(4)
+    print("remark: changed: {0} -> {1}".format(current, cfg["inbound_remark"]))
+
+
+def add_missing_clients(cfg, api, inbound_id, obj):
+    settings = obj.get("settings") or {}
+    if isinstance(settings, str):
+        settings = json.loads(settings)
+    existing = {c.get("email") for c in settings.get("clients", [])}
+    added = []
+    for c in cfg["clients"]:
+        if c["email"] in existing:
+            continue
+        api.api(
+            "/clients/add",
+            {"client": client_obj(c), "inboundIds": [inbound_id]},
+        )
+        added.append(c["email"])
+    return added
+
+
+def inbound(cfg, recreate=False):
     api = Api(cfg["panel_port"], cfg["panel_basepath"], cfg["panel_user"], cfg["panel_password"])
     api.login()
     listing = api.api("/inbounds/list") or []
     found = [i for i in listing if i.get("remark") == cfg["inbound_remark"]]
+    if not found:
+        same_port = [
+            i for i in listing if str(i.get("port")) == str(cfg["inbound_port"])
+        ]
+        if same_port:
+            fail(
+                "inbound on port {0} has remark '{1}', expected '{2}'; "
+                "run --tags links (remark phase) or fix inventory".format(
+                    cfg["inbound_port"],
+                    same_port[0].get("remark"),
+                    cfg["inbound_remark"],
+                )
+            )
+    if found and recreate:
+        api.api("/inbounds/del/{0}".format(found[0]["id"]), data={})
+        print("inbound: deleted (id {0})".format(found[0]["id"]))
+        found = []
     if found:
         inbound_id = found[0]["id"]
         print("inbound: exists (id {0})".format(inbound_id))
         obj = api.api("/inbounds/get/{0}".format(inbound_id))
+        added = add_missing_clients(cfg, api, inbound_id, obj)
+        if added:
+            print("inbound: fixed: " + ", ".join(e + ":added" for e in added))
     else:
         obj = api.api("/inbounds/add", build_inbound(cfg))
         inbound_id = obj["id"]
@@ -344,22 +417,51 @@ def inbound(cfg):
     print("inbound: links verified for " + ", ".join(c["email"] for c in cfg["clients"]))
 
 
+def rewrite_link(link, host, port, country="", server_country=""):
+    prefix, rest = link.split("@", 1)
+    _, sep, tail = rest.partition("?")
+    out = "{0}@{1}:{2}{3}{4}".format(prefix, host, port, sep, tail)
+    if country:
+        base, hash_sep, frag = out.partition("#")
+        if hash_sep:
+            if server_country and frag.startswith(server_country + "-"):
+                frag = frag[len(server_country) + 1:]
+            out = base + hash_sep + country + "-" + frag
+    return out
+
+
 def links(cfg):
     api = Api(cfg["panel_port"], cfg["panel_basepath"], cfg["panel_user"], cfg["panel_password"])
     api.login()
+    host = cfg.get("link_host") or cfg["server_ip"]
+    port = cfg.get("link_port") or cfg["inbound_port"]
+    country = cfg.get("country_code") or ""
+    server_country = (cfg.get("inbound_remark") or "").split("-", 1)[0]
+    if len(server_country) != 2 or not server_country.isalpha() or not server_country.islower():
+        server_country = ""
     out = []
     for c in cfg["clients"]:
         links = api.api("/clients/links/{0}".format(c["email"])) or []
-        out.extend(x for x in links if x.startswith("vless://"))
+        out.extend(
+            rewrite_link(x, host, port, country, server_country)
+            for x in links
+            if x.startswith("vless://")
+        )
     with open("/tmp/xui_links.txt", "w", encoding="utf-8") as f:
         f.write("\n".join(out) + "\n")
     print("links: wrote {0} entries".format(len(out)))
 
 
 def main():
-    phases = {"configure": configure, "inbound": inbound, "links": links}
+    phases = {
+        "configure": configure,
+        "inbound": inbound,
+        "recreate": lambda cfg: inbound(cfg, True),
+        "remark": remark,
+        "links": links,
+    }
     if len(sys.argv) != 2 or sys.argv[1] not in phases:
-        fail("usage: xui_api.py <configure|inbound|links> ; config /tmp/xui_vars.json")
+        fail("usage: xui_api.py <configure|inbound|recreate|remark|links> ; config /tmp/xui_vars.json")
     cfg = load_cfg("/tmp/xui_vars.json")
     phases[sys.argv[1]](cfg)
 

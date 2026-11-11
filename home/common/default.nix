@@ -55,8 +55,8 @@ in
     };
     git.enable = true;
 
-    flameshot.enable = true;
-    dunst.enable = true;
+    flameshot.enable = false;
+    dunst.enable = false; # уведомления — Noctalia (niri); включить при возврате на qtile
 
     # AI and Agents
     #    koda.enable = true;

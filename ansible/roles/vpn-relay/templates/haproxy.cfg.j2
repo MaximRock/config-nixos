@@ -1,0 +1,28 @@
+# Managed by ansible (vpn-relay role)
+# TCP passthrough: TLS/Reality не терминируется, ключи на релее не хранятся.
+global
+    log /dev/log local0
+    maxconn {{ relay_maxconn }}
+    stats socket /run/haproxy/admin.sock mode 660 level admin
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log global
+    mode tcp
+    option tcplog
+    timeout connect {{ relay_connect_timeout }}
+    timeout client {{ relay_client_timeout }}
+    timeout server {{ relay_server_timeout }}
+
+frontend relay
+    bind *:{{ relay_listen_port }}
+    default_backend relay
+
+backend relay
+    mode tcp
+    balance source
+{% for b in relay_backends %}
+    server {{ b.name }} {{ b.host }}:{{ b.port }} check inter 10s fall 3 rise 2
+{% endfor %}

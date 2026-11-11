@@ -1,8 +1,11 @@
 # Managed by ansible (vpn-server role)
+[DEFAULT]
+ignoreip = 127.0.0.1/8 ::1{% for ip in fail2ban_ignore_ips %} {{ ip }}{% endfor %}
+
 [sshd]
 enabled = true
 backend = systemd
-{% if ssh_keep_old_port %}port = 22,{{ ssh_port }}
+{% if ssh_keep_old_port %}port = {{ ssh_old_port }},{{ ssh_port }}
 {% else %}port = {{ ssh_port }}
 {% endif %}maxretry = {{ fail2ban_maxretry }}
 bantime = {{ fail2ban_bantime }}

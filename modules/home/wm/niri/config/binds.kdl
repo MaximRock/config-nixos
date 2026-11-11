@@ -5,6 +5,7 @@ binds {
     Mod+D       { spawn "fuzzel"; }              // Открыть лаунчер fuzzel
     Mod+Return  { spawn "wezterm"; }             // Открыть терминал wezterm
     Mod+B       { spawn "yandex-browser-stable"; } // Открыть Яндекс Браузер
+    Mod+M       { spawn "firefox"; }               // Открыть Браузер Firefox
     Mod+C       { spawn "codium"; }              // Открыть редактор VS Codium
     Mod+P       { spawn "deadbeef"; }            // Открыть плеер DeaDBeeF
     Mod+Z       { spawn "wezterm" "start" "--" "yazi"; } // Открыть Yazi в wezterm

@@ -1,0 +1,127 @@
+---
+# Оркестрация: harden -> haproxy. Теги: harden, relay, always.
+# HAProxy — TCP passthrough: TLS/Reality идёт end-to-end до бэкенда.
+
+- name: Проверка конфигурации доступа (не зацепить сам себя)
+  ansible.builtin.assert:
+    that:
+      - ssh_keep_old_port | bool or ansible_port | int == ssh_port | int
+    msg: >-
+      Свежий VPS: ansible_port=22 и ssh_keep_old_port=true.
+      После первого прогона: ansible_port={{ ssh_port }} и ssh_keep_old_port=false.
+
+- name: Базовые пакеты
+  ansible.builtin.package:
+    name: [ufw, fail2ban, haproxy, curl, openssl]
+    state: present
+    update_cache: true
+  tags: [harden]
+
+- name: Удалить старый 50-hardening.conf (перекрывался cloud-init)
+  ansible.builtin.file:
+    path: /etc/ssh/sshd_config.d/50-hardening.conf
+    state: absent
+  notify: [restart sshd, restart ssh socket]
+  tags: [harden]
+
+- name: sshd hardening (validate перед рестартом)
+  ansible.builtin.template:
+    src: sshd-hardening.j2
+    dest: /etc/ssh/sshd_config.d/00-hardening.conf
+    owner: root
+    mode: '0644'
+    validate: /usr/sbin/sshd -t -f %s
+  notify: [restart sshd, restart ssh socket]
+  tags: [harden]
+
+- name: fail2ban jail на SSH
+  ansible.builtin.template:
+    src: fail2ban-jail.local.j2
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    mode: '0644'
+  notify: restart fail2ban
+  tags: [harden]
+
+- name: Применить hardening до firewall
+  ansible.builtin.meta: flush_handlers
+  tags: [harden]
+
+- name: ufw — limit на ssh-порт
+  community.general.ufw:
+    rule: limit
+    port: "{{ ssh_port }}"
+    proto: tcp
+  tags: [harden]
+
+- name: ufw — limit на старый порт (только ротация)
+  community.general.ufw:
+    rule: limit
+    port: "{{ ssh_old_port }}"
+    proto: tcp
+  when: ssh_keep_old_port | bool
+  tags: [harden]
+
+- name: ufw — закрыть старый порт после ротации
+  community.general.ufw:
+    rule: limit
+    port: "{{ ssh_old_port }}"
+    proto: tcp
+    delete: true
+  when: not ssh_keep_old_port | bool
+  tags: [harden]
+
+- name: ufw — разрешить порт релея
+  community.general.ufw:
+    rule: allow
+    port: "{{ relay_listen_port }}"
+    proto: tcp
+  tags: [harden]
+
+- name: ufw — default deny incoming
+  community.general.ufw:
+    direction: incoming
+    policy: deny
+  tags: [harden]
+
+- name: ufw — включить
+  community.general.ufw:
+    state: enabled
+  tags: [harden]
+
+- name: Конфиг HAProxy (validate перед рестартом)
+  ansible.builtin.template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    owner: root
+    mode: '0644'
+    validate: /usr/sbin/haproxy -c -f %s
+  notify: restart haproxy
+  tags: [relay]
+
+- name: Служба haproxy активна
+  ansible.builtin.systemd_service:
+    name: haproxy
+    enabled: true
+    state: started
+  tags: [relay]
+
+- name: Применить конфиг HAProxy до проверки
+  ansible.builtin.meta: flush_handlers
+  tags: [relay]
+
+- name: Проверка маски — сертификат SNI-таргета через релей
+  ansible.builtin.shell: |
+    set -e; echo | openssl s_client -connect 127.0.0.1:{{ relay_listen_port }} \
+    -servername {{ sni_target }} 2>/dev/null \
+    | openssl x509 -noout -subject 2>/dev/null | grep -qi '{{ sni_target }}'
+  changed_when: false
+  tags: [relay]
+
+- name: Сводка доступа
+  ansible.builtin.debug:
+    msg:
+      - "Релей: {{ ansible_host }}:{{ relay_listen_port }} → {{ relay_backends | map(attribute='host') | join(', ') }}"
+      - "SSH: ssh -p {{ ssh_port }} {{ ansible_user }}@{{ ansible_host }}"
+      - "Ссылки: {{ links_local_dir | default('/home/max/Documents/proxy') }}/relay-links.txt (--tags links на vpn2)"
+  tags: [relay]

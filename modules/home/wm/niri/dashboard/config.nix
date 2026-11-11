@@ -11,23 +11,25 @@
 
   # Положение блока на экране:
   # center|top|bottom|left|right|top-left|top-right|bottom-left|bottom-right
-  position = "center";
+  position = "top-left";
 
   spacing = 14; # отступ между плитками и рядами, px
-  tileWidth = 220; # минимальная ширина плитки, px
+  tileWidth = 190; # минимальная ширина плитки, px
 
   # ── Шрифт ──────────────────────────────────────────────────────────────
   font = {
-    family = "JetBrainsMono Nerd Font"; # null → системный шрифт GTK
+    family = "Noto Sans"; # null → системный шрифт GTK
+    numFamily = "JetBrainsMono Nerd Font"; # шрифт цифр и часов (null → family)
     size = 13; # базовый размер, px (масштабирует все размеры)
     # Переопределения размеров (null → производное от size). Ориентир при size=13:
-    title = 23; # 12  подписи плиток
-    num = null; # 22  крупные значения
-    dim = null; # 16  второстепенные значения
-    clockDate = null; # 20
-    clockDay = null; # 15
-    clockTime = null; # 30
-    titleTracking = 1; # letter-spacing заголовков, px
+    title = 10; # подписи плиток
+    num = 24; # крупные значения
+    dim = 12; # второстепенные значения
+    clockDate = 12;
+    clockDay = 12;
+    clockTime = 64;
+    clockWeight = 300; # толщина шрифта часов
+    titleTracking = 1.5; # letter-spacing заголовков, px
   };
 
   # ── Окно eww ───────────────────────────────────────────────────────────
@@ -35,36 +37,46 @@
     stacking = "bottom"; # foreground|background|bottom|overlay
     focusable = "none"; # none|exclusive|ondemand
     namespace = "eww-dashboard"; # сюда же смотрит blur-правило niri в config.kdl
-    margin = 0; # внешний отступ контента, px
+    margin = 48; # внешний отступ контента, px
+  };
+
+  # ── Общая панель ───────────────────────────────────────────────────────
+  # Светлая матовая плашка под всем дашбордом.
+  panel = {
+    enable = true;
+    radius = 22; # border-radius панели, px
+    padding = 22; # внутренний отступ панели, px
+    borderAlpha = 0.45; # прозрачность светлой рамки
+    sepAlpha = 0.12; # прозрачность разделителей (цвет текста)
+    shadowAlpha = 0.18; # мягкая тень под панелью
   };
 
   # ── Плитки ─────────────────────────────────────────────────────────────
-  # Прозрачность фона карточек: 0 (полностью прозрачно) .. 1 (сплошной цвет).
-  opacity = 0.9;
+  # Плотность фона панели: 0 (полностью прозрачно) .. 1 (сплошной цвет).
+  opacity = 1.0;
 
   tile = {
     radius = 14; # border-radius, px
-    paddingY = 14; # вертикальный padding, px
-    paddingX = 18; # горизонтальный padding, px
-    borderWidth = 1; # толщина рамки, px
-    borderAlpha = 1.0; # прозрачность рамки (цвет берётся из colors.<карточка> или colors.border)
-    # Доля цвета карточки, подмешиваемого в фон: 0 = обычный фон, 1 = сплошной цвет.
-    # Плотность самой карточки задаёт dashboard.opacity.
-    tint = 0.22;
+    paddingY = 0; # вертикальный padding, px
+    paddingX = 12; # горизонтальный padding, px
+    borderWidth = 0; # толщина рамки, px
+    borderAlpha = 0.0; # прозрачность рамки
+    # Доля цвета карточки, подмешиваемого в фон (0 = без подложки).
+    tint = 0.0;
   };
 
   # Графики (eww graph + CSS-сетка)
   chart = {
     timeRange = "90s"; # окно истории на графике
-    height = 46; # высота графика, px
+    height = 30; # высота графика, px
     radius = 8; # border-radius графика, px
     gridStep = 22; # шаг сетки, px
-    gridAlpha = 0.6; # прозрачность линий сетки
+    gridAlpha = 0.0; # прозрачность линий сетки
     gridThickness = 1; # толщина линий сетки, px
     gridDir = "both"; # both | x | y
-    bgAlpha = 0.25; # лёгкая подложка-фон под графиком (0 = без)
+    bgAlpha = 0.0; # подложка-фон под графиком (0 = без)
     thickness = 2; # толщина линии графика
-    fillAlpha = 0.25; # заливка под линией (0 = без)
+    fillAlpha = 0.08; # заливка под линией (0 = без)
     lineStyle = "round"; # miter | round | bevel
     # null → дефолт eww (flip-x/y = true, vertical = false). true/false — задать явно.
     flipX = null; # x-ось справа налево
@@ -112,20 +124,19 @@
   # Переопределения цветов. null → брать из активной темы (см. lib/niri/theme.nix).
   # Формат: "#RRGGBB" (для background — без альфы, её задаёт opacity).
   colors = {
-    background = null; # фон карточек (базовый, если у карточки нет своего цвета)
-    border = null; # рамка карточек (базовая, если у карточки нет своего цвета)
-    title = null; # подписи плиток (CPU/RAM/…)
-    text = null; # значения (крупные цифры, время)
-    muted = null; # единицы и мелкий текст
-    grid = null; # линии сетки графиков
-    accent = null; # базовый акцент (fallback для графиков)
+    background = "#F6EFE3"; # тёплый крем (панель)
+    border = "#FFFFFF"; # светлая рамка панели
+    title = "#7B7468"; # подписи плиток
+    text = "#32302B"; # значения (графит)
+    muted = "#7B7468"; # единицы и мелкий текст
+    grid = "#32302B"; # линии сетки графиков
+    accent = "#B8891F"; # золото (точки, акценты)
     # Цвет карточки: красит её подложку (tile.tintAlpha) и рамку (tile.borderAlpha).
     # Он же — цвет соответствующего графика.
-    # null → цвет темы: cpu=error, ram=success, disk=warning, net=info, sys=primary, clock=secondary
-    cpu = null;
-    ram = null;
-    disk = null;
-    net = null;
+    cpu = "#C0603C"; # терракота
+    ram = "#6E8B4A"; # олива
+    disk = "#B8891F"; # золото
+    net = "#4A7FA5"; # небо
     sys = null;
     clock = null;
   };
@@ -140,20 +151,18 @@
     interface = "enp7s0";
   };
 
-  # ── Раскладка плиток по рядам (3×2) ────────────────────────────────────
+  # ── Раскладка: часы сверху, четыре метрики в ряд ──────────────────────
   # Порядок строк/плиток произвольный: доступны cpu ram disk net clock sys.
+  # tiles.<имя>.span задаёт ширину плитки в колонках.
   rows = [
+    [
+      "clock"
+    ]
     [
       "cpu"
       "ram"
-    ]
-    [
       "disk"
       "net"
-    ]
-    [
-      "clock"
-      "sys"
     ]
   ];
 
@@ -162,22 +171,31 @@
     cpu = {
       max = 100;
       dynamic = false;
+      chart = true;
     };
     ram = {
       max = 100;
       dynamic = false;
+      chart = true;
     };
     disk = {
       mode = "write";
       max = 1;
       dynamic = true;
+      chart = false;
     }; # write | read
     net = {
       mode = "down";
       max = 1;
       dynamic = true;
-      rates = true; # показывать скорости цифрами (↓ приём / ↑ отдача)
+      chart = false;
     }; # down | up
+    sys = {
+      chart = false;
+    };
+    clock = {
+      span = 4;
+    };
     load = {
       max = 1;
       dynamic = true;

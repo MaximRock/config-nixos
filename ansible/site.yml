@@ -5,3 +5,10 @@
   gather_facts: true
   roles:
     - vpn-server
+
+- name: Настроить RU-релей (HAProxy TCP passthrough)
+  hosts: relay_servers
+  become: true
+  gather_facts: true
+  roles:
+    - vpn-relay
