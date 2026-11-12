@@ -8,8 +8,9 @@
 > Только ручное включение/выключение пользователем после готовности каскада.
 
 В secrets 12 клиентов: `max`, 10 клиентов France и `parents`. Ручной клиент
-`test` есть на vpn2 и vpn3; в secrets он не входит и ролью не удаляется:
-`--tags inbound` добавляет только отсутствующих.
+`test` сейчас есть на vpn3; на vpn2 после переустановки его нет. В secrets он
+не входит: `--tags inbound` не удаляет существующий `test`, но и не создаёт его
+на чистом сервере. Если `test` нужен — добавь его в secrets до первого прогона.
 
 ## Файлы
 
@@ -44,10 +45,103 @@ nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory.yml ansible/s
 nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory.yml ansible/site.yml --syntax-check
 ```
 
+## Быстрый runbook
+
+Ниже — для новых серверов. France не трогать; существующий GB не переустанавливать
+без необходимости. Панель и файлы ссылок — в разделе
+[«Доступ к панели и проверки»](#доступ-к-панели-и-проверки).
+
+### Новый vpn2 + RU-релей
+
+Перед командами в `inventory.yml`:
+
+- `vpn2`: `ansible_host: <NEW_SE_IP>`, `ansible_port: 57777`,
+  `ssh_keep_old_port: false`, `fail2ban_ignore_ips: ['<NEW_RU_IP>']`
+- `ru-relay`: `ansible_host: <NEW_RU_IP>`, `ansible_port: 57777`,
+  `ssh_port: 57777`, `ssh_keep_old_port: false`,
+  `relay_backends: [{name: se, host: <NEW_SE_IP>, port: 443}]`
+
+```sh
+cd ~/.dotfiles
+
+ssh-copy-id -p 22 root@<NEW_SE_IP>
+ssh-copy-id -p 22 root@<NEW_RU_IP>
+
+nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory.yml ansible/site.yml --list-hosts
+nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory.yml ansible/site.yml --syntax-check
+
+# 1. vpn2: первый прогон
+nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory.yml ansible/site.yml \
+  --limit vpn2 -e ansible_port=22 -e ssh_keep_old_port=true
+
+# 2. проверить новый SSH
+ssh -p 57777 root@<NEW_SE_IP> true
+
+# 3. vpn2: финал, закрывает 22 и обновляет vpn2-links.txt
+nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory.yml ansible/site.yml \
+  --limit vpn2
+
+# 4. релей: первый прогон
+nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory.yml ansible/site.yml \
+  --limit relay_servers -e ansible_port=22 -e ssh_keep_old_port=true
+
+# 5. проверить новый SSH
+ssh -p 57777 root@<NEW_RU_IP> true
+
+# 6. релей: финал, закрывает 22
+nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory.yml ansible/site.yml \
+  --limit relay_servers
+
+# 7. полный каскад
+nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory.yml ansible/site.yml
+
+# 8. ссылки через релей
+nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory.yml ansible/site.yml \
+  --limit vpn2 --tags links \
+  -e link_host=<NEW_RU_IP> -e link_port=443 -e country_code=ru \
+  -e links_file_name=relay-links.txt
+```
+
+Панель: `ssh -L 8080:127.0.0.1:42182 -p 57777 root@<NEW_SE_IP>`, затем
+`http://localhost:8080<panel_basepath>`. Ссылки: `vpn2-links.txt` и
+`relay-links.txt`.
+
+### Новый одиночный сервер (vpn3 / inventory-single.yml)
+
+Перед командами в `inventory-single.yml`: `ansible_host: <NEW_IP>`, финальные
+`ansible_port: 43909`, `ssh_port: 43909`, `ssh_keep_old_port: false`,
+`country_code: gb`, `inbound_remark: gb-reality-xhttp-443`.
+
+```sh
+cd ~/.dotfiles
+
+ssh-copy-id -p 22 root@<NEW_IP>
+
+nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory-single.yml ansible/site.yml --list-hosts
+nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory-single.yml ansible/site.yml --syntax-check
+
+# 1. первый прогон
+nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory-single.yml ansible/site.yml \
+  -e ansible_port=22 -e ssh_keep_old_port=true
+
+# 2. проверить новый SSH
+ssh -p 43909 root@<NEW_IP> true
+
+# 3. финал, закрывает 22 и обновляет vpn3-links.txt
+nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory-single.yml ansible/site.yml
+```
+
+Панель: `ssh -L 8080:127.0.0.1:42182 -p 43909 root@<NEW_IP>`, затем
+`http://localhost:8080<panel_basepath>`. Ссылки: `vpn3-links.txt`.
+
 ## vpn3 — одиночный сервер (GB)
 
 `inventory-single.yml`: vpn3 `88.218.93.5`, без релея.
 Ссылки — `~/Documents/proxy/vpn3-links.txt`.
+Панель — `ssh -L 8080:127.0.0.1:42182 -p 43909 root@88.218.93.5`,
+URL `http://localhost:8080<panel_basepath>`; подробности — в разделе
+[«Доступ к панели и проверки»](#доступ-к-панели-и-проверки).
+Пошаговая установка нового сервера — в [«Быстром runbook»](#быстрый-runbook).
 
 ### Без правки файлов (`-e`)
 
@@ -89,6 +183,10 @@ nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory-single.yml an
 Клиент → RU `62.173.152.18:443` → vpn2 `138.124.84.121:443`.
 HAProxy работает в `mode tcp` без терминации TLS: Reality идёт end-to-end, ключи
 и панель остаются только на vpn2. Ссылки: `vpn2-links.txt` и `relay-links.txt`.
+Панель vpn2 — `ssh -L 8080:127.0.0.1:42182 -p 57777 root@138.124.84.121`,
+URL `http://localhost:8080<panel_basepath>`; подробности — в разделе
+[«Доступ к панели и проверки»](#доступ-к-панели-и-проверки).
+Пошаговая установка нового каскада — в [«Быстром runbook»](#быстрый-runbook).
 
 ### Без правки файлов (`-e`)
 
@@ -161,9 +259,12 @@ France в inventory остаётся закомментированным. Но�
 ### Проверка релея
 
 ```sh
-echo | openssl s_client -connect 62.173.152.18:443 -servername www.samsung.com 2>/dev/null | openssl x509 -noout -subject
+nix shell nixpkgs#openssl -c sh -c \
+  'echo | openssl s_client -connect 62.173.152.18:443 -servername www.samsung.com 2>/dev/null | openssl x509 -noout -subject'
 curl -sk https://62.173.152.18/ -H 'Host: www.samsung.com' -o /dev/null -w '%{http_code}\n'
 ```
+
+Локального `openssl` может не быть — `nix shell` даёт его без установки в профиль.
 
 Если 443 не отвечает (SYN-proxy хостера) — сменить `relay_listen_port` на 8443
 и перегенерировать ссылки с `link_port=8443`.
@@ -233,7 +334,8 @@ nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory.yml ansible/s
 ```
 
 На vpn3 — та же пара `inbound`/`links` с `-i ansible/inventory-single.yml`.
-`test` в secrets не входит; `--tags inbound` его не удаляет.
+`test` в secrets не входит; `--tags inbound` не удаляет существующий `test`,
+но на новом сервере не создаёт его.
 
 ## Теги
 
@@ -270,28 +372,72 @@ nix shell nixpkgs#ansible -c ansible-playbook -i ansible/inventory.yml ansible/s
 
 - `--tags links` копирует helper и конфиг, синхронизирует remark (при смене —
   краткий restart x-ui) и генерирует ссылки.
-- `--tags inbound` не удаляет ручного `test`; remark-фаза выполняется до inbound.
+- `--tags inbound` не удаляет существующий `test`, но на чистом сервере его не
+  создаёт; remark-фаза выполняется до inbound.
 - `-e xui_recreate_inbound=true` пересоздаёт inbound и удалит `test` — только осознанно.
 - `--check` показывает предпросмотр, но `command`-задачи могут пропускаться или вести себя иначе.
 - При `-e` на каскадном inventory не забывай `--limit`.
 
 ## Доступ к панели и проверки
 
-| Сервер | SSH | Панель |
-|---|---|---|
-| vpn2 | `ssh -p 57777 root@138.124.84.121` | туннель ниже |
-| vpn3 | `ssh -p 43909 root@88.218.93.5` | туннель ниже |
-| ru-relay | `ssh -p 57777 root@62.173.152.18` | нет панели |
+### Панель
 
-Панель 3x-ui — только через SSH-туннель (команду держать висящей):
+| Сервер | SSH-туннель | URL | Логин |
+|---|---|---|---|
+| vpn2 SE | `ssh -L 8080:127.0.0.1:42182 -p 57777 root@138.124.84.121` | `http://localhost:8080<panel_basepath>` | `admin` |
+| vpn3 GB | `ssh -L 8080:127.0.0.1:42182 -p 43909 root@88.218.93.5` | `http://localhost:8080<panel_basepath>` | `admin` |
+| ru-relay | — | панели нет | — |
+
+Туннель держать открытым. `<panel_basepath>` и пароль:
 
 ```sh
-ssh -L 8080:127.0.0.1:42182 -p 57777 root@138.124.84.121
+sops -d --extract '["panel_basepath"]' ansible/group_vars/all/secrets.sops.yml
+sops -d --extract '["panel_password"]' ansible/group_vars/all/secrets.sops.yml
 ```
 
-Для vpn3 заменить порт и IP: `-p 43909 root@88.218.93.5`. Затем открыть
-`http://localhost:8080<panel_basepath>`; логин `admin`, пароль `panel_password`
-из secrets. QR — кнопка у клиента в панели.
+Команды выводят секреты — не вставлять в публичные логи. QR — кнопка у клиента
+в панели; имя инбаунда `se-reality-xhttp-443` или `gb-reality-xhttp-443`.
+
+### Ссылки для клиентов
+
+| Маршрут | Файл | Адрес | Префикс |
+|---|---|---|---|
+| vpn2 напрямую | `~/Documents/proxy/vpn2-links.txt` | `138.124.84.121:443` | `se-` |
+| через RU-релей | `~/Documents/proxy/relay-links.txt` | `62.173.152.18:443` | `ru-` |
+| vpn3 single | `~/Documents/proxy/vpn3-links.txt` | `88.218.93.5:443` | `gb-` |
+
+`relay-links.txt` генерируется командой из раздела каскада; после переустановки
+vpn2 без смены IP/порта старые ссылки остаются валидными.
+
+### Проверки
+
+```sh
+# TLS через nix, если локального openssl нет
+nix shell nixpkgs#openssl -c sh -c \
+  'echo | openssl s_client -connect 138.124.84.121:443 -servername www.samsung.com 2>/dev/null | openssl x509 -noout -subject'
+
+nix shell nixpkgs#openssl -c sh -c \
+  'echo | openssl s_client -connect 62.173.152.18:443 -servername www.samsung.com 2>/dev/null | openssl x509 -noout -subject'
+
+nix shell nixpkgs#openssl -c sh -c \
+  'echo | openssl s_client -connect 88.218.93.5:443 -servername www.samsung.com 2>/dev/null | openssl x509 -noout -subject'
+
+curl -sk https://62.173.152.18/ -H 'Host: www.samsung.com' -o /dev/null -w '%{http_code}\n'
+```
+
+Проверить, что старый SSH закрыт:
+
+```sh
+ssh -p 57777 root@138.124.84.121 'ss -ltn | grep ":22 " || echo no-22'
+ssh -p 57777 root@62.173.152.18 'ss -ltn | grep ":22 " || echo no-22'
+ssh -p 43909 root@88.218.93.5 'ss -ltn | grep ":22 " || echo no-22'
+```
+
+Проверить ссылки:
+
+```sh
+grep -c '^vless://' ~/Documents/proxy/vpn2-links.txt ~/Documents/proxy/relay-links.txt ~/Documents/proxy/vpn3-links.txt
+```
 
 Страна в имени ссылки задаётся `country_code`: `se-reality-xhttp-443-max` (vpn2),
 `ru-...` (релей), `gb-...` (vpn3). QR в панели берёт имя из `inbound_remark`,
