@@ -42,3 +42,7 @@ graft/
 
 # repo-navigator runtime (SQLite DB, WAL/logs) — regenerable, not committed.
 .repo-navigator/
+
+# Ansible moved to private ~/projects/sanctum
+ansible/
+ansible.cfg

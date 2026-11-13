@@ -1,9 +1,0 @@
-# Managed by ansible (vpn-server role)
-{% if ssh_keep_old_port %}Port {{ ssh_old_port }}
-{% endif %}Port {{ ssh_port }}
-PermitRootLogin prohibit-password
-PasswordAuthentication no
-PubkeyAuthentication yes
-KbdInteractiveAuthentication no
-X11Forwarding no
-PermitEmptyPasswords no
