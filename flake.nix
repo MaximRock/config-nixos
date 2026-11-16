@@ -40,10 +40,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    
-
     nix-repo-navigator = {
       url = "github:MaximRock/nix-repo-navigator";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    happ-nix = {
+      url = "github:MaximRock/happ-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

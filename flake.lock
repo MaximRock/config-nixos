@@ -218,6 +218,26 @@
         "type": "github"
       }
     },
+    "happ-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794844235,
+        "narHash": "sha256-kg5aMHeCdk+4z/65K0J+PQH6X5ANh7YBjprYlSdJhN0=",
+        "owner": "MaximRock",
+        "repo": "happ-nix",
+        "rev": "f59373f9e65ff7a7c662bfe209fcd4778af24258",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MaximRock",
+        "repo": "happ-nix",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -504,6 +524,7 @@
     "root": {
       "inputs": {
         "comfyui-nix": "comfyui-nix",
+        "happ-nix": "happ-nix",
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
         "mcp-nixos": "mcp-nixos",
