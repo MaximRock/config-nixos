@@ -43,6 +43,9 @@
     # для копирования
     xclip
 
+    # torrent
+    qbittorrent
+
     # costumtkinter
     fontconfig
 

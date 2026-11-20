@@ -6,10 +6,6 @@
     "niri": {
         "mod_key": "Mod4"
     },
-    "dashboard": {
-        "enable": true,
-        "theme": "github"
-    },
     "wezterm": {
         "enable": true,
         "theme": "gruvbox"

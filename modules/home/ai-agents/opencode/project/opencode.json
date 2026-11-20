@@ -46,23 +46,6 @@
             ],
             "enabled": true
         },
-        "graft": {
-            "type": "local",
-            "command": [
-                "graft",
-                "mcp"
-            ],
-            "enabled": true
-        },
-        "graft-navigator": {
-            "type": "local",
-            "command": [
-                "graft",
-                "mcp",
-                "/home/max/projects/repo-navigator"
-            ],
-            "enabled": true
-        },
         "nix-repo-navigator": {
             "type": "local",
             "command": [

@@ -7,6 +7,7 @@
     ../../modules/home/terminals/yazi
     ../../modules/home/terminals/fastfetch
     ../../modules/home/terminals/herdr
+    ../../modules/home/terminals/btop
   ];
 
   modules.home.terminals.wezterm = {
@@ -22,6 +23,10 @@
   };
 
   modules.home.terminals.herdr = {
+    enable = true;
+  };
+
+  modules.home.terminals.btop = {
     enable = true;
   };
 }

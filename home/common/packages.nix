@@ -5,7 +5,6 @@
     # Utils
     tree
     bat
-    btop
     htop
     libnotify # notify-send (после отключения dunst)
 

@@ -37,18 +37,27 @@ window-rule {
     open-on-workspace "2"
 }
 
+// btop-«дашборд» на столе 3: матовое стекло поверх обоев
+window-rule {
+    match app-id=r#"^btop$"#
+    open-on-workspace "3"
+    open-maximized-to-edges true
+    open-focused false
+    focus-ring {
+        off
+    }
+    geometry-corner-radius 20
+    clip-to-geometry true
+    background-effect {
+        blur true
+        saturation 1.15
+        noise 0.02
+    }
+}
+
 // Разрешает действия уведомлений и активацию окон из Noctalia
 debug {
     honor-xdg-activation-with-invalid-serial
-}
-
-// «Матовое стекло» позади дашборда-«райдера» (eww, namespace eww-dashboard).
-// Слой полноэкранный → размывается весь фон стола 3 (карточки полупрозрачны).
-layer-rule {
-    match namespace="^eww-dashboard$"
-    background-effect {
-        blur false 
-    }
 }
 
 // Тема курсора (wezterm/Noctalia/Thunar наследуют XCURSOR_THEME/SIZE от niri)
@@ -65,8 +74,6 @@ hotkey-overlay {
 spawn-at-startup "noctalia"
 spawn-at-startup "Throne"
 
-// Дашборд-«райдер» на столе 3 (eww). Демон + разовое открытие окна: дальше окно
-// висит всегда (история графиков не сбрасывается), а видимость по столу eww
-// решает сам через poll focused_wsp и :visible.
-spawn-at-startup "eww" "daemon"
-spawn-at-startup "sh" "-c" "until eww ping >/dev/null 2>&1; do sleep 0.2; done; eww open dashboard"
+// btop-«дашборд» на столе 3: отдельный процесс wezterm с app-id btop.
+// Полупрозрачный терминал + blur из window-rule = матовое стекло.
+spawn-at-startup "sh" "-c" "exec wezterm --config window_background_opacity=0.78 start --class btop --always-new-process -- btop"

@@ -5,6 +5,7 @@
   lib,
   pkgs,
   nix-repo-navigator,
+  variables,
   ...
 }:
 
@@ -12,6 +13,7 @@ with lib;
 
 let
   cfg = config.modules.home.nix-repo-navigator;
+  package = nix-repo-navigator.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 
 {
@@ -20,8 +22,17 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = [
-      nix-repo-navigator.packages.${pkgs.stdenv.hostPlatform.system}.default
-    ];
+    home.packages = [ package ];
+
+    systemd.user.services.nix-repo-navigator-watch = {
+      Unit.Description = "nix-repo-navigator graph watcher";
+      Service = {
+        ExecStart = "${package}/bin/nix-repo-navigator watch ${variables.basePathFilesDir} --plugins python --parse-unreferenced --exclude 11";
+        Environment = [ "PYTHONPATH=" ];
+        Restart = "on-failure";
+        RestartSec = "3s";
+      };
+      Install.WantedBy = [ "default.target" ];
+    };
   };
 }

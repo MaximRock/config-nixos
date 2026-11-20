@@ -9,6 +9,8 @@ binds {
     Mod+C       { spawn "codium"; }              // Открыть редактор VS Codium
     Mod+P       { spawn "deadbeef"; }            // Открыть плеер DeaDBeeF
     Mod+Z       { spawn "wezterm" "start" "--" "yazi"; } // Открыть Yazi в wezterm
+    // btop-дашборд на столе 3: вернуть окно, если закрыли (иначе — открыть заново)
+    Mod+Shift+B { spawn-sh r#"niri msg windows | grep -q 'App ID: "btop"' || wezterm --config window_background_opacity=0.78 start --class btop --always-new-process -- btop"#; }
     Mod+Shift+Slash { show-hotkey-overlay; }    // Шпаргалка по хоткеям
 
     // ─── Noctalia (десктоп-шелл) ───
