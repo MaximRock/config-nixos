@@ -1,6 +1,6 @@
 # modules/home/editors/config/nvf-config/lsp/default.nix
 
-{ pkgs, ... }:
+{ pkgs, qtileEnable ? false, ... }:
 
 {
   enable = true;
@@ -112,9 +112,7 @@
       settings = {
         python = {
           analysis = {
-            extraPaths = [
-              "${pkgs.python3Packages.qtile}/${pkgs.python3.sitePackages}"
-            ];
+            extraPaths = pkgs.lib.optional qtileEnable "${pkgs.python3Packages.qtile}/${pkgs.python3.sitePackages}";
             typeCheckingMode = "off";
             autoImportCompletions = true;
             autoSearchPaths = true;

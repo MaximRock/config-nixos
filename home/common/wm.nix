@@ -1,6 +1,6 @@
 # home/common/wm.nix
 
-{ ... }:
+{ qtileEnable ? false, ... }:
 
 let
   modulesHome = toString ../../modules/home;
@@ -12,6 +12,6 @@ in
     "${modulesHome}/wm/niri"
   ];
 
-  modules.home.wm.qtile.enable = true;
+  modules.home.wm.qtile.enable = qtileEnable;
   modules.home.wm.niri.enable = true;
 }

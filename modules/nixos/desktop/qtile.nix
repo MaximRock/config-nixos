@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, qtileEnable ? false, ... }:
 
 {
   services = {
@@ -12,7 +12,7 @@
       autoRepeatInterval = 35;
 
       windowManager.qtile = {
-        enable = true;
+        enable = qtileEnable;
       };
     };
   };

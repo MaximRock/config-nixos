@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, qtileEnable ? false, ... }:
 
 let
   importIfExists =
-    path: default: if builtins.pathExists path then import path { inherit pkgs; } else default;
+    path: default: if builtins.pathExists path then import path { inherit pkgs qtileEnable; } else default;
 in
 
 {

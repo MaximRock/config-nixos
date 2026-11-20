@@ -46,3 +46,6 @@ graft/
 # Ansible moved to private ~/projects/sanctum
 ansible/
 ansible.cfg
+
+# Локальные планы и статусы — не коммитим
+plans/

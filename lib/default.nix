@@ -12,6 +12,7 @@ let
 
   system = "x86_64-linux";
   username = "max";
+  qtileEnable = false;
 
   pkgs = (nixpkgs.legacyPackages.${system}).extend (nixpkgs.lib.composeManyExtensions overlays);
   unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
@@ -20,7 +21,7 @@ let
 
   variables = import ../home/common/var-default.nix { inherit username; };
 
-  nvfConfig = import ../modules/home/editors/configs/nvf-config { inherit pkgs; };
+  nvfConfig = import ../modules/home/editors/configs/nvf-config { inherit pkgs qtileEnable; };
 
   inherit (import ./qtile/theme.nix { inherit (pkgs) lib; })
     themeName
@@ -37,6 +38,7 @@ let
       inputs
       system
       username
+      qtileEnable
       variables
       nvfConfig
       nvf

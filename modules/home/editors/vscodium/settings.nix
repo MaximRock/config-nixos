@@ -1,6 +1,6 @@
 # modules/home/editors/vscodium/settings.nix
 
-{ cfg, pkgs, ... }:
+{ cfg, pkgs, lib, qtileEnable ? false, ... }:
 
 {
   attrs = {
@@ -46,9 +46,7 @@
 
     # -- Python --
     "python.defaultInterpreterPath" = "python3";
-    "python.analysis.extraPaths" = [
-      "${pkgs.python3Packages.qtile}/${pkgs.python3.sitePackages}"
-    ];
+    "python.analysis.extraPaths" = lib.optional qtileEnable "${pkgs.python3Packages.qtile}/${pkgs.python3.sitePackages}";
 
     # -- DirEnv --
     "direnv.enabled" = true;
