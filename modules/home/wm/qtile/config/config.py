@@ -46,7 +46,6 @@ mouse = load_mouse()
 def autostart_apps() -> None:
     qtile.spawn(terminal)
     qtile.spawn(EDITOR)
-    qtile.spawn("Throne")
     qtile.spawn(BROWSER)
 
 

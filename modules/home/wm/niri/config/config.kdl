@@ -31,12 +31,6 @@ window-rule {
     default-window-height { fixed 920; }
 }
 
-// Авто-инстанс Throne (запускается при старте niri) — на рабочем столе 2
-window-rule {
-    match at-startup=true app-id=r#"^Throne$"#
-    open-on-workspace "2"
-}
-
 // btop-«дашборд» на столе 3: матовое стекло поверх обоев
 window-rule {
     match app-id=r#"^btop$"#
@@ -72,7 +66,6 @@ hotkey-overlay {
 }
 
 spawn-at-startup "noctalia"
-spawn-at-startup "Throne"
 
 // btop-«дашборд» на столе 3: отдельный процесс wezterm с app-id btop.
 // Полупрозрачный терминал + blur из window-rule = матовое стекло.

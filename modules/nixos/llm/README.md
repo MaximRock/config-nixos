@@ -46,12 +46,11 @@ tool calling, лотерея.
 
 Параллельно (не модели): ornith как бейзлайн со speed-рецептом; speculative
 decoding (`--model-draft` Qwen3-0.6B/1.7B + target); ik_llama.cpp для CPU;
-тяжёлое планирование — в облако (llm-router уже настроен).
+тяжёлое планирование — в облако (openrouter).
 
 ## Ручной запуск моделей
 
-Порт 8080 совпадает с провайдером `llama.cpp` в opencode
-(`modules/home/ai-agents/opencode/config/opencode.jsonc` и `project/opencode.json`).
+llama-server на порту 8080 (в opencode провайдер удалён — локальные модели не используются).
 Первый запуск каждой модели скачивает GGUF в `~/.cache/llama.cpp`.
 
 ### Qwen3-Coder-30B-A3B — тестировалась, медленная на CPU (GGUF удалён с диска)

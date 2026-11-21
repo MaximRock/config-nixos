@@ -63,7 +63,6 @@ in
       defaultSopsFormat = "yaml";
       age.keyFile = "/home/${variables.username}/.config/sops/age/keys.txt";
       secrets.OPENROUTER_API_KEY = { };
-      secrets.LLM_ROUTER_API_KEY = { };
     };
 
     # === Системные конфиги (config/) → ~/.config/opencode/ ===
@@ -91,7 +90,6 @@ in
     # === Переменные окружения ===
     home.sessionVariables = {
       OPENROUTER_API_KEY = "$(cat ${config.sops.secrets.OPENROUTER_API_KEY.path})";
-      LLM_ROUTER_API_KEY = "$(cat ${config.sops.secrets.LLM_ROUTER_API_KEY.path})";
     };
   };
 }

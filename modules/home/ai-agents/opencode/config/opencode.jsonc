@@ -12,48 +12,6 @@
         "baseURL": "https://openrouter.ai/api/v1",
       },
     },
-    "llm-router": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "LLM Router",
-      "options": {
-        "apiKey": "{env:LLM_ROUTER_API_KEY}",
-        "baseURL": "https://llm-router.org/v1"
-      },
-      "models": {
-        "claude-sonnet-4.6": { "name": "Claude Sonnet 4.6" },
-        "claude-opus-4.8": { "name": "Claude Opus 4.8" },
-        "gpt-5.5": { "name": "GPT 5.5" },
-        "gemini-3.5-pro": { "name": "Gemini 3.5 Pro" },
-        "gemini-3-flash": { "name": "Gemini 3 Flash" },
-        "gemini-3.7-flash": { "name": "Gemini 3.7 Flash" }
-      }
-    },
-    "llama.cpp": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "llama-server (local)",
-      "options": {
-        "baseURL": "http://127.0.0.1:8080/v1"
-      },
-      "models": {
-
-        "qwen3-coder-30b": {
-          "name": "Qwen3-Coder-30B-A3B (local)",
-          "limit": {
-            "context": 65536,
-            "input": 65536,
-            "output": 8192
-          }
-        },
-        "qwen3.8-27b": {
-          "name": "Qwen3.8-27B (dense, slow)",
-          "limit": {
-            "context": 24576,
-            "input": 24576,
-            "output": 8192
-          }
-        }
-      }
-    },
   },
   "mcp": {
     "rime": {
