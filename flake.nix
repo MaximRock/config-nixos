@@ -50,6 +50,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    dyad-nix = {
+      url = "github:MaximRock/dyad-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     comfyui-nix.url = "github:utensils/comfyui-nix/main";
   };
 

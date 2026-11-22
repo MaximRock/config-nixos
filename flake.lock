@@ -90,6 +90,26 @@
         "type": "github"
       }
     },
+    "dyad-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795280146,
+        "narHash": "sha256-Y33AIrKFU//nAfok1nQI8nO9zC3jOeqweLVGdP2/u0Y=",
+        "owner": "MaximRock",
+        "repo": "dyad-nix",
+        "rev": "7753e2d72e11fd00ca01ca49b30dc46173badfc6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MaximRock",
+        "repo": "dyad-nix",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -524,6 +544,7 @@
     "root": {
       "inputs": {
         "comfyui-nix": "comfyui-nix",
+        "dyad-nix": "dyad-nix",
         "happ-nix": "happ-nix",
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
