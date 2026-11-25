@@ -18,6 +18,7 @@ in
     "${modulesHome}/ai-agents/ponytail"
     "${modulesHome}/ai-agents/comfyui"
     "${modulesHome}/ai-agents/nix-repo-navigator"
+    "${modulesHome}/ai-agents/mico"
   ];
   programs.dyad.enable = true;
   modules.home = {
@@ -31,5 +32,6 @@ in
     ponytail.enable = true;
     comfyui.enable = false;
     nix-repo-navigator.enable = true;
+    mico.enable = true;
   };
 }

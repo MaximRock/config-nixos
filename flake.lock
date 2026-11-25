@@ -325,6 +325,26 @@
         "type": "github"
       }
     },
+    "mico": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795619966,
+        "narHash": "sha256-WWRB34Pkj64rU6FnmB//GTNCN/30cB05FJ/q2cdvpEI=",
+        "owner": "MaximRock",
+        "repo": "mico",
+        "rev": "206e0278ae377ecc98e34a6007f4fba3e3544995",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MaximRock",
+        "repo": "mico",
+        "type": "github"
+      }
+    },
     "mnw": {
       "locked": {
         "lastModified": 1784154424,
@@ -549,6 +569,7 @@
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
         "mcp-nixos": "mcp-nixos",
+        "mico": "mico",
         "nix-repo-navigator": "nix-repo-navigator",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",

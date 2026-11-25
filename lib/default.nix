@@ -8,6 +8,7 @@ let
     nvf
     llm-agents
     nix-repo-navigator
+    mico
     ;
 
   system = "x86_64-linux";
@@ -44,6 +45,7 @@ let
       nvf
       llm-agents
       nix-repo-navigator
+      mico
       overlays
       unstable
       themeName

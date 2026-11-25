@@ -55,6 +55,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    mico = {
+      url = "github:MaximRock/mico";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     comfyui-nix.url = "github:utensils/comfyui-nix/main";
   };
 
