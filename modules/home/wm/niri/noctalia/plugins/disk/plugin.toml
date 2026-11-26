@@ -1,0 +1,14 @@
+id = "max/disk"
+name = "Disk usage"
+version = "1.0.0"
+plugin_api = 16
+author = "max"
+license = "MIT"
+dependencies = []
+tags = ["system", "utility"]
+icon = "database"
+description = "Shows used and free space for / on the desktop."
+
+[[desktop_widget]]
+id = "root"
+entry = "desktop.luau"

@@ -245,11 +245,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795016470,
-        "narHash": "sha256-nA5M6gRI2WiZhV/meEYWlJCX48I3z3NT81tWMPcGd8Y=",
+        "lastModified": 1795625671,
+        "narHash": "sha256-C73Vzypq78dYNF8cIX2Z8lFazQ0/gaQ7K+thkNFBuxw=",
         "owner": "MaximRock",
         "repo": "happ-nix",
-        "rev": "400fca884d82d513aa826f588d1be212db124f12",
+        "rev": "c84de240363c848f5505af1c76b158bd85fa5961",
         "type": "github"
       },
       "original": {

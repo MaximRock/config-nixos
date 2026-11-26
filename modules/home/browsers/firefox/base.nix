@@ -35,6 +35,10 @@ in
           "devtools.debugger.remote-enabled" = true;
           "extensions.autoDisableScopes" = 0;
           "browser.newtabpage.activity-stream.topSitesRows" = 3;
+
+          # Новая настройка для открытия ссылок в новых вкладках
+          "browser.link.open_newwindow" = 3;
+          "browser.link.open_newwindow.restriction" = 0;
         };
 
         extensions.packages =
